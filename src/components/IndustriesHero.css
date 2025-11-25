@@ -1,0 +1,471 @@
+/* Industries Hero Section Styles */
+
+.industries-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #14181b;
+  overflow: hidden;
+}
+
+/* Background Image */
+.industries-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.industries-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.industries-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(20, 24, 27, 0.85) 0%,
+    rgba(20, 24, 27, 0.7) 50%,
+    rgba(20, 24, 27, 0.6) 100%
+  );
+}
+
+/* Content Container */
+.industries-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1750px;
+  margin: 0 auto;
+  padding: 100px 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  min-height: 100vh;
+}
+
+/* Left Side - Title Wrapper */
+.industries-title-wrapper {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Sticky Title */
+.industries-title-sticky {
+  position: sticky;
+  top: 120px;
+  padding-top: 20px;
+}
+
+.industries-title {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: rgb(234, 231, 224);
+  margin: 0 0 20px 0;
+}
+
+.title-highlight {
+  display: inline;
+  background: linear-gradient(180deg, transparent 60%, rgba(255, 255, 255, 0.15) 60%);
+  padding: 0 4px;
+}
+
+.industries-subtitle {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  max-width: 400px;
+}
+
+/* Right Side - Cards */
+.industries-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 20px;
+}
+
+/* Industry Card */
+.industry-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  
+  /* Scroll animation */
+  opacity: 0;
+  transform: translateY(40px);
+  animation: cardFadeIn 0.8s ease forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 80%;
+}
+
+.industry-card:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.industry-card:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card hover effect */
+.industry-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Icon */
+.industry-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.industry-card:hover .industry-icon {
+  color: rgba(255, 255, 255, 0.9);
+  transform: scale(1.1);
+}
+
+/* Card Title */
+.industry-card-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  line-height: 1.3;
+  color: rgb(234, 231, 224);
+  margin: 0;
+}
+
+/* Card Description */
+.industry-card-description {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.85rem, 1vw, 0.95rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+  max-width: 400px;
+}
+
+/* Divider */
+.industry-card-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 10px 0;
+}
+
+/* Learn More Button */
+.industry-learn-more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.industry-learn-more:hover {
+  opacity: 0.8;
+}
+
+.industry-learn-more span {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.3s ease;
+}
+
+.industry-learn-more .btn-icon {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.industry-learn-more:hover span,
+.industry-learn-more:hover .btn-icon {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.industry-learn-more:hover .btn-icon {
+  transform: translate(3px, -3px);
+}
+
+/* Fallback for browsers without animation-timeline support */
+@supports not (animation-timeline: view()) {
+  .industry-card {
+    opacity: 1;
+    transform: translateY(0);
+    animation: none;
+  }
+  
+  .industry-card.in-view {
+    animation: cardFadeIn 0.8s ease forwards;
+  }
+  
+  .industry-card.in-view:nth-child(1) { animation-delay: 0s; }
+  .industry-card.in-view:nth-child(2) { animation-delay: 0.15s; }
+}
+
+/* ======================== RESPONSIVE BREAKPOINTS ======================== */
+
+/* Large Desktop (1920px+) */
+@media (min-width: 1920px) {
+  .industries-content {
+    padding: 120px 80px;
+    gap: 100px;
+  }
+  
+  .industry-card {
+    padding: 35px;
+  }
+}
+
+/* Desktop (1440px - 1919px) */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .industries-content {
+    padding: 100px 60px;
+  }
+}
+
+/* Standard Desktop (1200px - 1439px) */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .industries-content {
+    padding: 80px 50px;
+    gap: 60px;
+  }
+  
+  .industry-card {
+    padding: 28px;
+  }
+}
+
+/* Medium Desktop (1024px - 1199px) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .industries-content {
+    padding: 80px 40px;
+    gap: 50px;
+  }
+  
+  .industries-title-sticky {
+    top: 100px;
+  }
+  
+  .industry-card {
+    padding: 25px;
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .industries-content {
+    grid-template-columns: 1fr;
+    padding: 80px 30px;
+    gap: 50px;
+    min-height: auto;
+  }
+  
+  .industries-title-wrapper {
+    position: relative;
+  }
+  
+  .industries-title-sticky {
+    position: relative;
+    top: 0;
+    padding-top: 0;
+  }
+  
+  .industries-subtitle {
+    max-width: 100%;
+  }
+  
+  .industries-cards {
+    padding-top: 0;
+  }
+  
+  .industry-card {
+    padding: 28px;
+  }
+  
+  .industry-card-description {
+    max-width: 100%;
+  }
+}
+
+/* Mobile (below 768px) */
+@media (max-width: 767px) {
+  .industries-hero {
+    min-height: auto;
+  }
+  
+  .industries-content {
+    grid-template-columns: 1fr;
+    padding: 60px 20px;
+    gap: 40px;
+    min-height: auto;
+  }
+  
+  .industries-title-wrapper {
+    position: relative;
+  }
+  
+  .industries-title-sticky {
+    position: relative;
+    top: 0;
+    padding-top: 0;
+  }
+  
+  .industries-title {
+    font-size: clamp(2rem, 6vw, 2.5rem);
+  }
+  
+  .industries-subtitle {
+    max-width: 100%;
+    font-size: 0.95rem;
+  }
+  
+  .industries-cards {
+    padding-top: 0;
+    gap: 25px;
+  }
+  
+  .industry-card {
+    padding: 24px;
+    gap: 14px;
+  }
+  
+  .industry-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .industry-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .industry-card-title {
+    font-size: 1.2rem;
+  }
+  
+  .industry-card-description {
+    max-width: 100%;
+    font-size: 0.875rem;
+  }
+  
+  .industry-card-divider {
+    margin: 8px 0;
+  }
+  
+  .industry-learn-more {
+    padding: 12px 0;
+  }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+  .industries-content {
+    padding: 50px 16px;
+    gap: 35px;
+  }
+  
+  .industries-title {
+    font-size: 1.75rem;
+  }
+  
+  .industries-subtitle {
+    font-size: 0.875rem;
+  }
+  
+  .industry-card {
+    padding: 20px;
+    border-radius: 12px;
+    gap: 12px;
+  }
+  
+  .industry-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .industry-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .industry-card-title {
+    font-size: 1.1rem;
+  }
+  
+  .industry-card-description {
+    font-size: 0.8125rem;
+  }
+  
+  .industry-learn-more span {
+    font-size: 0.7rem;
+  }
+  
+  .industry-learn-more .btn-icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Very Small Mobile (400px and below) */
+@media (max-width: 400px) {
+  .industries-content {
+    padding: 40px 12px;
+  }
+  
+  .industries-title {
+    font-size: 1.5rem;
+  }
+  
+  .industry-card {
+    padding: 18px;
+  }
+}

@@ -1,0 +1,522 @@
+/* HERO SECTION STYLES */
+
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hero Section - Wrapper (Fixed with margin) */
+.hero-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 16px;
+  overflow: visible;
+  z-index: 1;
+}
+
+/* Rounded Container - This is what gets transformed */
+.hero-rounded-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 24px;
+  transform-origin: center top;
+  will-change: transform;
+}
+
+/* Video Container */
+.hero-video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.hero-video-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Dark Overlay */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.596) 0%,
+    rgba(0, 0, 0, 0.911) 100%
+  );
+  z-index: 1;
+}
+
+/* Hero Content Wrapper */
+.hero-content-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+/* Main Content Row - Flex container for left/right layout */
+.hero-content-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 60px;
+  width: 100%;
+  max-width: 1750px;
+  margin: 0 auto;
+  position: sticky;
+  top: 120px; /* Below navbar */
+  z-index: 11;
+}
+
+/* Title Section - Left Aligned */
+.hero-title-section {
+  flex: 1;
+  max-width: 700px;
+  text-align: left;
+}
+
+.hero-title {
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: rgb(255, 255, 255);
+  text-align: left;
+}
+
+/* Subtitle */
+.hero-subtitle {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 1.75vw, 1.5rem);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  text-align: left;
+}
+
+/* Info Box - Right Side */
+.hero-info-box {
+  width: 430px;
+  height: 575px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+/* Info Box Text - Now at top */
+.info-box-text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: left;
+  margin: 0;
+}
+
+.info-box-text strong {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Info Box Image Container - Now at bottom */
+.info-box-image {
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  margin-top: auto;
+}
+
+.info-box-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Scroll to Explore Text */
+.hero-scroll-text {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+  text-align: center;
+}
+
+.hero-scroll-text p {
+  font-family: 'Roboto', sans-serif;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  font-weight: 400;
+  letter-spacing: 0em;
+  line-height: 1em;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+/* ======================== RESPONSIVE BREAKPOINTS ======================== */
+
+/* Large Desktop (1440px and above) */
+@media (min-width: 1440px) {
+  .hero-content-row {
+    padding: 0 80px;
+  }
+  
+  .hero-title {
+    font-size: clamp(3rem, 4.5vw, 4rem);
+  }
+}
+
+/* Desktop (1200px - 1439px) */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .hero-content-row {
+    gap: 40px;
+    padding: 0 60px;
+  }
+  
+  .hero-info-box {
+    width: 400px;
+    height: 550px;
+  }
+  
+  .info-box-image {
+    height: 390px;
+  }
+}
+
+/* Small Desktop / Large Tablet (1024px - 1199px) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .hero-content-row {
+    gap: 30px;
+    padding: 0 40px;
+  }
+  
+  .hero-title-section {
+    max-width: 600px;
+  }
+  
+  .hero-info-box {
+    width: 380px;
+    height: 520px;
+  }
+  
+  .info-box-image {
+    height: 360px;
+  }
+  
+  .hero-title {
+    font-size: clamp(2.25rem, 3.5vw, 3rem);
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(0.95rem, 1.4vw, 1.125rem);
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .hero-content-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 0 30px;
+    top: 100px;
+  }
+  
+  .hero-title-section {
+    max-width: 100%;
+    text-align: center;
+  }
+  
+  .hero-title {
+    text-align: center;
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+  }
+  
+  .hero-subtitle {
+    text-align: center;
+    font-size: clamp(0.9rem, 1.5vw, 1.125rem);
+  }
+  
+  .hero-info-box {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    min-height: 450px;
+  }
+  
+  .info-box-image {
+    height: 300px;
+  }
+  
+  .info-box-text {
+    text-align: center;
+  }
+}
+
+/* Mobile (below 768px) */
+@media (max-width: 767px) {
+  .hero-section {
+    padding: 12px;
+    min-height: 600px;
+  }
+  
+  .hero-rounded-container {
+    border-radius: 16px;
+  }
+  
+  .hero-content-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 0 20px;
+    top: 90px;
+    position: relative; /* Change from sticky on mobile */
+  }
+  
+  .hero-title-section {
+    max-width: 100%;
+    text-align: center;
+  }
+  
+  .hero-title {
+    text-align: center;
+    font-size: clamp(1.75rem, 5vw, 2.25rem);
+    margin-bottom: 1rem;
+  }
+  
+  .hero-subtitle {
+    text-align: center;
+    font-size: clamp(0.875rem, 3vw, 1rem);
+  }
+  
+  .hero-info-box {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.12);
+  }
+  
+  .info-box-image {
+    height: 250px;
+  }
+  
+  .info-box-text {
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  
+  .hero-scroll-text {
+    bottom: 3%;
+  }
+  
+  .hero-scroll-text p {
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+  }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 10px;
+    min-height: 550px;
+  }
+  
+  .hero-rounded-container {
+    border-radius: 12px;
+  }
+  
+  .hero-content-row {
+    padding: 0 16px;
+    top: 80px;
+  }
+  
+  .hero-title {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    line-height: 1.2;
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(0.8125rem, 3.5vw, 0.9375rem);
+    line-height: 1.5;
+  }
+  
+  .hero-info-box {
+    max-width: 100%;
+    padding: 12px;
+    gap: 15px;
+  }
+  
+  .info-box-image {
+    height: 200px;
+  }
+  
+  .info-box-text {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+}
+
+/* Very Small Mobile (400px and below) */
+@media (max-width: 400px) {
+  .hero-section {
+    padding: 8px;
+    min-height: 500px;
+  }
+  
+  .hero-rounded-container {
+    border-radius: 10px;
+  }
+  
+  .hero-title {
+    font-size: clamp(1.3rem, 6vw, 1.75rem);
+  }
+  
+  .hero-subtitle {
+    font-size: 0.75rem;
+  }
+  
+  .info-box-image {
+    height: 180px;
+  }
+  
+  .info-box-text {
+    font-size: 0.75rem;
+  }
+}
+
+/* Short Viewport Height Fixes */
+@media (max-height: 650px) {
+  .hero-section {
+    min-height: 100vh;
+  }
+  
+  .hero-content-row {
+    top: 90px;
+  }
+  
+  .hero-title {
+    margin-bottom: 1rem;
+  }
+  
+  .hero-info-box {
+    height: auto;
+    max-height: 450px;
+  }
+  
+  .info-box-image {
+    height: 280px;
+  }
+  
+  .hero-scroll-text {
+    bottom: 2%;
+  }
+}
+
+/* Extra Short Screens */
+@media (max-height: 550px) {
+  .hero-content-row {
+    top: 70px;
+  }
+  
+  .hero-info-box {
+    max-height: 400px;
+  }
+  
+  .info-box-image {
+    height: 240px;
+  }
+  
+  .hero-scroll-text {
+    display: none;
+  }
+}
+
+/* 4K and Ultra Wide */
+@media (min-width: 2560px) {
+  .hero-section {
+    padding: 24px;
+  }
+  
+  .hero-rounded-container {
+    border-radius: 40px;
+  }
+  
+  .hero-content-row {
+    max-width: 1800px;
+    padding: 0 100px;
+  }
+  
+  .hero-title {
+    font-size: 4.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5rem;
+  }
+  
+  .hero-info-box {
+    width: 480px;
+    height: 620px;
+  }
+  
+  .info-box-image {
+    height: 460px;
+  }
+  
+  .info-box-text {
+    font-size: 1.05rem;
+  }
+}
