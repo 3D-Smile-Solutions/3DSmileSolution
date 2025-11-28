@@ -63,8 +63,6 @@
 /* Sticky Title */
 .industries-title-sticky {
   position: sticky;
-  top: 120px;
-  padding-top: 20px;
 }
 
 .industries-title {

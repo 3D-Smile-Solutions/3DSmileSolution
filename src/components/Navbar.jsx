@@ -1,80 +1,105 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { HiChevronDown } from "react-icons/hi2";
 import './Navbar.css';
-import logo from '../assets/LogoD.png';  // Using only the light mode logo
+import logo from '../assets/LogoD.png';
 
 const Navbar = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
+    const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
     const lastScrollY = useRef(0);
     const scrollTimeout = useRef(null);
+    const dropdownTimeoutRef = useRef(null);
+
+    const serviceOptions = [
+        {
+            id: 'gtm',
+            title: 'GTM Strategy Consulting:',
+            description: 'Tailored market research, competitor analysis, pricing strategy, and channel optimization.',
+            route: '/gtmstrategy'
+        },
+        {
+            id: 'ai',
+            title: 'AI Automation Solutions:',
+            description: 'AI-powered automation for dental and healthcare practices to enhance efficiency and growth.',
+            route: '/aiautomation'
+        }
+    ];
 
     const navItems = [
         {
             id: 1,
             name: "Home",
             section: null,
+            route: '/'
         },
         {
             id: 2,
             name: "About",
             section: null,
+            route: '/about'
         },
         {
             id: 3,
             name: "Services",
             section: null,
+            hasDropdown: true
         },
         {
             id: 4,
             name: "Industries",
             section: null,
+            route: '/industries'
         },
         {
             id: 5,
             name: "Case Studies",
             section: null,
+            route: '/case-studies'
         },
         {
             id: 6,
             name: "Blog",
             section: null,
+            route: '/blog'
         },
         {
             id: 7,
             name: "Contact",
-            section: null,
+            section: 'footer',
+            scrollToFooter: true
         },
     ];
 
     const toggleNavbar = () => {
         setIsOpen(!isOpen);
+        setServicesDropdownOpen(false);
     };
 
     const controlNavbar = () => {
         const currentScrollY = window.scrollY;
         
-        // Don't hide navbar if mobile menu is open
         if (isOpen) {
             setIsVisible(true);
             return;
         }
 
-        // Set scrolled state for styling
         if (currentScrollY > 50) {
             setIsScrolled(true);
         } else {
             setIsScrolled(false);
         }
 
-        // Determine scroll direction and show/hide navbar
         if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-            // Scrolling down & past 100px
             setIsVisible(false);
+            setServicesDropdownOpen(false);
         } else {
-            // Scrolling up or near top
             setIsVisible(true);
         }
 
@@ -82,12 +107,68 @@ const Navbar = () => {
     };
 
     const handleNavClick = (item) => {
+        if (item.hasDropdown) {
+            return; // Don't do anything on click for dropdown items on desktop
+        }
+        
+        // If item has scrollToFooter (Contact), scroll to footer
+        if (item.scrollToFooter) {
+            // If on homepage, scroll to footer
+            if (location.pathname === '/') {
+                scrollToSection('footer');
+            } else {
+                // Navigate to homepage and scroll to footer
+                navigate('/');
+                setTimeout(() => {
+                    scrollToSection('footer');
+                }, 100);
+            }
+            setIsOpen(false);
+            return;
+        }
+        
+        // If item has a route, navigate to it
+        if (item.route) {
+            navigate(item.route);
+            setIsOpen(false);
+            return;
+        }
+        
         if (item.isExternal) {
             window.open(item.url, '_blank', 'noopener,noreferrer');
             setIsOpen(false);
         } else if (item.section) {
             scrollToSection(item.section);
         }
+    };
+
+    const handleServiceClick = (route) => {
+        // Navigate to the service page using React Router
+        navigate(route);
+        setServicesDropdownOpen(false);
+        setIsOpen(false);
+    };
+
+    const handleLogoClick = () => {
+        // If on homepage, scroll to top. Otherwise, navigate to homepage
+        if (location.pathname === '/') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            navigate('/');
+        }
+    };
+
+    const handleMouseEnter = () => {
+        if (dropdownTimeoutRef.current) {
+            clearTimeout(dropdownTimeoutRef.current);
+        }
+        setServicesDropdownOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        dropdownTimeoutRef.current = setTimeout(() => {
+            setServicesDropdownOpen(false);
+        }, 200);
     };
 
     const scrollToSection = (sectionId) => {
@@ -98,30 +179,25 @@ const Navbar = () => {
         }
     };
 
-    // Lock/unlock body scroll when mobile menu opens/closes
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
-            setIsVisible(true); // Always show navbar when menu is open
+            setIsVisible(true);
         } else {
             document.body.style.overflow = 'unset';
         }
 
-        // Cleanup function
         return () => {
             document.body.style.overflow = 'unset';
         };
     }, [isOpen]);
 
-    // Handle scroll events with debouncing
     useEffect(() => {
         const handleScroll = () => {
-            // Clear the existing timeout
             if (scrollTimeout.current) {
                 clearTimeout(scrollTimeout.current);
             }
 
-            // Set a new timeout for smooth scroll detection
             scrollTimeout.current = setTimeout(() => {
                 controlNavbar();
             }, 10);
@@ -135,7 +211,15 @@ const Navbar = () => {
                 clearTimeout(scrollTimeout.current);
             }
         };
-    }, [isOpen]); // Add isOpen as dependency to ensure navbar stays visible when menu is open
+    }, [isOpen]);
+
+    useEffect(() => {
+        return () => {
+            if (dropdownTimeoutRef.current) {
+                clearTimeout(dropdownTimeoutRef.current);
+            }
+        };
+    }, []);
 
     return (
         <div className={`navbar-wrapper ${!isVisible ? "navbar-hidden" : ""}`}>
@@ -145,7 +229,7 @@ const Navbar = () => {
                 {/* Logo */}
                 <div className="navbar-logo-section">
                     <button 
-                        onClick={() => scrollToSection('home')} 
+                        onClick={handleLogoClick} 
                         className="navbar-logo-button"
                         type="button"
                     >
@@ -157,14 +241,41 @@ const Navbar = () => {
                 <nav className="navbar-nav-desktop">
                     <ul className="navbar-nav-items">
                         {navItems.map((item) => (
-                            <li key={item.id}>
+                            <li 
+                                key={item.id}
+                                className={item.hasDropdown ? "navbar-dropdown-wrapper" : ""}
+                                onMouseEnter={item.hasDropdown ? handleMouseEnter : undefined}
+                                onMouseLeave={item.hasDropdown ? handleMouseLeave : undefined}
+                            >
                                 <button 
                                     onClick={() => handleNavClick(item)}
-                                    className="navbar-nav-link"
+                                    className={`navbar-nav-link ${item.hasDropdown ? 'has-dropdown' : ''}`}
                                     type="button"
                                 >
                                     {item.name}
+                                    {item.hasDropdown && (
+                                        <HiChevronDown 
+                                            className={`dropdown-icon ${servicesDropdownOpen ? 'open' : ''}`}
+                                        />
+                                    )}
                                 </button>
+
+                                {/* Dropdown Menu */}
+                                {item.hasDropdown && (
+                                    <div className={`services-dropdown ${servicesDropdownOpen ? 'open' : ''}`}>
+                                        {serviceOptions.map((service) => (
+                                            <button
+                                                key={service.id}
+                                                className="service-dropdown-item"
+                                                onClick={() => handleServiceClick(service.route)}
+                                                type="button"
+                                            >
+                                                <h4 className="service-title">{service.title}</h4>
+                                                <p className="service-description">{service.description}</p>
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
                             </li>
                         ))}
                     </ul>
@@ -199,7 +310,7 @@ const Navbar = () => {
                 <div className="navbar-mobile-header">
                     <button 
                         onClick={() => {
-                            scrollToSection('home');
+                            handleLogoClick();
                             setIsOpen(false);
                         }} 
                         className="navbar-logo-button"
@@ -223,13 +334,43 @@ const Navbar = () => {
                     <ul className="navbar-mobile-items">
                         {navItems.map((item) => (
                             <li key={item.id}>
-                                <button 
-                                    onClick={() => handleNavClick(item)}
-                                    className="navbar-mobile-link"
-                                    type="button"
-                                >
-                                    {item.name}
-                                </button>
+                                {item.hasDropdown ? (
+                                    <div className="mobile-dropdown">
+                                        <button
+                                            onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
+                                            className="navbar-mobile-link has-dropdown"
+                                            type="button"
+                                        >
+                                            {item.name}
+                                            <HiChevronDown 
+                                                className={`dropdown-icon ${servicesDropdownOpen ? 'open' : ''}`}
+                                            />
+                                        </button>
+                                        {servicesDropdownOpen && (
+                                            <div className="mobile-services-dropdown">
+                                                {serviceOptions.map((service) => (
+                                                    <button
+                                                        key={service.id}
+                                                        className="mobile-service-item"
+                                                        onClick={() => handleServiceClick(service.route)}
+                                                        type="button"
+                                                    >
+                                                        <h4 className="mobile-service-title">{service.title}</h4>
+                                                        <p className="mobile-service-description">{service.description}</p>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <button 
+                                        onClick={() => handleNavClick(item)}
+                                        className="navbar-mobile-link"
+                                        type="button"
+                                    >
+                                        {item.name}
+                                    </button>
+                                )}
                             </li>
                         ))}
                     </ul>

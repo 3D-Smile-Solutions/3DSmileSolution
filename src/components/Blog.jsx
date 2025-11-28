@@ -8,6 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 const Blog = () => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
+  const cardsWrapperRef = useRef(null);
   const cardsRef = useRef([]);
 
   const blogPosts = [
@@ -36,10 +37,20 @@ const Blog = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Pin the title while the cards scroll
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: () => `+=${cardsWrapperRef.current.offsetHeight - titleRef.current.offsetHeight}`,
+        pin: titleRef.current,
+        pinSpacing: false,
+        anticipatePin: 1
+      });
+
       // Animate title on load
       gsap.from(titleRef.current, {
         scrollTrigger: {
-          trigger: titleRef.current,
+          trigger: sectionRef.current,
           start: 'top 80%',
           once: true
         },
@@ -85,7 +96,7 @@ const Blog = () => {
         </div>
 
         {/* Right Side - Blog Cards */}
-        <div className="blog-cards-wrapper">
+        <div className="blog-cards-wrapper" ref={cardsWrapperRef}>
           <div className="blog-cards">
             {blogPosts.map((post, index) => (
               <div 

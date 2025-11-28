@@ -1,0 +1,185 @@
+/* About Page Styles */
+
+.about-page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #14181b;
+}
+
+.about-page-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 20px 80px 20px;
+  overflow: hidden;
+}
+
+.about-page-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background: #0a0a0a;
+}
+
+.about-page-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.about-page-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+}
+
+.about-page-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+.about-page-title {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: rgb(255, 255, 255);
+  margin: 0;
+}
+
+.about-page-subtitle {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  max-width: 700px;
+}
+
+.about-page-cta {
+  padding: 16px 40px;
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #b5cdb27e;
+  border-radius: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-page-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #B5CDB2, transparent);
+  transition: left 0.5s ease;
+}
+
+.about-page-cta:hover::before {
+  left: 100%;
+}
+
+.about-page-cta:hover {
+  border-color: #B5CDB2;
+  color: #B5CDB2;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px #b5cdb22a;
+}
+
+.about-page-content-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #14181b;
+  padding: 100px 20px;
+  z-index: 2;
+}
+
+.about-page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: white;
+}
+
+.about-page-wrapper h2 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: rgb(234, 231, 224);
+  margin-bottom: 30px;
+}
+
+.about-page-wrapper p {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 50px;
+}
+
+@media (max-width: 768px) {
+  .about-page-hero {
+    padding: 120px 30px 60px 30px;
+  }
+  
+  .about-page-content {
+    gap: 25px;
+  }
+  
+  .about-page-content-section {
+    padding: 80px 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-page-hero {
+    padding: 100px 20px 50px 20px;
+  }
+  
+  .about-page-cta {
+    padding: 14px 32px;
+    font-size: 14px;
+  }
+  
+  .about-page-content-section {
+    padding: 60px 20px;
+  }
+}

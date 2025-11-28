@@ -1,9 +1,13 @@
 import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './IndustriesHero.css';
 import { HiArrowUpRight } from 'react-icons/hi2';
 
 // Import your background image - replace with actual path
 import industriesBG from '../assets/RED.png';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // SVG Icons as components
 const ToothIcon = () => (
@@ -22,6 +26,8 @@ const HealthcareIcon = () => (
 
 const IndustriesHero = () => {
   const sectionRef = useRef(null);
+  const titleRef = useRef(null);
+  const cardsWrapperRef = useRef(null);
   const cardsRef = useRef([]);
 
   const industries = [
@@ -39,37 +45,51 @@ const IndustriesHero = () => {
     }
   ];
 
-  // Intersection Observer for scroll animations
   useEffect(() => {
-    const supportsAnimationTimeline = CSS.supports('animation-timeline', 'view()');
-    
-    if (supportsAnimationTimeline) {
-      return;
-    }
+    const ctx = gsap.context(() => {
+      // Pin the title while the cards scroll
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: () => `+=${cardsWrapperRef.current.offsetHeight - titleRef.current.offsetHeight}`,
+        pin: titleRef.current,
+        pinSpacing: false,
+        anticipatePin: 1
+      });
 
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px 0px -10% 0px',
-      threshold: 0.1
-    };
+      // Animate title on load
+      gsap.from(titleRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          once: true
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: 'power3.out'
+      });
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
+      // Animate cards on scroll - slide in from right to left
+      cardsRef.current.forEach((card, index) => {
+        if (card) {
+          gsap.from(card, {
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+              once: true
+            },
+            opacity: 0,
+            x: 60,
+            duration: 0.8,
+            delay: index * 0.15,
+            ease: 'power2.out'
+          });
         }
       });
-    }, observerOptions);
+    }, sectionRef);
 
-    cardsRef.current.forEach((card) => {
-      if (card) {
-        observer.observe(card);
-      }
-    });
-
-    return () => {
-      observer.disconnect();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -84,7 +104,7 @@ const IndustriesHero = () => {
       <div className="industries-content">
         {/* Left Side - Sticky Title */}
         <div className="industries-title-wrapper">
-          <div className="industries-title-sticky">
+          <div className="industries-title-sticky" ref={titleRef}>
             <h2 className="industries-title">
               Industries We Serve
             </h2>
@@ -95,7 +115,7 @@ const IndustriesHero = () => {
         </div>
 
         {/* Right Side - Cards */}
-        <div className="industries-cards">
+        <div className="industries-cards" ref={cardsWrapperRef}>
           {industries.map((industry, index) => (
             <div 
               key={industry.id} 

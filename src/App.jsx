@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
@@ -9,7 +9,16 @@ import Testimonial from './components/Testimonial.jsx';
 import Blog from './components/Blog.jsx';
 import Footer from './components/Footer.jsx';
 
-function App() {
+// Import new page components
+import GTMStrategy from './components/GtmStrategy.jsx';
+import AIAutomation from './components/AIAutomation.jsx';
+import Industries from './components/Industries.jsx';
+import About from './components/About.jsx';
+import BlogPage from './components/BlogPage.jsx';
+import CaseStudies from './components/CaseStudies.jsx';
+
+// HomePage component - your current homepage
+function HomePage() {
   return (
     <div className="app dark-mode">
       <Navbar />
@@ -35,8 +44,29 @@ function App() {
           <Footer />
         </div>
       </div>
-      
     </div>
+  );
+}
+
+// Main App component with routing
+function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Homepage */}
+        <Route path="/" element={<HomePage />} />
+        
+        {/* Service Pages */}
+        <Route path="/gtmstrategy" element={<GTMStrategy />} />
+        <Route path="/aiautomation" element={<AIAutomation />} />
+        
+        {/* Other Pages */}
+        <Route path="/industries" element={<Industries />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/case-studies" element={<CaseStudies />} />
+      </Routes>
+    </Router>
   )
 }
 

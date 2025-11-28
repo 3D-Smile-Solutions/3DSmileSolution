@@ -4,7 +4,7 @@ import Cal, { getCalApi } from "@calcom/embed-react";
 import { FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import './Footer.css';
-import NavLogo from '../assets/Logo.png';
+import NavLogo from '../assets/LogoD.png';
 
 const Footer = () => {
   const calendarEmbedRef = useRef(null);
