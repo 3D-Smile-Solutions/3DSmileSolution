@@ -10,7 +10,7 @@ import Blog from './components/Blog.jsx';
 import Footer from './components/Footer.jsx';
 
 // Import new page components
-import GTMStrategy from './components/GtmStrategy.jsx';
+import GTMStrategy from './components/GTMStrategy.jsx';
 import AIAutomation from './components/AIAutomation.jsx';
 import Industries from './components/Industries.jsx';
 import About from './components/About.jsx';
