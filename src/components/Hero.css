@@ -240,6 +240,7 @@ html, body {
   .hero-content-row {
     gap: 30px;
     padding: 0 40px;
+    flex-direction: column;
   }
   
   .hero-title-section {
@@ -268,7 +269,6 @@ html, body {
 @media (max-width: 1023px) and (min-width: 768px) {
   .hero-content-row {
     flex-direction: column;
-    align-items: center;
     gap: 40px;
     padding: 0 30px;
     top: 100px;
@@ -276,11 +276,11 @@ html, body {
   
   .hero-title-section {
     max-width: 100%;
-    text-align: center;
+    text-align: left;
   }
   
   .hero-title {
-    text-align: center;
+    text-align: left;
     font-size: clamp(2rem, 3.5vw, 2.75rem);
   }
   

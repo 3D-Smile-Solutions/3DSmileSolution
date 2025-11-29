@@ -1,13 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './IndustriesHero.css';
 import { HiArrowUpRight } from 'react-icons/hi2';
 
 // Import your background image - replace with actual path
 import industriesBG from '../assets/RED.png';
 
-gsap.registerPlugin(ScrollTrigger);
 
 // SVG Icons as components
 const ToothIcon = () => (
@@ -44,53 +41,6 @@ const IndustriesHero = () => {
       description: 'Explaining how AI and GTM strategies can solve common problems in healthcare operations.',
     }
   ];
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Pin the title while the cards scroll
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: () => `+=${cardsWrapperRef.current.offsetHeight - titleRef.current.offsetHeight}`,
-        pin: titleRef.current,
-        pinSpacing: false,
-        anticipatePin: 1
-      });
-
-      // Animate title on load
-      gsap.from(titleRef.current, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          once: true
-        },
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: 'power3.out'
-      });
-
-      // Animate cards on scroll - slide in from right to left
-      cardsRef.current.forEach((card, index) => {
-        if (card) {
-          gsap.from(card, {
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 85%',
-              once: true
-            },
-            opacity: 0,
-            x: 60,
-            duration: 0.8,
-            delay: index * 0.15,
-            ease: 'power2.out'
-          });
-        }
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <section className="industries-hero" ref={sectionRef}>

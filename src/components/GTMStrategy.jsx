@@ -501,19 +501,6 @@ const GTMStrategy = () => {
       <section className="gtm-content-section">
         <div className="container" ref={containerRef}>
           <div className="slider" ref={sliderRef}></div>
-          
-          {/* Progress Indicator */}
-          <div className="slider-progress">
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${slideProgress}%` }}></div>
-            </div>
-            <span className="progress-text">{Math.round(slideProgress)}% Explored</span>
-          </div>
-
-          {/* Navigation Hint */}
-          <div className="slider-nav-hint">
-            <span className="nav-hint-text">Use arrow keys or scroll to navigate</span>
-          </div>
         </div>
       </section>
     </div>
