@@ -39,13 +39,8 @@ const GTMStrategy = () => {
       image: firstImage 
     },
     { 
-      title: "Pricing Strategy", 
-      description: "Differentiating your practice or healthcare brand to resonate with your target market.",
-      image: secondImage 
-    },
-    { 
       title: "Brand Positioning", 
-      description: "Tailoring pricing models to ensure competitive pricing while maximizing revenue.",
+      description: "Differentiating your practice or healthcare brand to resonate with your target market.",
       image: thirdImage
     },
     { 
@@ -501,6 +496,10 @@ const GTMStrategy = () => {
       <section className="gtm-content-section">
         <div className="container" ref={containerRef}>
           <div className="slider" ref={sliderRef}></div>
+          
+          <div className="slider-nav-hint">
+            <div className="nav-hint-text">Scroll to Navigate</div>
+          </div>
         </div>
       </section>
     </div>

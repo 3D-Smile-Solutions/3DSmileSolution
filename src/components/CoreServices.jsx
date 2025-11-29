@@ -22,7 +22,8 @@ const CoreServices = () => {
         'Pricing Strategy & Channel Strategy'
       ],
       image: gtmImage,
-      imagePosition: 'right'
+      imagePosition: 'right',
+      link: '/gtmstrategy'
     },
     {
       id: 2,
@@ -34,7 +35,8 @@ const CoreServices = () => {
         'Workflow Optimization'
       ],
       image: aiImage,
-      imagePosition: 'left'
+      imagePosition: 'left',
+      link: '/aiautomation'
     }
   ];
 
@@ -108,10 +110,10 @@ const CoreServices = () => {
                   ))}
                 </ul>
 
-                <button className="learn-more-btn">
-                  <span>LEARN MORE</span>
+                <a href={service.link} className="learn-more-btn">
+                  <span>Learn More</span>
                   <HiArrowUpRight className="btn-icon" />
-                </button>
+                </a>
               </div>
 
               {/* Image Side */}

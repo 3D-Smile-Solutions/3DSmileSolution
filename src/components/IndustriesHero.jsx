@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import './IndustriesHero.css';
 import { HiArrowUpRight } from 'react-icons/hi2';
 
-// Import your background image - replace with actual path
-import industriesBG from '../assets/RED.png';
-
+// Import your images - replace with actual paths
+import dentalImage from '../assets/Discover.jpg';
+import healthcareImage from '../assets/Discover.jpg';
 
 // SVG Icons as components
 const ToothIcon = () => (
@@ -22,70 +22,83 @@ const HealthcareIcon = () => (
 );
 
 const IndustriesHero = () => {
-  const sectionRef = useRef(null);
-  const titleRef = useRef(null);
-  const cardsWrapperRef = useRef(null);
-  const cardsRef = useRef([]);
-
   const industries = [
     {
       id: 1,
       icon: <ToothIcon />,
       title: 'Dental Industry',
       description: 'Focused content on AI and GTM benefits for small practices to enterprise-level dental chains.',
+      features: [
+        'Practice Management Automation',
+        'Patient Engagement Solutions',
+        'Revenue Optimization Strategies'
+      ],
+      image: dentalImage,
+      imagePosition: 'right',
+      link: '/industries'
     },
     {
       id: 2,
       icon: <HealthcareIcon />,
       title: 'Healthcare Industry',
       description: 'Explaining how AI and GTM strategies can solve common problems in healthcare operations.',
+      features: [
+        'Workflow Automation',
+        'Patient Data Management',
+        'Operational Excellence'
+      ],
+      image: healthcareImage,
+      imagePosition: 'left',
+      link: '/industries'
     }
   ];
 
   return (
-    <section className="industries-hero" ref={sectionRef}>
-      {/* Background Image */}
-      <div className="industries-bg">
-        <img src={industriesBG} alt="" />
-        <div className="industries-overlay"></div>
-      </div>
+    <section className="industries-hero">
+      <div className="industries-container">
+        {/* Section Title */}
+        <h2 className="industries-title">Industries We Serve</h2>
+        <p className="industries-subtitle">
+          Accelerate Growth & Optimize Operations with Our Custom AI & Strategic Expertise
+        </p>
 
-      {/* Content Container */}
-      <div className="industries-content">
-        {/* Left Side - Sticky Title */}
-        <div className="industries-title-wrapper">
-          <div className="industries-title-sticky" ref={titleRef}>
-            <h2 className="industries-title">
-              Industries We Serve
-            </h2>
-            <p className="industries-subtitle">
-              Accelerate Growth & Optimize Operations with Our Custom AI & Strategic Expertise
-            </p>
-          </div>
-        </div>
-
-        {/* Right Side - Cards */}
-        <div className="industries-cards" ref={cardsWrapperRef}>
-          {industries.map((industry, index) => (
+        {/* Industry Cards */}
+        <div className="industries-list">
+          {industries.map((industry) => (
             <div 
               key={industry.id} 
-              className="industry-card"
-              ref={(el) => (cardsRef.current[index] = el)}
+              className={`industry-card ${industry.imagePosition === 'left' ? 'image-left' : 'image-right'}`}
             >
-              <div className="industry-icon">
-                {industry.icon}
+              {/* Content Side */}
+              <div className="industry-content">
+                <div className="industry-header">
+                  <div className="industry-icon">
+                    {industry.icon}
+                  </div>
+                  <h3 className="industry-title">{industry.title}</h3>
+                </div>
+                
+                <p className="industry-description">{industry.description}</p>
+                
+                <ul className="industry-features">
+                  {industry.features.map((feature, idx) => (
+                    <li key={idx} className="feature-item">
+                      <span className="feature-bullet"></span>
+                      <span className="feature-text">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <a href={industry.link} className="learn-more-btn">
+                  <span>Learn More</span>
+                  <HiArrowUpRight className="btn-icon" />
+                </a>
               </div>
-              
-              <h3 className="industry-card-title">{industry.title}</h3>
-              
-              <p className="industry-card-description">{industry.description}</p>
-              
-              <div className="industry-card-divider"></div>
-              
-              <button className="industry-learn-more">
-                <span>LEARN MORE</span>
-                <HiArrowUpRight className="btn-icon" />
-              </button>
+
+              {/* Image Side */}
+              <div className="industry-image">
+                <img src={industry.image} alt={industry.title} />
+              </div>
             </div>
           ))}
         </div>

@@ -111,56 +111,56 @@
 .feature-bullet {
   width: 6px;
   height: 6px;
-  background-color: #17a3ce;
+  background-color: #B5CDB2;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
 .feature-text {
-  font-family: 'Roboto', sans-serif;
   font-weight: 300;
   font-size: clamp(0.85rem, 1vw, 0.95rem);
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* Learn More Button */
+/* Learn More Link - Improved Visibility */
 .learn-more-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 400px;
-  padding: 16px 20px;
-  background-color: rgba(255, 255, 255, 0.08);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  gap: 8px;
   margin-top: 10px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: #B5CDB2;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  width: fit-content;
 }
 
 .learn-more-btn:hover {
-  background-color: rgba(255, 255, 255, 0.12);
+  gap: 12px;
+  color: #029482;
 }
 
 .learn-more-btn span {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.7);
+  color: inherit;
 }
 
 .learn-more-btn .btn-icon {
   width: 18px;
   height: 18px;
-  color: rgba(255, 255, 255, 0.7);
+  color: inherit;
   transition: transform 0.3s ease;
 }
 
 .learn-more-btn:hover .btn-icon {
-  transform: translate(3px, -3px);
+  transform: translate(2px, -2px);
 }
 
 /* Service Image */
@@ -171,6 +171,8 @@
   max-height: 450px;
   border-radius: 12px;
   overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .service-image img {
@@ -179,6 +181,16 @@
   object-fit: cover;
   object-position: center;
   display: block;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-image {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.service-card:hover .service-image img {
+  transform: scale(1.03);
 }
 
 /* ======================== RESPONSIVE BREAKPOINTS ======================== */
@@ -224,7 +236,7 @@
   
   .service-image {
     min-height: 280px;
-    max-height: 450px;
+    max-height: 400px;
   }
 }
 
@@ -263,10 +275,6 @@
   }
   
   .service-description {
-    max-width: 100%;
-  }
-  
-  .learn-more-btn {
     max-width: 100%;
   }
   
@@ -327,8 +335,7 @@
   }
   
   .learn-more-btn {
-    max-width: 100%;
-    padding: 14px 18px;
+    font-size: 0.875rem;
   }
   
   .service-image {
@@ -382,11 +389,7 @@
   }
   
   .learn-more-btn {
-    padding: 12px 16px;
-  }
-  
-  .learn-more-btn span {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
   }
   
   .learn-more-btn .btn-icon {

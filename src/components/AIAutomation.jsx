@@ -486,6 +486,10 @@ const AIAutomation = () => {
       <section className="ai-content-section">
         <div className="container" ref={containerRef}>
           <div className="slider" ref={sliderRef}></div>
+
+          <div className="slider-nav-hint">
+            <div className="nav-hint-text">Scroll to Navigate</div>
+          </div>
         </div>
       </section>
     </div>
