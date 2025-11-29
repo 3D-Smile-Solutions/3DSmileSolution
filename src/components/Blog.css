@@ -4,7 +4,7 @@
   position: relative;
   width: 100%;
   min-height: 150vh;
-  background-color: #14181b;
+  background-color: #141414;
   overflow: hidden;
   padding: 100px 0;
 }
@@ -12,7 +12,7 @@
 .blog-container {
   position: relative;
   width: 100%;
-  max-width: 1750px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 60px;
   display: grid;
@@ -167,7 +167,7 @@
 /* Large Desktop (1920px+) */
 @media (min-width: 1920px) {
   .blog-container {
-    max-width: 1900px;
+    max-width: 1800px;
     padding: 0 100px;
     gap: 100px;
   }

@@ -64,12 +64,6 @@ const Navbar = () => {
             route: '/case-studies'
         },
         {
-            id: 6,
-            name: "Blog",
-            section: null,
-            route: '/blog'
-        },
-        {
             id: 7,
             name: "Contact",
             section: 'footer',

@@ -1,7 +1,7 @@
 /* Calendar Section */
 
 .calendar-section {
-  background-color: #14181b;
+  background-color: #141414;
   padding: 100px 0;
   position: relative;
   width: 100%;
@@ -119,13 +119,13 @@
 /* Footer Section */
 
 .footer-section {
-  background-color: #14181b;
+  background-color: #141414;
   padding: 60px 0 30px;
   width: 100%;
 }
 
 .footer-container {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 clamp(40px, 5vw, 80px) 50px;
   display: flex;
@@ -243,7 +243,7 @@
 
 /* Bottom Section */
 .footer-bottom {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 30px clamp(40px, 5vw, 80px) 20px;
   border-top: 1px solid rgba(94, 190, 196, 0.15);

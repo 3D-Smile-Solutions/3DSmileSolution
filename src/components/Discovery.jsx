@@ -396,6 +396,8 @@ const Discovery = () => {
         </div>
       </section>
     </section>
+
+
   );
 };
 

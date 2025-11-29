@@ -37,9 +37,6 @@ function HomePage() {
         <div id="testimonials" className="snap-section">
           <Testimonial />
         </div>
-        <div id="blog" className="snap-section">
-          <Blog />
-        </div>
         <div id="footer" className="snap-section">
           <Footer />
         </div>
@@ -63,7 +60,6 @@ function App() {
         {/* Other Pages */}
         <Route path="/industries" element={<Industries />} />
         <Route path="/about" element={<About />} />
-        <Route path="/blog" element={<BlogPage />} />
         <Route path="/case-studies" element={<CaseStudies />} />
       </Routes>
     </Router>

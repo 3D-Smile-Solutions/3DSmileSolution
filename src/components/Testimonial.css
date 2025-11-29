@@ -4,7 +4,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background-color: #14181b;
+  background-color: #141414;
   padding: 100px 0;
   display: flex;
   align-items: center;
@@ -14,7 +14,7 @@
 .testimonials-container {
   position: relative;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 80px;
 }
@@ -217,7 +217,7 @@
 /* Large Desktop (1920px+) */
 @media (min-width: 1920px) {
   .testimonials-container {
-    max-width: 1600px;
+    max-width: 1800px;
     padding: 0 100px;
   }
 
