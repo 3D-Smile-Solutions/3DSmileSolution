@@ -53,7 +53,11 @@ html, body {
 .snap-section {
   position: relative;
   width: 100%;
-  /* Prevent jittery animations */
+  /* Only apply performance optimizations to non-animated sections */
+}
+
+/* Apply anti-jitter fixes only to sections that don't use GSAP */
+.snap-section:not(#discovery):not(#core-services) {
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
