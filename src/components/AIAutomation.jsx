@@ -5,18 +5,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './Navbar';
 import './AIAutomation.css';
 
-// Import your images
-import topographicBG from '../assets/RED.png';
-import firstImage from '../assets/RED.png';
-import secondImage from '../assets/Painting.png';
-import thirdImage from '../assets/3.png';
-import fourthImage from '../assets/4.png';
+import topographicBG from '../assets/AI.jpg';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const AIAutomation = () => {
   const heroRef = useRef(null);
   const contentRef = useRef(null);
+  const parallaxRef = useRef(null);
   const textRevealRef = useRef(null);
   const textRevealSectionRef = useRef(null);
   const sliderRef = useRef(null);
@@ -34,63 +30,69 @@ const AIAutomation = () => {
   const slideData = [
     { 
       title: "Patient Management", 
-      description: "Understanding trends and competitors to provide a solid foundation for your strategy.",
-      image: firstImage 
+      description: "Streamline patient records, communications, and care coordination with intelligent automation.",
+      color: "#8B2635"
     },
     { 
-      title: "Pricing Strategy", 
-      description: "Differentiating your practice or healthcare brand to resonate with your target market.",
-      image: secondImage 
+      title: "Appointment Scheduling", 
+      description: "Automate booking, reminders, and calendar management to reduce no-shows and optimize your schedule.",
+      color: "#2d3748"
     },
     { 
-      title: "Brand Positioning", 
-      description: "Tailoring pricing models to ensure competitive pricing while maximizing revenue.",
-      image: thirdImage
+      title: "Billing Automation", 
+      description: "Simplify invoicing, insurance claims, and payment processing for faster, error-free transactions.",
+      color: "#1e4d2b"
     },
     { 
-      title: "Sales Enablement & Launch", 
-      description: "Equipping your team with the right tools and strategies to launch effectively.",
-      image: fourthImage 
+      title: "Data Analytics & Insights", 
+      description: "Transform practice data into actionable insights to improve efficiency and patient outcomes.",
+      color: "#1a365d"
     },
   ];
 
   const wheelThreshold = 100;
   const touchThreshold = 50;
 
-  // Initialize hero animation
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(contentRef.current.children, {
         opacity: 0,
-        y: 40,
-        duration: 0.8,
-        stagger: 0.15,
+        y: 60,
+        duration: 1,
+        stagger: 0.2,
         ease: 'power3.out',
-        delay: 0.2
+        delay: 0.3
+      });
+
+      gsap.to(parallaxRef.current, {
+        yPercent: 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
       });
     }, heroRef);
 
     return () => ctx.revert();
   }, []);
 
-  // Initialize text reveal animation
   useEffect(() => {
     if (!textRevealRef.current || !textRevealSectionRef.current) return;
 
     const textElement = textRevealRef.current;
     const section = textRevealSectionRef.current;
 
-    // Split text into words
     const split = new SplitText(textElement, { type: "words" });
     const words = split.words;
 
-    // Set initial state - all words gray
     gsap.set(words, { 
       color: 'rgba(255, 255, 255, 0.15)',
       willChange: 'color'
     });
 
-    // Create ScrollTrigger for pinning
     ScrollTrigger.create({
       trigger: section,
       start: "top top",
@@ -118,21 +120,17 @@ const AIAutomation = () => {
     };
   }, []);
 
-  // Initialize slider
   useEffect(() => {
     if (!sliderRef.current) return;
 
     const slider = sliderRef.current;
-    
-    // Clear existing slides
     slider.innerHTML = '';
 
-    // Create initial slides
     slideData.forEach((data, index) => {
       const slide = document.createElement("div");
       slide.className = "slide";
       slide.innerHTML = `
-        <img src="${data.image}" alt="${data.title}" class="slide-image" />
+        <div class="slide-background" style="background-color: ${data.color}"></div>
         <div class="slide-content">
           <h1 class="slide-title">${data.title}</h1>
           <p class="slide-description">${data.description}</p>
@@ -143,13 +141,11 @@ const AIAutomation = () => {
 
     const slides = slider.querySelectorAll(".slide");
     
-    // Apply SplitText to titles
     slides.forEach((slide) => {
       const title = slide.querySelector(".slide-title");
       new SplitText(title, { type: "words", mask: "words" });
     });
 
-    // Set initial positions
     slides.forEach((slide, i) => {
       gsap.set(slide, {
         y: -15 + 15 * i + "%",
@@ -157,16 +153,13 @@ const AIAutomation = () => {
         opacity: 1,
       });
 
-      // Set initial description opacity
       const description = slide.querySelector(".slide-description");
       gsap.set(description, { opacity: i === 0 ? 1 : 0 });
     });
 
-    // Set initial progress
     setSlideProgress((1 / slideData.length) * 100);
   }, []);
 
-  // Handle scroll down
   const handleScrollDown = () => {
     const slider = sliderRef.current;
     if (!slider) return;
@@ -186,7 +179,7 @@ const AIAutomation = () => {
     const newSlide = document.createElement("div");
     newSlide.className = "slide";
     newSlide.innerHTML = `
-      <img src="${nextSlideData.image}" alt="${nextSlideData.title}" class="slide-image" />
+      <div class="slide-background" style="background-color: ${nextSlideData.color}"></div>
       <div class="slide-content">
         <h1 class="slide-title">${nextSlideData.title}</h1>
         <p class="slide-description">${nextSlideData.description}</p>
@@ -260,7 +253,6 @@ const AIAutomation = () => {
     });
   };
 
-  // Handle scroll up
   const handleScrollUp = () => {
     const slider = sliderRef.current;
     if (!slider) return;
@@ -279,7 +271,7 @@ const AIAutomation = () => {
     const newSlide = document.createElement("div");
     newSlide.className = "slide";
     newSlide.innerHTML = `
-      <img src="${prevSlideData.image}" alt="${prevSlideData.title}" class="slide-image" />
+      <div class="slide-background" style="background-color: ${prevSlideData.color}"></div>
       <div class="slide-content">
         <h1 class="slide-title">${prevSlideData.title}</h1>
         <p class="slide-description">${prevSlideData.description}</p>
@@ -341,7 +333,6 @@ const AIAutomation = () => {
     });
   };
 
-  // Handle slide change
   const handleSlideChange = (direction = "down") => {
     if (isSliderAnimating) return;
     setIsSliderAnimating(true);
@@ -353,7 +344,6 @@ const AIAutomation = () => {
     }
   };
 
-  // Wheel event handler
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -384,7 +374,6 @@ const AIAutomation = () => {
     };
   });
 
-  // Touch event handlers
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -426,7 +415,6 @@ const AIAutomation = () => {
     };
   });
 
-  // Keyboard event handler
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (isSliderAnimating) return;
@@ -455,9 +443,8 @@ const AIAutomation = () => {
     <div className="ai-automation-page">
       <Navbar />
 
-      {/* Hero Section */}
       <section className="ai-hero-section" ref={heroRef}>
-        <div className="ai-hero-bg">
+        <div className="ai-hero-bg" ref={parallaxRef}>
           <img src={topographicBG} alt="" />
           <div className="ai-hero-overlay"></div>
         </div>
@@ -471,9 +458,15 @@ const AIAutomation = () => {
             Automate key processes like scheduling, patient management, and billing, allowing you to focus on providing excellent care.
           </p>
         </div>
+
+        <div className="scroll-indicator-hero">
+          <div className="mouse">
+            <div className="wheel"></div>
+          </div>
+          <span>Scroll to explore</span>
+        </div>
       </section>
 
-      {/* Text Reveal Section - Pinned */}
       <section className="text-reveal-section" ref={textRevealSectionRef}>
         <div className="text-reveal-container">
           <p className="text-reveal" ref={textRevealRef}>
@@ -482,7 +475,6 @@ const AIAutomation = () => {
         </div>
       </section>
 
-      {/* Slider Section */}
       <section className="ai-content-section">
         <div className="container" ref={containerRef}>
           <div className="slider" ref={sliderRef}></div>

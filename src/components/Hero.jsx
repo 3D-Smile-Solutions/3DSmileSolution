@@ -3,7 +3,7 @@ import { HiArrowRight } from 'react-icons/hi';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Hero.css';
-import heroBG from '../assets/RED.png';
+import heroBG from '../assets/Hero.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -120,7 +120,7 @@ const Hero = () => {
             {/* Left Side - Title Section */}
             <div className="hero-title-section" ref={titleSectionRef}>
               <h1 className="hero-title">
-                WORK SMARTER.<br />
+                WORK SMARTER.
                 GROW FASTER.
               </h1>
               
@@ -128,21 +128,6 @@ const Hero = () => {
               <p className="hero-subtitle">
                 Empowering Dental & Healthcare Companies with Human-First AI Solutions
               </p>
-            </div>
-            
-            {/* Right Side - Info Box */}
-            <div className="hero-info-box" ref={infoBoxRef}>
-              {/* Image - Now at bottom */}
-              <div className="info-box-image">
-                <img src={heroBG} alt="Healthcare AI Solutions" />
-              </div>
-              
-              {/* Info Text - Now at top */}
-              <p className="info-box-text">
-                Unlock new opportunities and enhance efficiency with our tailored <strong>GTM strategies</strong> 
-                {' '}and <strong>AI-driven solutions</strong> for seamless efficiency in dental and healthcare businesses.
-              </p>
-              
             </div>
           </div>
           

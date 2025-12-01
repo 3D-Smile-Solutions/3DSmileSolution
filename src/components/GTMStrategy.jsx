@@ -5,19 +5,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './Navbar';
 import './GTMStrategy.css';
 
-// Import your images
-import topographicBG from '../assets/RED.png';
-import firstImage from '../assets/RED.png';
-import secondImage from '../assets/Painting.png';
-import thirdImage from '../assets/3.png';
-import fourthImage from '../assets/4.png';
-import fifthImage from '../assets/Discover.jpg';
+import topographicBG from '../assets/GTM.jpg';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const GTMStrategy = () => {
   const heroRef = useRef(null);
   const contentRef = useRef(null);
+  const parallaxRef = useRef(null);
   const textRevealRef = useRef(null);
   const textRevealSectionRef = useRef(null);
   const sliderRef = useRef(null);
@@ -35,67 +30,73 @@ const GTMStrategy = () => {
   const slideData = [
     { 
       title: "Market Research", 
-      description: "Understanding trends and competitors to provide a solid foundation for your strategy.",
-      image: firstImage 
+      description: "Analyze market trends, competitors, and customer needs to build a data-driven foundation for your strategy.",
+      color: "#1a365d"
     },
     { 
       title: "Brand Positioning", 
-      description: "Differentiating your practice or healthcare brand to resonate with your target market.",
-      image: thirdImage
+      description: "Define your unique value proposition and differentiate your healthcare brand in a competitive market.",
+      color: "#2d3748"
     },
     { 
       title: "Sales Enablement & Launch", 
-      description: "Equipping your team with the right tools and strategies to launch effectively.",
-      image: fourthImage 
+      description: "Equip your team with targeted messaging, tools, and tactics to execute a successful market launch.",
+      color: "#1e4d2b"
     },
     { 
       title: "Measurement & Optimization", 
-      description: "Tracking performance and iterating to optimize for long-term growth.",
-      image: fifthImage
+      description: "Track key metrics, gather feedback, and continuously refine your approach for sustained growth.",
+      color: "#4a1d4a"
     },
   ];
 
   const wheelThreshold = 100;
   const touchThreshold = 50;
 
-  // Initialize hero animation
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(contentRef.current.children, {
         opacity: 0,
-        y: 40,
-        duration: 0.8,
-        stagger: 0.15,
+        y: 60,
+        duration: 1,
+        stagger: 0.2,
         ease: 'power3.out',
-        delay: 0.2
+        delay: 0.3
+      });
+
+      gsap.to(parallaxRef.current, {
+        yPercent: 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
       });
     }, heroRef);
 
     return () => ctx.revert();
   }, []);
 
-  // Initialize text reveal animation
   useEffect(() => {
     if (!textRevealRef.current || !textRevealSectionRef.current) return;
 
     const textElement = textRevealRef.current;
     const section = textRevealSectionRef.current;
 
-    // Split text into words
     const split = new SplitText(textElement, { type: "words" });
     const words = split.words;
 
-    // Set initial state - all words gray
     gsap.set(words, { 
       color: 'rgba(255, 255, 255, 0.15)',
       willChange: 'color'
     });
 
-    // Create ScrollTrigger for pinning
     ScrollTrigger.create({
       trigger: section,
       start: "top top",
-      end: `+=${words.length * 50}`, // Adjust scroll distance based on word count
+      end: `+=${words.length * 50}`,
       pin: true,
       pinSpacing: true,
       scrub: 1,
@@ -119,21 +120,17 @@ const GTMStrategy = () => {
     };
   }, []);
 
-  // Initialize slider
   useEffect(() => {
     if (!sliderRef.current) return;
 
     const slider = sliderRef.current;
-    
-    // Clear existing slides
     slider.innerHTML = '';
 
-    // Create initial slides
     slideData.forEach((data, index) => {
       const slide = document.createElement("div");
       slide.className = "slide";
       slide.innerHTML = `
-        <img src="${data.image}" alt="${data.title}" class="slide-image" />
+        <div class="slide-background" style="background-color: ${data.color}"></div>
         <div class="slide-content">
           <h1 class="slide-title">${data.title}</h1>
           <p class="slide-description">${data.description}</p>
@@ -144,13 +141,11 @@ const GTMStrategy = () => {
 
     const slides = slider.querySelectorAll(".slide");
     
-    // Apply SplitText to titles
     slides.forEach((slide) => {
       const title = slide.querySelector(".slide-title");
       new SplitText(title, { type: "words", mask: "words" });
     });
 
-    // Set initial positions
     slides.forEach((slide, i) => {
       gsap.set(slide, {
         y: -15 + 15 * i + "%",
@@ -158,16 +153,13 @@ const GTMStrategy = () => {
         opacity: 1,
       });
 
-      // Set initial description opacity
       const description = slide.querySelector(".slide-description");
       gsap.set(description, { opacity: i === 0 ? 1 : 0 });
     });
 
-    // Set initial progress
     setSlideProgress((1 / slideData.length) * 100);
   }, []);
 
-  // Handle scroll down
   const handleScrollDown = () => {
     const slider = sliderRef.current;
     if (!slider) return;
@@ -178,7 +170,6 @@ const GTMStrategy = () => {
     const newFrontIndex = (frontSlideIndex + 1) % slideData.length;
     setFrontSlideIndex(newFrontIndex);
 
-    // Calculate progress
     const progress = ((newFrontIndex + 1) / slideData.length) * 100;
     setSlideProgress(progress);
 
@@ -188,7 +179,7 @@ const GTMStrategy = () => {
     const newSlide = document.createElement("div");
     newSlide.className = "slide";
     newSlide.innerHTML = `
-      <img src="${nextSlideData.image}" alt="${nextSlideData.title}" class="slide-image" />
+      <div class="slide-background" style="background-color: ${nextSlideData.color}"></div>
       <div class="slide-content">
         <h1 class="slide-title">${nextSlideData.title}</h1>
         <p class="slide-description">${nextSlideData.description}</p>
@@ -218,7 +209,6 @@ const GTMStrategy = () => {
 
     const allSlides = slider.querySelectorAll(".slide");
 
-    // Fade out current description
     const currentSlide = slides[0];
     const currentDescription = currentSlide.querySelector(".slide-description");
     gsap.to(currentDescription, {
@@ -246,7 +236,6 @@ const GTMStrategy = () => {
       });
     });
 
-    // Animate new title
     gsap.to(newSplit.words, {
       yPercent: 0,
       duration: 0.75,
@@ -255,7 +244,6 @@ const GTMStrategy = () => {
       delay: 0.5,
     });
 
-    // Animate new description
     gsap.to(newDescription, {
       opacity: 1,
       y: 0,
@@ -265,7 +253,6 @@ const GTMStrategy = () => {
     });
   };
 
-  // Handle scroll up
   const handleScrollUp = () => {
     const slider = sliderRef.current;
     if (!slider) return;
@@ -276,7 +263,6 @@ const GTMStrategy = () => {
     const newFrontIndex = (frontSlideIndex - 1 + slideData.length) % slideData.length;
     setFrontSlideIndex(newFrontIndex);
     
-    // Update progress
     const progress = ((newFrontIndex + 1) / slideData.length) * 100;
     setSlideProgress(progress);
     
@@ -285,7 +271,7 @@ const GTMStrategy = () => {
     const newSlide = document.createElement("div");
     newSlide.className = "slide";
     newSlide.innerHTML = `
-      <img src="${prevSlideData.image}" alt="${prevSlideData.title}" class="slide-image" />
+      <div class="slide-background" style="background-color: ${prevSlideData.color}"></div>
       <div class="slide-content">
         <h1 class="slide-title">${prevSlideData.title}</h1>
         <p class="slide-description">${prevSlideData.description}</p>
@@ -309,7 +295,6 @@ const GTMStrategy = () => {
       opacity: 0,
     });
 
-    // Fade out current description
     const currentSlide = slides[0];
     const currentDescription = currentSlide.querySelector(".slide-description");
     gsap.to(currentDescription, {
@@ -339,7 +324,6 @@ const GTMStrategy = () => {
       });
     });
 
-    // Animate new description (for scroll up)
     gsap.to(newDescription, {
       opacity: 1,
       y: 0,
@@ -349,7 +333,6 @@ const GTMStrategy = () => {
     });
   };
 
-  // Handle slide change
   const handleSlideChange = (direction = "down") => {
     if (isSliderAnimating) return;
     setIsSliderAnimating(true);
@@ -361,7 +344,6 @@ const GTMStrategy = () => {
     }
   };
 
-  // Wheel event handler
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -392,7 +374,6 @@ const GTMStrategy = () => {
     };
   });
 
-  // Touch event handlers
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -434,7 +415,6 @@ const GTMStrategy = () => {
     };
   });
 
-  // Keyboard event handler
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (isSliderAnimating) return;
@@ -456,7 +436,6 @@ const GTMStrategy = () => {
   });
 
   const scrollToDemo = () => {
-    // Open calendar modal or navigate to contact
     window.open('https://cal.com/your-calendar', '_blank');
   };
 
@@ -464,9 +443,8 @@ const GTMStrategy = () => {
     <div className="gtm-strategy-page">
       <Navbar />
 
-      {/* Hero Section */}
       <section className="gtm-hero-section" ref={heroRef}>
-        <div className="gtm-hero-bg">
+        <div className="gtm-hero-bg" ref={parallaxRef}>
           <img src={topographicBG} alt="" />
           <div className="gtm-hero-overlay"></div>
         </div>
@@ -479,11 +457,16 @@ const GTMStrategy = () => {
           <p className="gtm-hero-subtitle">
             Automate key processes like scheduling, patient management, and billing, allowing you to focus on providing excellent care.
           </p>
+        </div>
 
+        <div className="scroll-indicator-hero">
+          <div className="mouse">
+            <div className="wheel"></div>
+          </div>
+          <span>Scroll to explore</span>
         </div>
       </section>
 
-      {/* Text Reveal Section - Pinned */}
       <section className="text-reveal-section" ref={textRevealSectionRef}>
         <div className="text-reveal-container">
           <p className="text-reveal" ref={textRevealRef}>
@@ -492,7 +475,6 @@ const GTMStrategy = () => {
         </div>
       </section>
 
-      {/* Slider Section */}
       <section className="gtm-content-section">
         <div className="container" ref={containerRef}>
           <div className="slider" ref={sliderRef}></div>

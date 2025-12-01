@@ -1,14 +1,50 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import './Industries.css';
 
 // Import your images
-import industriesBG from '../assets/Discover.jpg'; // Hero background
-import dentalImage from '../assets/RED.png'; // Replace with actual paths
-import healthcareImage from '../assets/RED.png'; // Replace with actual paths
+import industriesBG from '../assets/Dental.jpg';
+import dentalImage from '../assets/Dental.jpg';
+import healthcareImage from '../assets/Health.jpg';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Industries = () => {
+  const heroRef = useRef(null);
+  const contentRef = useRef(null);
+  const parallaxRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero content animation
+      gsap.from(contentRef.current.children, {
+        opacity: 0,
+        y: 60,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power3.out',
+        delay: 0.3
+      });
+
+      // Parallax effect on hero background
+      gsap.to(parallaxRef.current, {
+        yPercent: 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const scrollToDemo = () => {
     const calendarSection = document.querySelector('.calendar-section');
     if (calendarSection) {
@@ -108,13 +144,13 @@ const Industries = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="industries-hero">
-        <div className="industries-hero-bg">
+      <section className="industries-hero" ref={heroRef}>
+        <div className="industries-hero-bg" ref={parallaxRef}>
           <img src={industriesBG} alt="" />
           <div className="industries-hero-overlay"></div>
         </div>
 
-        <div className="industries-hero-content">
+        <div className="industries-hero-content" ref={contentRef}>
           <span className="industries-tag">INDUSTRIES</span>
           
           <h1 className="industries-hero-title">
@@ -129,8 +165,16 @@ const Industries = () => {
             className="industries-hero-cta"
             onClick={scrollToDemo}
           >
-            REQUEST A FREE DEMO
+            <span className="cta-text">REQUEST A FREE DEMO</span>
+            <span className="cta-arrow">→</span>
           </button>
+        </div>
+
+        <div className="scroll-indicator-hero">
+          <div className="mouse">
+            <div className="wheel"></div>
+          </div>
+          <span>Scroll to explore</span>
         </div>
       </section>
 

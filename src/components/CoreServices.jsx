@@ -3,8 +3,8 @@ import './CoreServices.css';
 import { HiArrowUpRight } from 'react-icons/hi2';
 
 // Import your images - replace with actual image paths
-import gtmImage from '../assets/Discover.jpg';
-import aiImage from '../assets/Discover.jpg';
+import gtmImage from '../assets/GTM.jpg';
+import aiImage from '../assets/AI.jpg';
 
 const CoreServices = () => {
   const sectionRef = useRef(null);
@@ -103,8 +103,10 @@ const CoreServices = () => {
                 
                 <ul className="service-features">
                   {service.features.map((feature, idx) => (
-                    <li key={idx} className="feature-item">
-                      <span className="feature-bullet"></span>
+                    <li 
+                      key={idx} 
+                      className="feature-item"
+                    >
                       <span className="feature-text">{feature}</span>
                     </li>
                   ))}

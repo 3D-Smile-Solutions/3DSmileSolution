@@ -53,7 +53,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 100px;
+  gap:30px;
 }
 
 .discovery .sticky-header {
@@ -208,6 +208,18 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+/* Dark overlay on card images */
+.discovery .card-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
 }
 
 .discovery #card-1 .card-image {

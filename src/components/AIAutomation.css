@@ -234,6 +234,7 @@
 
 .slide-title {
   color: white;
+  text-align: center;
   font-family: 'Instrument Serif', serif;
   font-weight: 400;
   font-size: clamp(1.5rem, 3vw, 2.5rem);
@@ -658,4 +659,13 @@
     padding: 10px 20px;
     font-size: 12px;
   }
+}
+
+.slide-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
 }

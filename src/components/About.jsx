@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import './About.css';
 
-import aboutBG from '../assets/Discover.jpg';
+import aboutBG from '../assets/Hero.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 

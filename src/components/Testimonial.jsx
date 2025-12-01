@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Testimonial.css';
+import Abstract from '../assets/Abstract.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,7 +37,7 @@ const Testimonial = () => {
       text: "The SMS and chat integration feels natural. Patients now book while browsing our site, and our no-shows dropped by 40% since reminders go out automatically.",
       author: "Dr. Michael Chen",
       title: "Smile Bright Dental",
-      image: "https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=600&h=600&fit=crop",
+      image: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=600&h=600&fit=crop",
     }
   ];
 

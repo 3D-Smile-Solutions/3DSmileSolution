@@ -215,6 +215,11 @@ const Navbar = () => {
         };
     }, []);
 
+    // Scroll to top on route change
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
+
     return (
         <div className={`navbar-wrapper ${!isVisible ? "navbar-hidden" : ""}`}>
             <div

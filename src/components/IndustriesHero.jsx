@@ -1,10 +1,10 @@
 import React from 'react';
-import './IndustriesHero.css';
+import './CoreServices.css';
 import { HiArrowUpRight } from 'react-icons/hi2';
 
 // Import your images - replace with actual paths
-import dentalImage from '../assets/Discover.jpg';
-import healthcareImage from '../assets/Discover.jpg';
+import dentalImage from '../assets/Dental.jpg';
+import healthcareImage from '../assets/Health.jpg';
 
 // SVG Icons as components
 const ToothIcon = () => (
@@ -54,33 +54,41 @@ const IndustriesHero = () => {
   ];
 
   return (
-    <section className="industries-hero">
-      <div className="industries-container">
+    <section className="core-services">
+      <div className="core-services-container">
         {/* Section Title */}
-        <h2 className="industries-title">Industries We Serve</h2>
-        <p className="industries-subtitle">
-          Accelerate Growth & Optimize Operations with Our Custom AI & Strategic Expertise
-        </p>
-
+        <h2 className="core-services-title">Industries We Serve</h2>
         {/* Industry Cards */}
-        <div className="industries-list">
+        <div className="services-list">
           {industries.map((industry) => (
             <div 
               key={industry.id} 
-              className={`industry-card ${industry.imagePosition === 'left' ? 'image-left' : 'image-right'}`}
+              className={`service-card ${industry.imagePosition === 'left' ? 'image-left' : 'image-right'}`}
             >
               {/* Content Side */}
-              <div className="industry-content">
-                <div className="industry-header">
-                  <div className="industry-icon">
+              <div className="service-content">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '10px' }}>
+                  <div style={{
+                    width: '56px',
+                    height: '56px',
+                    minWidth: '56px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'rgba(181, 205, 178, 0.1)',
+                    border: '1px solid rgba(181, 205, 178, 0.2)',
+                    borderRadius: '10px',
+                    color: '#B5CDB2',
+                    transition: 'all 0.3s ease'
+                  }}>
                     {industry.icon}
                   </div>
-                  <h3 className="industry-title">{industry.title}</h3>
+                  <h3 className="service-title" style={{ margin: 0 }}>{industry.title}</h3>
                 </div>
                 
-                <p className="industry-description">{industry.description}</p>
+                <p className="service-description">{industry.description}</p>
                 
-                <ul className="industry-features">
+                <ul className="service-features">
                   {industry.features.map((feature, idx) => (
                     <li key={idx} className="feature-item">
                       <span className="feature-bullet"></span>
@@ -96,7 +104,7 @@ const IndustriesHero = () => {
               </div>
 
               {/* Image Side */}
-              <div className="industry-image">
+              <div className="service-image">
                 <img src={industry.image} alt={industry.title} />
               </div>
             </div>
