@@ -188,9 +188,7 @@ const Footer = () => {
               <div className="footer-nav-links">
                 <a href="#home" className="footer-nav-link">Home</a>
                 <a href="#services" className="footer-nav-link">Our services</a>
-                <a href="#process" className="footer-nav-link">Process</a>
                 <a href="#industries" className="footer-nav-link">Industries</a>
-                <a href="#customers" className="footer-nav-link">Customers</a>
               </div>
             </div>
 
@@ -198,7 +196,6 @@ const Footer = () => {
               <h4 className="footer-nav-title">INNER PAGES</h4>
               <div className="footer-nav-links">
                 <a href="#about" className="footer-nav-link">About</a>
-                <a href="#blog" className="footer-nav-link">Blog</a>
                 <a href="#contact" className="footer-nav-link">Contact</a>
               </div>
             </div>
