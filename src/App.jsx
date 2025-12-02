@@ -78,6 +78,7 @@ function App() {
         {/* Other Pages */}
         <Route path="/industries" element={<Industries />} />
         <Route path="/about" element={<About />} />
+        <Route path="/blog" element={<BlogPage />} />
         <Route path="/case-studies" element={<CaseStudies />} />
       </Routes>
     </Router>

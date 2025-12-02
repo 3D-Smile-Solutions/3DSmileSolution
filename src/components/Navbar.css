@@ -164,7 +164,6 @@ body.menu-open {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   
-  border-radius: 8px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   
   padding: 20px;
@@ -200,10 +199,6 @@ body.menu-open {
   border-radius: 6px;
   
   transition: background 0.2s ease;
-}
-
-.service-dropdown-item:hover {
-  background: #3b3b3333;
 }
 
 .service-title {
