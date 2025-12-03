@@ -1,4 +1,4 @@
-/* HERO SECTION STYLES */
+/* HERO SECTION STYLES - Light/Dark Mode Support */
 
 /* Reset and Base Styles */
 * {
@@ -13,6 +13,31 @@ html, body {
   max-width: 100vw;
   margin: 0;
   padding: 0;
+}
+
+/* Theme Variables */
+[data-theme="dark"] {
+  --hero-text-primary: rgb(255, 255, 255);
+  --hero-text-secondary: rgba(255, 255, 255, 0.85);
+  --hero-text-tertiary: rgba(255, 255, 255, 0.6);
+  --hero-overlay-start: rgba(0, 0, 0, 0.596);
+  --hero-overlay-end: rgba(0, 0, 0, 0.911);
+  --hero-info-bg: rgba(255, 255, 255, 0.15);
+  --hero-info-border: rgba(255, 255, 255, 0.1);
+  --hero-info-shadow: rgba(0, 0, 0, 0.2);
+  --hero-info-image-bg: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] {
+  --hero-text-primary: rgb(20, 20, 20);
+  --hero-text-secondary: rgba(20, 20, 20, 0.85);
+  --hero-text-tertiary: rgba(20, 20, 20, 0.6);
+  --hero-overlay-start: rgba(255, 255, 255, 0.7);
+  --hero-overlay-end: rgba(255, 255, 255, 0.95);
+  --hero-info-bg: rgba(255, 255, 255, 0.85);
+  --hero-info-border: rgba(0, 0, 0, 0.1);
+  --hero-info-shadow: rgba(0, 0, 0, 0.15);
+  --hero-info-image-bg: rgba(0, 0, 0, 0.05);
 }
 
 /* Hero Section - Wrapper (Fixed with margin) */
@@ -63,7 +88,7 @@ html, body {
   object-position: center;
 }
 
-/* Dark Overlay */
+/* Overlay */
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -72,10 +97,11 @@ html, body {
   bottom: 0;
   background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 0.596) 0%,
-    rgba(0, 0, 0, 0.911) 100%
+    var(--hero-overlay-start) 0%,
+    var(--hero-overlay-end) 100%
   );
   z-index: 1;
+  transition: background 0.3s ease;
 }
 
 /* Hero Content Wrapper */
@@ -118,8 +144,9 @@ html, body {
   font-size: clamp(2.5rem, 4vw, 3.5rem);
   line-height: 1.15;
   letter-spacing: -0.03em;
-  color: rgb(255, 255, 255);
+  color: var(--hero-text-primary);
   text-align: center;
+  transition: color 0.3s ease;
 }
 
 /* Subtitle */
@@ -129,16 +156,17 @@ html, body {
   font-size: clamp(1.5rem, 1.75vw, 1.5rem);
   line-height: 1.6;
   letter-spacing: -0.01em;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--hero-text-secondary);
   margin: 0;
   text-align: center;
+  transition: color 0.3s ease;
 }
 
 /* Info Box - Right Side */
 .hero-info-box {
   width: 430px;
   height: 575px;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--hero-info-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 12px;
@@ -147,9 +175,10 @@ html, body {
   flex-direction: column;
   justify-content: space-between;
   gap: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--hero-info-border);
+  box-shadow: 0 8px 32px var(--hero-info-shadow);
   flex-shrink: 0;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 /* Info Box Text - Now at top */
@@ -157,14 +186,16 @@ html, body {
   font-family: 'Roboto', sans-serif;
   font-size: 1.1rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--hero-text-secondary);
   text-align: left;
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 .info-box-text strong {
   font-weight: 600;
-  color: rgba(255, 255, 255, 1);
+  color: var(--hero-text-primary);
+  transition: color 0.3s ease;
 }
 
 /* Info Box Image Container - Now at bottom */
@@ -173,8 +204,9 @@ html, body {
   height: 420px;
   overflow: hidden;
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--hero-info-image-bg);
   margin-top: auto;
+  transition: background 0.3s ease;
 }
 
 .info-box-image img {
@@ -201,8 +233,9 @@ html, body {
   font-weight: 400;
   letter-spacing: 0em;
   line-height: 1em;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--hero-text-tertiary);
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 /* ======================== RESPONSIVE BREAKPOINTS ======================== */
@@ -346,7 +379,6 @@ html, body {
     max-width: 380px;
     height: auto;
     padding: 15px;
-    background: rgba(255, 255, 255, 0.12);
   }
   
   .info-box-image {

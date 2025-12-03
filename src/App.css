@@ -1,4 +1,4 @@
-/* App Styles - Dark Mode Only */
+/* App Styles - Light/Dark Mode Support */
 
 /* 
   Required Google Fonts Import (add to your index.html or main CSS):
@@ -20,26 +20,51 @@ html, body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* App Container - Dark Mode */
+/* Theme Variables */
+[data-theme="dark"] {
+  --app-bg: #141414;
+  --app-text: #ffffff;
+  --selection-bg: #333333;
+  --selection-text: #ffffff;
+  --scrollbar-track: #141414;
+  --scrollbar-thumb: #333333;
+  --scrollbar-thumb-hover: #444444;
+}
+
+[data-theme="light"] {
+  --app-bg: #f5f5f5;
+  --app-text: #1a1a1a;
+  --selection-bg: #e0e0e0;
+  --selection-text: #1a1a1a;
+  --scrollbar-track: #f5f5f5;
+  --scrollbar-thumb: #c0c0c0;
+  --scrollbar-thumb-hover: #a0a0a0;
+}
+
+/* App Container */
 .app {
   min-height: 100vh;
   width: 100%;
-  /* Move overflow-x control to app container */
   overflow-x: hidden;
   position: relative;
+  background-color: var(--app-bg);
+  color: var(--app-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Legacy dark-mode class support */
 .app.dark-mode {
-  background-color: #141414;
-  color: #ffffff;
+  background-color: var(--app-bg);
+  color: var(--app-text);
 }
 
 /* Main Content Wrapper - Sits below the fixed Hero */
 .main-content-wrapper {
   position: relative;
   z-index: 2;
-  background-color: #141414;
+  background-color: var(--app-bg);
   margin-top: 100vh;
+  transition: background-color 0.3s ease;
 }
 
 /* Mobile-friendly viewport height fix for iOS */
@@ -53,7 +78,6 @@ html, body {
 .snap-section {
   position: relative;
   width: 100%;
-  /* Only apply performance optimizations to non-animated sections */
 }
 
 /* Apply anti-jitter fixes only to sections that don't use GSAP */
@@ -64,28 +88,28 @@ html, body {
   -webkit-backface-visibility: hidden;
 }
 
-/* Selection color for dark mode */
-.app.dark-mode ::selection {
-  background-color: #333333;
-  color: #ffffff;
+/* Selection color */
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--selection-text);
 }
 
-/* Scrollbar styling for dark mode */
-.app.dark-mode ::-webkit-scrollbar {
+/* Scrollbar styling */
+::-webkit-scrollbar {
   width: 8px;
 }
 
-.app.dark-mode ::-webkit-scrollbar-track {
-  background: #141414;
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
 }
 
-.app.dark-mode ::-webkit-scrollbar-thumb {
-  background: #333333;
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
-.app.dark-mode ::-webkit-scrollbar-thumb:hover {
-  background: #444444;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Prevent layout shift and improve performance on mobile */

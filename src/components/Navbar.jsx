@@ -3,8 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { HiChevronDown } from "react-icons/hi2";
+import { MdLightMode, MdDarkMode } from "react-icons/md";
 import './Navbar.css';
-import logo from '../assets/LogoD.png';
+import logoDark from '../assets/LogoD.png';      // For dark mode
+import logoLight from '../assets/Logo.png';    // For light mode
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -13,9 +15,16 @@ const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+    const [theme, setTheme] = useState(() => {
+        const savedTheme = localStorage.getItem('theme');
+        return savedTheme || 'dark';
+    });
     const lastScrollY = useRef(0);
     const scrollTimeout = useRef(null);
     const dropdownTimeoutRef = useRef(null);
+
+    // Select logo based on theme
+    const currentLogo = theme === 'dark' ? logoDark : logoLight;
 
     const serviceOptions = [
         {
@@ -80,6 +89,15 @@ const Navbar = () => {
     const toggleNavbar = () => {
         setIsOpen(!isOpen);
         setServicesDropdownOpen(false);
+    };
+
+    const toggleTheme = () => {
+        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+        document.documentElement.setAttribute('data-theme', newTheme);
+        // Dispatch custom event for same-tab theme changes
+        window.dispatchEvent(new Event('themeChange'));
     };
 
     const controlNavbar = () => {
@@ -180,6 +198,10 @@ const Navbar = () => {
     };
 
     useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+    }, [theme]);
+
+    useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
             setIsVisible(true);
@@ -238,7 +260,7 @@ const Navbar = () => {
                         className="navbar-logo-button"
                         type="button"
                     >
-                        <img src={logo} alt="OmniDent AI Logo"/>
+                        <img src={currentLogo} alt="3D Smile Solutions Logo"/>
                     </button>
                 </div>
 
@@ -289,6 +311,14 @@ const Navbar = () => {
                 {/* Desktop Buttons */}
                 <div className="navbar-cta-section">
                     <button 
+                        onClick={toggleTheme}
+                        className="navbar-theme-toggle"
+                        aria-label="Toggle theme"
+                        type="button"
+                    >
+                        {theme === 'dark' ? <MdLightMode size={20} /> : <MdDarkMode size={20} />}
+                    </button>
+                    <button 
                         className="navbar-cta-button"
                         onClick={() => scrollToSection('calendar')}
                         type="button"
@@ -321,7 +351,7 @@ const Navbar = () => {
                         className="navbar-logo-button"
                         type="button"
                     >
-                        <img src={logo} alt="OmniDent AI Logo"/>
+                        <img src={currentLogo} alt="3D Smile Solutions Logo"/>
                     </button>
                     <button
                         onClick={toggleNavbar}
@@ -381,6 +411,15 @@ const Navbar = () => {
                     </ul>
 
                     <div className="navbar-mobile-buttons">
+                        <button 
+                            onClick={toggleTheme}
+                            className="navbar-mobile-theme-toggle"
+                            aria-label="Toggle theme"
+                            type="button"
+                        >
+                            {theme === 'dark' ? <MdLightMode size={22} /> : <MdDarkMode size={22} />}
+                            <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                        </button>
                         <button 
                             className="navbar-mobile-cta"
                             onClick={() => {

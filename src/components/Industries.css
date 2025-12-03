@@ -1,9 +1,73 @@
+/* Industries Page - Light/Dark Mode Support */
+
+/* Theme Variables */
+[data-theme="dark"] {
+  --industries-page-bg: #141414;
+  --industries-hero-overlay: #141414d3;
+  --industries-tag: #B5CDB2;
+  --industries-tag-bg: rgba(181, 205, 178, 0.1);
+  --industries-tag-border: rgba(181, 205, 178, 0.3);
+  --industries-hero-title: rgb(255, 255, 255);
+  --industries-hero-subtitle: rgba(255, 255, 255, 0.75);
+  --industries-cta-text: #ffffff;
+  --industries-cta-border: #b5cdb27e;
+  --industries-cta-hover-border: #B5CDB2;
+  --industries-cta-hover-text: #B5CDB2;
+  --industries-cta-shadow: #b5cdb22a;
+  --industries-list-bg: #141414;
+  --industries-title: rgb(234, 231, 224);
+  --industries-description: rgba(255, 255, 255, 0.7);
+  --industries-feature-bg: rgba(10, 37, 47, 0.25);
+  --industries-feature-border: rgba(181, 205, 178, 0.1);
+  --industries-feature-hover-bg: rgba(10, 37, 47, 0.4);
+  --industries-feature-hover-border: rgba(181, 205, 178, 0.25);
+  --industries-feature-icon-bg: rgba(181, 205, 178, 0.1);
+  --industries-feature-icon: #B5CDB2;
+  --industries-feature-icon-hover-bg: rgba(181, 205, 178, 0.15);
+  --industries-feature-title: rgba(255, 255, 255, 0.9);
+  --industries-feature-description: rgba(255, 255, 255, 0.6);
+  --industries-image-border: rgba(181, 205, 178, 0.15);
+  --industries-overlay-start: rgba(10, 37, 47, 0.3);
+  --industries-overlay-end: rgba(10, 37, 47, 0.1);
+}
+
+[data-theme="light"] {
+  --industries-page-bg: #f5f5f5;
+  --industries-hero-overlay: rgba(245, 245, 245, 0.85);
+  --industries-tag: #5a8a56;
+  --industries-tag-bg: rgba(90, 138, 86, 0.1);
+  --industries-tag-border: rgba(90, 138, 86, 0.3);
+  --industries-hero-title: rgb(40, 40, 40);
+  --industries-hero-subtitle: rgba(20, 20, 20, 0.75);
+  --industries-cta-text: #1a1a1a;
+  --industries-cta-border: rgba(90, 138, 86, 0.5);
+  --industries-cta-hover-border: #5a8a56;
+  --industries-cta-hover-text: #5a8a56;
+  --industries-cta-shadow: rgba(90, 138, 86, 0.2);
+  --industries-list-bg: #f5f5f5;
+  --industries-title: rgb(40, 40, 40);
+  --industries-description: rgba(20, 20, 20, 0.7);
+  --industries-feature-bg: rgba(255, 255, 255, 0.4);
+  --industries-feature-border: rgba(90, 138, 86, 0.1);
+  --industries-feature-hover-bg: rgba(255, 255, 255, 0.7);
+  --industries-feature-hover-border: rgba(90, 138, 86, 0.25);
+  --industries-feature-icon-bg: rgba(90, 138, 86, 0.1);
+  --industries-feature-icon: #5a8a56;
+  --industries-feature-icon-hover-bg: rgba(90, 138, 86, 0.15);
+  --industries-feature-title: rgba(20, 20, 20, 0.9);
+  --industries-feature-description: rgba(20, 20, 20, 0.6);
+  --industries-image-border: rgba(90, 138, 86, 0.15);
+  --industries-overlay-start: rgba(245, 245, 245, 0.3);
+  --industries-overlay-end: rgba(245, 245, 245, 0.1);
+}
+
 /* Industries Page */
 
 .industries-page {
   width: 100%;
   min-height: 100vh;
-  background-color: #141414;
+  background-color: var(--industries-page-bg);
+  transition: background-color 0.3s ease;
 }
 
 /* ===== HERO SECTION ===== */
@@ -41,7 +105,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #141414d3;
+  background-color: var(--industries-hero-overlay);
+  transition: background-color 0.3s ease;
 }
 
 .industries-hero-content {
@@ -63,12 +128,13 @@
   font-weight: 600;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: #B5CDB2;
+  color: var(--industries-tag);
   padding: 8px 20px;
-  background: rgba(181, 205, 178, 0.1);
-  border: 1px solid rgba(181, 205, 178, 0.3);
+  background: var(--industries-tag-bg);
+  border: 1px solid var(--industries-tag-border);
   border-radius: 50px;
   backdrop-filter: blur(10px);
+  transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
 .industries-hero-title {
@@ -77,8 +143,9 @@
   font-size: clamp(2.5rem, 5.5vw, 5rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: rgb(255, 255, 255);
+  color: var(--industries-hero-title);
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 .industries-hero-subtitle {
@@ -86,16 +153,17 @@
   font-weight: 300;
   font-size: clamp(1.05rem, 1.6vw, 1.3rem);
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--industries-hero-subtitle);
   margin: 0;
   max-width: 750px;
+  transition: color 0.3s ease;
 }
 
 .industries-hero-cta {
   padding: 16px 32px;
   background: transparent;
-  color: #ffffff;
-  border: 1px solid #b5cdb27e;
+  color: var(--industries-cta-text);
+  border: 1px solid var(--industries-cta-border);
   border-radius: 8px;
   font-family: 'Roboto', sans-serif;
   font-size: clamp(0.85rem, 1vw, 0.95rem);
@@ -116,7 +184,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, #B5CDB2, transparent);
+  background: linear-gradient(90deg, transparent, var(--industries-cta-hover-border), transparent);
   transition: left 0.5s ease;
 }
 
@@ -125,10 +193,10 @@
 }
 
 .industries-hero-cta:hover {
-  border-color: #B5CDB2;
-  color: #B5CDB2;
+  border-color: var(--industries-cta-hover-border);
+  color: var(--industries-cta-hover-text);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px #b5cdb22a;
+  box-shadow: 0 8px 25px var(--industries-cta-shadow);
 }
 
 /* ===== INDUSTRIES LIST SECTION ===== */
@@ -136,8 +204,9 @@
 .industries-list-section {
   position: relative;
   width: 100%;
-  background-color: #141414;
+  background-color: var(--industries-list-bg);
   padding: 120px 0;
+  transition: background-color 0.3s ease;
 }
 
 .industries-container {
@@ -189,9 +258,10 @@
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #B5CDB2;
+  color: var(--industries-tag);
   display: inline-block;
   width: fit-content;
+  transition: color 0.3s ease;
 }
 
 .industry-title {
@@ -200,8 +270,9 @@
   font-size: clamp(2rem, 3.5vw, 3.25rem);
   line-height: 1.2;
   letter-spacing: -0.02em;
-  color: rgb(234, 231, 224);
+  color: var(--industries-title);
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 .industry-description {
@@ -209,8 +280,9 @@
   font-weight: 300;
   font-size: clamp(1rem, 1.3vw, 1.15rem);
   line-height: 1.75;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--industries-description);
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 /* Industry Features */
@@ -226,15 +298,15 @@
   gap: 20px;
   align-items: flex-start;
   padding: 24px;
-  background: rgba(10, 37, 47, 0.25);
-  border: 1px solid rgba(181, 205, 178, 0.1);
+  background: var(--industries-feature-bg);
+  border: 1px solid var(--industries-feature-border);
   border-radius: 12px;
   transition: all 0.3s ease;
 }
 
 .feature-item:hover {
-  background: rgba(10, 37, 47, 0.4);
-  border-color: rgba(181, 205, 178, 0.25);
+  background: var(--industries-feature-hover-bg);
+  border-color: var(--industries-feature-hover-border);
   transform: translateX(8px);
 }
 
@@ -242,17 +314,17 @@
   width: 48px;
   height: 48px;
   min-width: 48px;
-  background: rgba(181, 205, 178, 0.1);
+  background: var(--industries-feature-icon-bg);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #B5CDB2;
+  color: var(--industries-feature-icon);
   transition: all 0.3s ease;
 }
 
 .feature-item:hover .feature-icon {
-  background: rgba(181, 205, 178, 0.15);
+  background: var(--industries-feature-icon-hover-bg);
   transform: scale(1.1);
 }
 
@@ -269,9 +341,10 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--industries-feature-title);
   margin: 0 0 8px 0;
   line-height: 1.4;
+  transition: color 0.3s ease;
 }
 
 .feature-description {
@@ -279,8 +352,9 @@
   font-weight: 300;
   font-size: 14px;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--industries-feature-description);
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 /* Industry Image */
@@ -297,7 +371,8 @@
   max-height: 750px;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid rgba(181, 205, 178, 0.15);
+  border: 1px solid var(--industries-image-border);
+  transition: border-color 0.3s ease;
 }
 
 .image-wrapper img {
@@ -316,10 +391,11 @@
   height: 100%;
   background: linear-gradient(
     135deg,
-    rgba(10, 37, 47, 0.3) 0%,
-    rgba(10, 37, 47, 0.1) 100%
+    var(--industries-overlay-start) 0%,
+    var(--industries-overlay-end) 100%
   );
   pointer-events: none;
+  transition: background 0.3s ease;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

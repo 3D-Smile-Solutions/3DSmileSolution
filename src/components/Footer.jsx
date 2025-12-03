@@ -4,7 +4,8 @@ import Cal, { getCalApi } from "@calcom/embed-react";
 import { FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import './Footer.css';
-import NavLogo from '../assets/LogoD.png';
+import logoDark from '../assets/LogoD.png';      // For dark mode
+import logoLight from '../assets/Logo.png';    // For light mode
 
 const Footer = () => {
   const calendarEmbedRef = useRef(null);
@@ -13,6 +14,13 @@ const Footer = () => {
     width: '900px',
     height: '700px'
   });
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme || 'dark';
+  });
+
+  // Select logo based on theme
+  const currentLogo = theme === 'dark' ? logoDark : logoLight;
 
   // Update calendar dimensions based on screen width
   useEffect(() => {
@@ -39,6 +47,31 @@ const Footer = () => {
     updateDimensions();
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+
+  // Listen for theme changes from localStorage
+  useEffect(() => {
+    const handleThemeChange = () => {
+      const currentTheme = localStorage.getItem('theme') || 'dark';
+      setTheme(currentTheme);
+    };
+
+    // Check theme on mount
+    handleThemeChange();
+
+    // Listen for storage events (theme changes from other components)
+    window.addEventListener('storage', handleThemeChange);
+    
+    // Create a custom event listener for same-tab theme changes
+    const themeChangeHandler = () => {
+      handleThemeChange();
+    };
+    window.addEventListener('themeChange', themeChangeHandler);
+
+    return () => {
+      window.removeEventListener('storage', handleThemeChange);
+      window.removeEventListener('themeChange', themeChangeHandler);
+    };
   }, []);
 
   // Cal.com API initialization
@@ -117,7 +150,7 @@ const Footer = () => {
   return (
     <>
       {/* Calendar Section */}
-      <section className="calendar-section">
+      <section className="calendar-section" id="calendar">
         <div className="calendar-container">
           <div className="calendar-header">
             <h2 className="calendar-title">
@@ -164,12 +197,12 @@ const Footer = () => {
       </section>
 
       {/* Footer Section */}
-      <footer className="footer-section">
+      <footer className="footer-section" id="footer">
         <div className="footer-container">
           {/* Left Section */}
           <div className="footer-left">
             <div className="footer-brand">
-              <img src={NavLogo} alt="3D Smile Solutions" className="footer-logo" />
+              <img src={currentLogo} alt="3D Smile Solutions" className="footer-logo" />
               <p className="footer-tagline">
                 Empowering Dental & Healthcare<br />
                 Companies with Human-First AI Solutions

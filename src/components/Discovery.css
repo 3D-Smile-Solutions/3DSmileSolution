@@ -1,18 +1,53 @@
-/* Discovery Section Styles - Dark Mode Only */
-.discovery {
-  --bg: #141414;
-  --fg: #000000;
-  --card1: #0091ff;
-  --card2: #14181b;
-  --card3: #14181b;
+/* Discovery Section Styles - Light/Dark Mode Support */
+
+/* Theme Variables */
+[data-theme="dark"] {
+  --discovery-bg: #141414;
+  --discovery-fg: #000000;
+  --discovery-card1: #0091ff;
+  --discovery-card2: #14181b;
+  --discovery-card3: #14181b;
+  --discovery-title: rgb(234, 231, 224);
+  --discovery-card-overlay: rgba(0, 0, 0, 0.4);
+  --discovery-card1-gradient-start: #cfcfcf;
+  --discovery-card1-gradient-end: #0A252F;
+  --discovery-card2-gradient-start: #B5CDB2;
+  --discovery-card2-gradient-end: #0A252F;
+  --discovery-card3-gradient-start: #DFD7D0;
+  --discovery-card3-gradient-end: #0A252F;
+  --discovery-card-title: #d4d4d4;
+  --discovery-card-description: #9b9b9b;
+  --discovery-card-span: rgba(255, 255, 255, 0.4);
+  --discovery-card-front-bg: #14181b;
+}
+
+[data-theme="light"] {
+  --discovery-bg: #f5f5f5;
+  --discovery-fg: #1a1a1a;
+  --discovery-card1: #0091ff;
+  --discovery-card2: #e8e8e8;
+  --discovery-card3: #e8e8e8;
+  --discovery-title: rgb(40, 40, 40);
+  --discovery-card-overlay: rgba(77, 77, 77, 0.5);
+  --discovery-card1-gradient-start: #e0e0e0;
+  --discovery-card1-gradient-end: #4a90c5;
+  --discovery-card2-gradient-start: #c5dbc2;
+  --discovery-card2-gradient-end: #4a90c5;
+  --discovery-card3-gradient-start: #e5ddd6;
+  --discovery-card3-gradient-end: #4a90c5;
+  --discovery-card-title: #2a2a2a;
+  --discovery-card-description: #5a5a5a;
+  --discovery-card-span: rgba(0, 0, 0, 0.4);
+  --discovery-card-front-bg: #e8e8e8;
 }
 
 .discovery {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background-color: var(--bg);
-  color: var(--fg);
+  background-color: var(--discovery-bg);
+  color: var(--discovery-fg);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .discovery h1 {
@@ -76,14 +111,16 @@
   font-weight: 400;
   line-height: 100%;
   letter-spacing: -0.03em;
-  color: rgb(234, 231, 224);
+  color: var(--discovery-title);
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 .discovery .title-accent {
   font-family: 'Instrument Serif', serif;
   font-style: italic;
-  color: rgb(234, 231, 224);
+  color: var(--discovery-title);
+  transition: color 0.3s ease;
 }
 
 .discovery .card-container {
@@ -164,7 +201,7 @@
   
   .discovery .card-container[style*="gap: 0"] .card-front,
   .discovery .card-container:not([style*="gap"]) .card-front {
-    background-color: #14181b;
+    background-color: var(--discovery-card-front-bg);
   }
   
   .discovery .card-container[style*="gap: 20px"] .card {
@@ -179,15 +216,18 @@
 }
 
 .discovery #card-1 {
-  background-color: var(--card1);
+  background-color: var(--discovery-card1);
+  transition: background-color 0.3s ease;
 }
 
 .discovery #card-2 {
-  background-color: var(--card2);
+  background-color: var(--discovery-card2);
+  transition: background-color 0.3s ease;
 }
 
 .discovery #card-3 {
-  background-color: var(--card3);
+  background-color: var(--discovery-card3);
+  transition: background-color 0.3s ease;
 }
 
 .discovery .card-front,
@@ -210,7 +250,7 @@
   background-repeat: no-repeat;
 }
 
-/* Dark overlay on card images */
+/* Overlay on card images */
 .discovery .card-image::before {
   content: '';
   position: absolute;
@@ -218,8 +258,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: var(--discovery-card-overlay);
   z-index: 1;
+  transition: background-color 0.3s ease;
 }
 
 .discovery #card-1 .card-image {
@@ -245,17 +286,20 @@
   position: relative;
 }
 
-/* Card Back Gradients - Dark Mode */
+/* Card Back Gradients */
 .discovery #card-1 .card-back {
-  background: linear-gradient(to bottom, #cfcfcf 0%, #0A252F 100%);
+  background: linear-gradient(to bottom, var(--discovery-card1-gradient-start) 0%, var(--discovery-card1-gradient-end) 100%);
+  transition: background 0.3s ease;
 }
 
 .discovery #card-2 .card-back {
-  background: linear-gradient(to bottom, #B5CDB2 0%, #0A252F 100%);
+  background: linear-gradient(to bottom, var(--discovery-card2-gradient-start) 0%, var(--discovery-card2-gradient-end) 100%);
+  transition: background 0.3s ease;
 }
 
 .discovery #card-3 .card-back {
-  background: linear-gradient(to bottom, #DFD7D0 0%, #0A252F 100%);
+  background: linear-gradient(to bottom, var(--discovery-card3-gradient-start) 0%, var(--discovery-card3-gradient-end) 100%);
+  transition: background 0.3s ease;
 }
 
 .discovery .card-back-content {
@@ -271,8 +315,9 @@
   font-size: 1.2rem;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  opacity: 0.4;
+  color: var(--discovery-card-span);
   align-self: flex-start;
+  transition: color 0.3s ease;
 }
 
 /* Card Title - Center Vertically */
@@ -282,16 +327,8 @@
   font-weight: 500;
   line-height: 1;
   margin: auto 0;
-}
-
-/* Dark mode title colors */
-.discovery #card-1 .card-title {
-  color: #d4d4d4;
-}
-
-.discovery #card-2 .card-title,
-.discovery #card-3 .card-title {
-  color: #d4d4d4;
+  color: var(--discovery-card-title);
+  transition: color 0.3s ease;
 }
 
 /* Card Description - Bottom */
@@ -301,13 +338,8 @@
   font-weight: 300;
   line-height: 1.5;
   align-self: flex-start;
-}
-
-/* Dark mode description colors */
-.discovery #card-1 .card-description,
-.discovery #card-2 .card-description,
-.discovery #card-3 .card-description {
-  color: #9b9b9b;
+  color: var(--discovery-card-description);
+  transition: color 0.3s ease;
 }
 
 /* Responsive Design */

@@ -1,10 +1,44 @@
-/* Core Services Section Styles */
+/* Core Services Section Styles - Light/Dark Mode Support */
+
+/* Theme Variables */
+[data-theme="dark"] {
+  --services-bg: #141414;
+  --services-title: rgb(234, 231, 224);
+  --services-service-title: rgb(234, 231, 224);
+  --services-description: rgba(255, 255, 255, 0.6);
+  --services-feature-text: rgba(255, 255, 255, 0.5);
+  --services-feature-hover: rgba(255, 255, 255, 0.8);
+  --services-feature-bullet: #B5CDB2;
+  --services-feature-bullet-hover: #029482;
+  --services-border: rgba(255, 255, 255, 0.1);
+  --services-border-hover: rgba(181, 205, 178, 0.3);
+  --services-btn-gradient-start: #B5CDB2;
+  --services-btn-gradient-end: #029482;
+  --services-btn-text: #141414;
+}
+
+[data-theme="light"] {
+  --services-bg: #f5f5f5;
+  --services-title: rgb(40, 40, 40);
+  --services-service-title: rgb(40, 40, 40);
+  --services-description: rgba(20, 20, 20, 0.6);
+  --services-feature-text: rgba(20, 20, 20, 0.5);
+  --services-feature-hover: rgba(20, 20, 20, 0.8);
+  --services-feature-bullet: #5a8a56;
+  --services-feature-bullet-hover: #3d7a3d;
+  --services-border: rgba(0, 0, 0, 0.1);
+  --services-border-hover: rgba(90, 138, 86, 0.3);
+  --services-btn-gradient-start: #5a8a56;
+  --services-btn-gradient-end: #3d7a3d;
+  --services-btn-text: #ffffff;
+}
 
 .core-services {
   position: relative;
   width: 100%;
-  background-color: #141414;
+  background-color: var(--services-bg);
   padding: 140px 0;
+  transition: background-color 0.3s ease;
 }
 
 .core-services-container {
@@ -22,8 +56,9 @@
   font-size: clamp(3rem, 5vw, 4.5rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: rgb(234, 231, 224);
+  color: var(--services-title);
   margin: 0 0 60px 0;
+  transition: color 0.3s ease;
 }
 
 /* Services List */
@@ -72,8 +107,9 @@
   font-size: clamp(1.5rem, 2.5vw, 2rem);
   line-height: 1.2;
   letter-spacing: -0.01em;
-  color: rgb(234, 231, 224);
+  color: var(--services-service-title);
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 .service-description {
@@ -81,9 +117,10 @@
   font-weight: 300;
   font-size: clamp(0.9rem, 1.2vw, 1.1rem);
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--services-description);
   margin: 0;
   max-width: 450px;
+  transition: color 0.3s ease;
 }
 
 /* Service Features List - More Spacing */
@@ -102,30 +139,30 @@
   align-items: center;
   gap: 12px;
   padding: 20px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--services-border);
   position: relative;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .feature-item:first-child {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--services-border);
 }
 
 .feature-item:hover {
   padding-left: 10px;
-  border-bottom-color: rgba(181, 205, 178, 0.3);
+  border-bottom-color: var(--services-border-hover);
 }
 
 .feature-item:hover .feature-bullet {
-  background-color: #029482;
+  background-color: var(--services-feature-bullet-hover);
   transform: scale(1.3);
 }
 
 .feature-bullet {
   width: 8px;
   height: 8px;
-  background-color: #B5CDB2;
+  background-color: var(--services-feature-bullet);
   border-radius: 50%;
   flex-shrink: 0;
   transition: all 0.3s ease;
@@ -133,15 +170,16 @@
 }
 
 .feature-text {
-  font-weight: 300;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
   font-size: clamp(0.85rem, 1vw, 0.95rem);
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--services-feature-text);
   transition: color 0.3s ease;
 }
 
 .feature-item:hover .feature-text {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--services-feature-hover);
 }
 
 /* Learn More Button - Full Width with Background */
@@ -154,10 +192,10 @@ a.learn-more-btn {
   margin-top: 20px;
   padding: 16px 32px;
   width: 100%;
-  background: linear-gradient(135deg, #B5CDB2 0%, #029482 100%) !important;
+  background: linear-gradient(135deg, var(--services-btn-gradient-start) 0%, var(--services-btn-gradient-end) 100%) !important;
   border: none;
   border-radius: 8px;
-  color: #141414 !important;
+  color: var(--services-btn-text) !important;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
   font-size: 1rem;
@@ -172,28 +210,29 @@ a.learn-more-btn {
 
 .learn-more-btn:visited,
 a.learn-more-btn:visited {
-  color: #141414 !important;
+  color: var(--services-btn-text) !important;
 }
 
 .learn-more-btn:hover,
 a.learn-more-btn:hover {
-  background: linear-gradient(135deg, #029482 0%, #B5CDB2 100%) !important;
+  background: linear-gradient(135deg, var(--services-btn-gradient-end) 0%, var(--services-btn-gradient-start) 100%) !important;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(181, 205, 178, 0.35);
   gap: 14px;
-  color: #141414 !important;
+  color: var(--services-btn-text) !important;
 }
 
 .learn-more-btn span {
-  color: #141414;
+  color: var(--services-btn-text);
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .learn-more-btn .btn-icon {
   width: 20px;
   height: 20px;
-  color: #141414;
-  transition: transform 0.3s ease;
+  color: var(--services-btn-text);
+  transition: transform 0.3s ease, color 0.3s ease;
   flex-shrink: 0;
 }
 
