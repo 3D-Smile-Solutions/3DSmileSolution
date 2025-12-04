@@ -1,5 +1,5 @@
 import React from 'react';
-import './CoreServices.css';
+import './IndustriesHero.css';
 import { HiArrowUpRight } from 'react-icons/hi2';
 
 // Import your images - replace with actual paths
@@ -91,7 +91,6 @@ const IndustriesHero = () => {
                 <ul className="service-features">
                   {industry.features.map((feature, idx) => (
                     <li key={idx} className="feature-item">
-                      <span className="feature-bullet"></span>
                       <span className="feature-text">{feature}</span>
                     </li>
                   ))}

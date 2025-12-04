@@ -22,6 +22,7 @@ const Navbar = () => {
     const lastScrollY = useRef(0);
     const scrollTimeout = useRef(null);
     const dropdownTimeoutRef = useRef(null);
+    const scrollPosition = useRef(0);
 
     // Select logo based on theme
     const currentLogo = theme === 'dark' ? logoDark : logoLight;
@@ -201,16 +202,37 @@ const Navbar = () => {
         document.documentElement.setAttribute('data-theme', theme);
     }, [theme]);
 
+    // Handle mobile menu scroll locking
     useEffect(() => {
         if (isOpen) {
+            // Save current scroll position
+            scrollPosition.current = window.scrollY;
+            
+            // Lock scroll
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollPosition.current}px`;
+            document.body.style.width = '100%';
             document.body.style.overflow = 'hidden';
+            document.body.classList.add('menu-open');
             setIsVisible(true);
         } else {
-            document.body.style.overflow = 'unset';
+            // Restore scroll
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            document.body.style.overflow = '';
+            document.body.classList.remove('menu-open');
+            
+            // Restore scroll position
+            window.scrollTo(0, scrollPosition.current);
         }
 
         return () => {
-            document.body.style.overflow = 'unset';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            document.body.style.overflow = '';
+            document.body.classList.remove('menu-open');
         };
     }, [isOpen]);
 

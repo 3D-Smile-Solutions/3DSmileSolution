@@ -63,23 +63,32 @@ const About = () => {
         ease: 'power2.out'
       });
 
-      // Mission & Vision cards with stagger
-      gsap.from('.about-mv-card', {
+      // Mission & Vision animations
+      gsap.from('.about-mv-text-content', {
         scrollTrigger: {
           trigger: missionVisionRef.current,
           start: 'top 75%',
-          end: 'top 30%',
           toggleActions: 'play none none reverse'
         },
         opacity: 0,
-        y: 80,
-        scale: 0.9,
+        x: -60,
         duration: 0.9,
-        stagger: 0.2,
-        ease: 'back.out(1.2)'
+        ease: 'power2.out'
       });
 
-      // Values section - reveal animation
+      gsap.from('.about-mv-image', {
+        scrollTrigger: {
+          trigger: missionVisionRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        x: 60,
+        duration: 0.9,
+        ease: 'power2.out'
+      });
+
+      // Values section animations
       gsap.from('.about-values-header > *', {
         scrollTrigger: {
           trigger: valuesRef.current,
@@ -102,16 +111,12 @@ const About = () => {
         },
         opacity: 0,
         y: 60,
-        rotateX: -15,
         duration: 0.8,
-        stagger: {
-          amount: 0.4,
-          from: 'start'
-        },
+        stagger: 0.15,
         ease: 'power3.out'
       });
 
-      // Why choose us - stats counter animation
+      // Why choose us animations
       ScrollTrigger.create({
         trigger: whyRef.current,
         start: 'top 70%',
@@ -151,7 +156,6 @@ const About = () => {
   }, []);
 
   const animateCounters = () => {
-    // Animate practices counter
     gsap.to(counters, {
       practices: 100,
       duration: 2,
@@ -164,7 +168,6 @@ const About = () => {
       }
     });
 
-    // Animate satisfaction counter
     gsap.to(counters, {
       satisfaction: 98,
       duration: 2,
@@ -177,7 +180,6 @@ const About = () => {
       }
     });
 
-    // Animate efficiency counter
     gsap.to(counters, {
       efficiency: 50,
       duration: 2,
@@ -209,12 +211,6 @@ const About = () => {
           <div className="about-page-overlay"></div>
         </div>
 
-        <div className="about-floating-elements">
-          <div className="floating-circle circle-1"></div>
-          <div className="floating-circle circle-2"></div>
-          <div className="floating-circle circle-3"></div>
-        </div>
-
         <div className="about-page-content" ref={contentRef}>
           <div className="about-badge">
             <span className="badge-dot"></span>
@@ -222,11 +218,11 @@ const About = () => {
           </div>
 
           <h1 className="about-page-title">
-            Transforming Dental Care<br />Through Innovation
+            3D SMILE<br />SOLUTIONS
           </h1>
           
           <p className="about-page-subtitle">
-            Empowering dental practices worldwide with cutting-edge AI automation and 3D printing solutions that enhance efficiency, streamline workflows, and elevate patient care.
+            Revolutionizing dental practices with innovative automation solutions
           </p>
 
           <button 
@@ -237,76 +233,119 @@ const About = () => {
             <span className="cta-arrow">→</span>
           </button>
         </div>
-
-        <div className="scroll-indicator-hero">
-          <div className="mouse">
-            <div className="wheel"></div>
-          </div>
-          <span>Scroll to explore</span>
-        </div>
       </section>
 
-      {/* Introduction Section */}
+      {/* Introduction Section with Image */}
       <section className="about-intro-section" ref={introRef}>
         <div className="about-intro-container">
-          <div className="about-intro-content">
-            <span className="about-section-label">WHO WE ARE</span>
-            <h2 className="about-section-title">
-              Leading the Future of<br />Dental Automation
-            </h2>
-            <div className="about-intro-text">
-              <p>
-                3D Smile Solutions offers innovative automation services designed specifically for dental businesses. By leveraging advanced technologies like AI and 3D printing, we streamline dental workflows, improve operational efficiency, and enhance patient care.
-              </p>
-              <p>
-                Our commitment to innovation and excellence drives us to deliver solutions that not only meet the current needs of dental practices but anticipate future challenges, ensuring our partners stay ahead in an ever-evolving industry.
-              </p>
+          <div className="about-intro-split">
+            <div className="about-intro-image">
+              <img src={aboutBG} alt="Dental Innovation" />
+            </div>
+            <div className="about-intro-content">
+              <span className="about-section-label">WHO WE ARE</span>
+              <h2 className="about-section-title">
+                Leading the Future of<br />
+                Dental Automation
+              </h2>
+              <div className="about-intro-text">
+                <p>
+                  3DSmileSolutions.ai offers innovative automation services designed specifically for dental businesses. By leveraging advanced technologies like AI and 3D printing, we streamline dental workflows, improve operational efficiency, and enhance patient care.
+                </p>
+                <p>
+                  Our commitment to innovation and excellence drives us to deliver solutions that not only meet the current needs of dental practices but anticipate future challenges, ensuring our partners stay ahead in an ever-evolving industry.
+                </p>
+              </div>
+              <button className="about-learn-more">
+                LEARN MORE ABOUT US →
+              </button>
             </div>
           </div>
-        </div>
-
-        {/* Decorative line divider */}
-        <div className="section-divider">
-          <div className="divider-line"></div>
-          <div className="divider-dot"></div>
-          <div className="divider-line"></div>
         </div>
       </section>
 
-      {/* Mission & Vision Section */}
+      {/* Why Choose Us Feature Cards */}
+      <section className="about-features-section">
+        <div className="about-features-container">
+          <h3 className="about-features-label">Why Choose 3D Smile Solutions?</h3>
+          <div className="about-features-grid">
+            <div className="about-feature-card">
+              <div className="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h4>Industry Expertise</h4>
+              <p>Deep understanding of dental workflows with years of experience in implementing automation solutions that drive real results.</p>
+            </div>
+            <div className="about-feature-card">
+              <div className="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h4>Cutting-Edge Technology</h4>
+              <p>Leveraging the latest in AI, machine learning, and 3D printing to create solutions that set new industry standards.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission & Vision Section with Large Image */}
       <section className="about-mission-vision-section" ref={missionVisionRef}>
         <div className="about-mv-container">
-          <div className="about-mv-card">
-            <div className="card-glow"></div>
-            <div className="about-mv-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+          <div className="about-mv-split">
+            <div className="about-mv-text-content">
+              <span className="about-section-label">OUR APPROACH</span>
+              <h2 className="about-section-title">Comprehensive Automation Solutions</h2>
+              <p className="about-mv-description">
+                From workflow optimization and AI-powered diagnostics to 3D printing integration — we provide end-to-end automation solutions tailored to your practice's unique needs.
+              </p>
+              <div className="about-services-list">
+                <div className="service-item active">AI-Powered Workflow Automation</div>
+                <div className="service-item">3D Printing & Digital Dentistry</div>
+                <div className="service-item">Practice Management Systems</div>
+                <div className="service-item">Patient Experience Enhancement</div>
+              </div>
             </div>
-            <h3 className="about-mv-title">Our Mission</h3>
-            <p className="about-mv-text">
-              To revolutionize dental practices by offering innovative automation solutions that enhance efficiency, streamline workflows, and improve patient care through AI and 3D printing.
-            </p>
-            <div className="card-corner corner-tl"></div>
-            <div className="card-corner corner-br"></div>
+            <div className="about-mv-image">
+              <img src={aboutBG} alt="Our Solutions" />
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="about-mv-card">
-            <div className="card-glow"></div>
-            <div className="about-mv-icon">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <h3 className="about-mv-title">Our Vision</h3>
-            <p className="about-mv-text">
-              To be the leading provider of automation solutions in the dental industry, empowering practices globally to deliver exceptional care with advanced technologies.
+      {/* Featured Service Card */}
+      <section className="about-featured-service">
+        <div className="about-featured-container">
+          <div className="featured-service-image">
+            <img src={aboutBG} alt="AI Automation" />
+          </div>
+          <div className="featured-service-content">
+            <span className="featured-label">MISSION & VISION</span>
+            <h3 className="featured-title">
+              <em>Revolutionizing</em> Dental Practices<br />
+              Through Innovation
+            </h3>
+            <p className="featured-description">
+              <strong>Our Mission:</strong> 3DSmileSolutions.ai aims to revolutionize dental practices by offering innovative automation solutions that enhance efficiency, streamline workflows, and improve patient care through AI and 3D printing.
             </p>
-            <div className="card-corner corner-tl"></div>
-            <div className="card-corner corner-br"></div>
+            <p className="featured-description">
+              <strong>Our Vision:</strong> To be the leading provider of automation solutions in the dental industry, empowering practices globally to deliver exceptional care with advanced technologies.
+            </p>
+            <div className="featured-benefits">
+              <div className="benefit-item">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <polyline points="20 6 9 17 4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span>Trusted by leading dental practices worldwide</span>
+              </div>
+            </div>
+            <button className="featured-cta">
+              DISCOVER OUR SOLUTIONS →
+            </button>
           </div>
         </div>
       </section>
@@ -327,41 +366,41 @@ const About = () => {
               <div className="about-value-number">01</div>
               <h4 className="about-value-title">Innovation</h4>
               <p className="about-value-text">
-                Continuously pushing boundaries with cutting-edge AI and 3D printing technologies to redefine what's possible in dental care.
+                Continuously pushing boundaries with cutting-edge AI and 3D printing technologies to redefine what's possible in dental care automation.
               </p>
             </div>
 
             <div className="about-value-card">
               <div className="value-card-bg"></div>
               <div className="about-value-number">02</div>
-              <h4 className="about-value-title">Reliability</h4>
+              <h4 className="about-value-title">Excellence</h4>
               <p className="about-value-text">
-                Delivering consistent, dependable solutions that dental practices can trust to enhance their daily operations.
+                Maintaining the highest standards in everything we do, from solution development to implementation and ongoing support for our dental partners.
               </p>
             </div>
 
             <div className="about-value-card">
               <div className="value-card-bg"></div>
               <div className="about-value-number">03</div>
-              <h4 className="about-value-title">Excellence</h4>
+              <h4 className="about-value-title">Efficiency</h4>
               <p className="about-value-text">
-                Maintaining the highest standards in everything we do, from product development to customer support.
+                Streamlining workflows and eliminating bottlenecks to help dental practices operate at peak performance and maximize productivity.
               </p>
             </div>
 
             <div className="about-value-card">
               <div className="value-card-bg"></div>
               <div className="about-value-number">04</div>
-              <h4 className="about-value-title">Patient-First</h4>
+              <h4 className="about-value-title">Patient-Centric</h4>
               <p className="about-value-text">
-                Focusing on solutions that ultimately improve patient experiences and outcomes in dental care.
+                Every solution we create is designed with the end goal of improving patient experiences, outcomes, and satisfaction in dental care.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
+      {/* Why Choose Us Stats */}
       <section className="about-why-section" ref={whyRef}>
         <div className="about-why-container">
           <div className="about-why-content">
@@ -380,7 +419,7 @@ const About = () => {
                 </svg>
               </div>
               <div className="about-why-stat">{counters.practices}+</div>
-              <p className="about-why-label">Dental Practices Served</p>
+              <p className="about-why-label">Dental Practices Transformed</p>
             </div>
 
             <div className="about-why-item">
@@ -391,7 +430,7 @@ const About = () => {
                 </svg>
               </div>
               <div className="about-why-stat">{counters.satisfaction}%</div>
-              <p className="about-why-label">Client Satisfaction Rate</p>
+              <p className="about-why-label">Client Satisfaction Rating</p>
             </div>
 
             <div className="about-why-item">
@@ -402,7 +441,7 @@ const About = () => {
                 </svg>
               </div>
               <div className="about-why-stat">{counters.efficiency}%</div>
-              <p className="about-why-label">Average Efficiency Improvement</p>
+              <p className="about-why-label">Average Workflow Efficiency Gain</p>
             </div>
 
             <div className="about-why-item">
@@ -413,7 +452,7 @@ const About = () => {
                 </svg>
               </div>
               <div className="about-why-stat">24/7</div>
-              <p className="about-why-label">Dedicated Support</p>
+              <p className="about-why-label">Technical Support & Monitoring</p>
             </div>
           </div>
         </div>

@@ -49,9 +49,6 @@ function HomePage() {
         <div id="core-services" className="snap-section">
           <CoreServices />
         </div>
-        <div id="industries" className="snap-section">
-          <IndustriesHero />
-        </div>
         <div id="testimonials" className="snap-section">
           <Testimonial />
         </div>

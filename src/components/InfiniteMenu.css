@@ -1,0 +1,179 @@
+/* Note: this CSS is only an example, you can overlay whatever you want using the activeItem logic */
+
+/* Performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#infinite-grid-menu-canvas {
+  cursor: grab;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  outline: none;
+  background-color: #141414;
+  /* Performance optimizations */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+#infinite-grid-menu-canvas:active {
+  cursor: grabbing;
+}
+
+/* Grayscale filter for images */
+#infinite-grid-menu-canvas img,
+#infinite-grid-menu-canvas canvas {
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+#infinite-grid-menu-canvas:hover img,
+#infinite-grid-menu-canvas:hover canvas {
+  filter: grayscale(0%);
+  -webkit-filter: grayscale(0%);
+}
+
+.action-button {
+  position: absolute;
+  left: 50%;
+  z-index: 10;
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  background: #5227ff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 5px solid #141414;
+  /* Performance */
+  will-change: transform, opacity;
+}
+
+.face-title {
+  user-select: none;
+  position: absolute;
+  font-weight: 900;
+  font-size: 3rem;
+  left: 1.6em;
+  top: 50%;
+  color: rgb(234, 231, 224);
+  /* Performance */
+  will-change: transform, opacity;
+}
+
+.action-button-icon {
+  user-select: none;
+  position: relative;
+  color: #fff;
+  top: 2px;
+  font-size: 26px;
+}
+
+.face-title {
+  position: absolute;
+  top: 50%;
+  transform: translate(20%, -50%);
+}
+
+.face-title.active {
+  opacity: 1;
+  transform: translate(20%, -50%);
+  pointer-events: auto;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.face-title.inactive {
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.face-description {
+  user-select: none;
+  position: absolute;
+  max-width: 10ch;
+  top: 50%;
+  font-size: 1.2rem;
+  right: 1%;
+  transform: translate(0, -50%);
+  color: rgba(234, 231, 224, 0.8);
+  /* Performance */
+  will-change: transform, opacity;
+}
+
+.face-description.active {
+  opacity: 1;
+  transform: translate(-90%, -50%);
+  pointer-events: auto;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.face-description.inactive {
+  pointer-events: none;
+  transform: translate(-60%, -50%);
+  opacity: 0;
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.action-button {
+  position: absolute;
+  left: 50%;
+}
+
+.action-button.active {
+  bottom: 3.8em;
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+  transition: transform 0.5s ease, opacity 0.5s ease, bottom 0.5s ease;
+}
+
+.action-button.inactive {
+  bottom: -80px;
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.1s ease, opacity 0.1s ease, bottom 0.1s ease;
+}
+
+@media (max-width: 1500px) {
+  .face-title,
+  .face-description {
+    display: none;
+  }
+}
+
+/* Light/Dark mode support */
+[data-theme="light"] #infinite-grid-menu-canvas {
+  background-color: #EAE7E0;
+}
+
+[data-theme="light"] .action-button {
+  border-color: #EAE7E0;
+}
+
+[data-theme="light"] .face-title {
+  color: rgb(40, 40, 40);
+}
+
+[data-theme="light"] .face-description {
+  color: rgba(40, 40, 40, 0.8);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  #infinite-grid-menu-canvas,
+  .action-button,
+  .face-title,
+  .face-description {
+    transition: none !important;
+    animation: none !important;
+  }
+}
