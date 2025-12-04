@@ -5,8 +5,8 @@ import { IoMdClose } from "react-icons/io";
 import { HiChevronDown } from "react-icons/hi2";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
 import './Navbar.css';
-import logoDark from '../assets/LogoD.png';      // For dark mode
-import logoLight from '../assets/Logo.png';    // For light mode
+import logoDark from '../assets/LogoD.png';
+import logoLight from '../assets/Logo.png';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -22,9 +22,7 @@ const Navbar = () => {
     const lastScrollY = useRef(0);
     const scrollTimeout = useRef(null);
     const dropdownTimeoutRef = useRef(null);
-    const scrollPosition = useRef(0);
 
-    // Select logo based on theme
     const currentLogo = theme === 'dark' ? logoDark : logoLight;
 
     const serviceOptions = [
@@ -43,48 +41,13 @@ const Navbar = () => {
     ];
 
     const navItems = [
-        {
-            id: 1,
-            name: "Home",
-            section: null,
-            route: '/'
-        },
-        {
-            id: 2,
-            name: "About",
-            section: null,
-            route: '/about'
-        },
-        {
-            id: 3,
-            name: "Services",
-            section: null,
-            hasDropdown: true
-        },
-        {
-            id: 4,
-            name: "Industries",
-            section: null,
-            route: '/industries'
-        },
-        {
-            id: 5,
-            name: "Case Studies",
-            section: null,
-            route: '/case-studies'
-        },
-        {
-            id: 6,
-            name: "Blog",
-            section: null,
-            route: '/blog'
-        },
-        {
-            id: 7,
-            name: "Contact",
-            section: 'footer',
-            scrollToFooter: true
-        },
+        { id: 1, name: "Home", section: null, route: '/' },
+        { id: 2, name: "About", section: null, route: '/about' },
+        { id: 3, name: "Services", section: null, hasDropdown: true },
+        { id: 4, name: "Industries", section: null, route: '/industries' },
+        { id: 5, name: "Case Studies", section: null, route: '/case-studies' },
+        { id: 6, name: "Blog", section: null, route: '/blog' },
+        { id: 7, name: "Contact", section: 'footer', scrollToFooter: true },
     ];
 
     const toggleNavbar = () => {
@@ -97,7 +60,6 @@ const Navbar = () => {
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
         document.documentElement.setAttribute('data-theme', newTheme);
-        // Dispatch custom event for same-tab theme changes
         window.dispatchEvent(new Event('themeChange'));
     };
 
@@ -127,16 +89,13 @@ const Navbar = () => {
 
     const handleNavClick = (item) => {
         if (item.hasDropdown) {
-            return; // Don't do anything on click for dropdown items on desktop
+            return;
         }
         
-        // If item has scrollToFooter (Contact), scroll to footer
         if (item.scrollToFooter) {
-            // If on homepage, scroll to footer
             if (location.pathname === '/') {
                 scrollToSection('footer');
             } else {
-                // Navigate to homepage and scroll to footer
                 navigate('/');
                 setTimeout(() => {
                     scrollToSection('footer');
@@ -146,7 +105,6 @@ const Navbar = () => {
             return;
         }
         
-        // If item has a route, navigate to it
         if (item.route) {
             navigate(item.route);
             setIsOpen(false);
@@ -162,14 +120,12 @@ const Navbar = () => {
     };
 
     const handleServiceClick = (route) => {
-        // Navigate to the service page using React Router
         navigate(route);
         setServicesDropdownOpen(false);
         setIsOpen(false);
     };
 
     const handleLogoClick = () => {
-        // If on homepage, scroll to top. Otherwise, navigate to homepage
         if (location.pathname === '/') {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
@@ -202,37 +158,17 @@ const Navbar = () => {
         document.documentElement.setAttribute('data-theme', theme);
     }, [theme]);
 
-    // Handle mobile menu scroll locking
+    // SIMPLE scroll locking - matches working navbar
     useEffect(() => {
         if (isOpen) {
-            // Save current scroll position
-            scrollPosition.current = window.scrollY;
-            
-            // Lock scroll
-            document.body.style.position = 'fixed';
-            document.body.style.top = `-${scrollPosition.current}px`;
-            document.body.style.width = '100%';
             document.body.style.overflow = 'hidden';
-            document.body.classList.add('menu-open');
             setIsVisible(true);
         } else {
-            // Restore scroll
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-            document.body.style.overflow = '';
-            document.body.classList.remove('menu-open');
-            
-            // Restore scroll position
-            window.scrollTo(0, scrollPosition.current);
+            document.body.style.overflow = 'unset';
         }
 
         return () => {
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-            document.body.style.overflow = '';
-            document.body.classList.remove('menu-open');
+            document.body.style.overflow = 'unset';
         };
     }, [isOpen]);
 
@@ -265,7 +201,6 @@ const Navbar = () => {
         };
     }, []);
 
-    // Scroll to top on route change
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [location.pathname]);
