@@ -6,6 +6,8 @@ import Footer from './Footer';
 import './About.css';
 
 import aboutBG from '../assets/Hero.jpg';
+import Disovery from '../assets/Discover.png';
+import Health from '../assets/Health.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -311,7 +313,7 @@ const About = () => {
               </div>
             </div>
             <div className="about-mv-image">
-              <img src={aboutBG} alt="Our Solutions" />
+              <img src={Disovery} alt="Our Solutions" />
             </div>
           </div>
         </div>
@@ -321,7 +323,7 @@ const About = () => {
       <section className="about-featured-service">
         <div className="about-featured-container">
           <div className="featured-service-image">
-            <img src={aboutBG} alt="AI Automation" />
+            <img src={Health} alt="AI Automation" />
           </div>
           <div className="featured-service-content">
             <span className="featured-label">MISSION & VISION</span>

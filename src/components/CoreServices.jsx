@@ -81,6 +81,7 @@ const CoreServices = () => {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
+      // Desktop (768px+)
       mm.add("(min-width: 768px)", () => {
         // Header animation
         gsap.fromTo(headerRef.current,
@@ -98,16 +99,11 @@ const CoreServices = () => {
           }
         );
 
-        // Get the track element and calculate how far it needs to move
         const track = trackRef.current;
         const trackWidth = track.scrollWidth;
         const viewportWidth = window.innerWidth;
-        
-        // We want to scroll until the last card is fully visible
-        // So we move the track left by (total track width - viewport width)
         const scrollDistance = trackWidth - viewportWidth + 150;
 
-        // Single animation: move the entire track to the left
         gsap.to(track, {
           x: -scrollDistance,
           ease: 'none',
@@ -122,9 +118,25 @@ const CoreServices = () => {
         });
       });
 
-      // Mobile/Tablet - vertical stack
+      // Mobile (below 768px) - horizontal scroll
       mm.add("(max-width: 767px)", () => {
-        gsap.set(trackRef.current, { clearProps: 'all' });
+        const track = trackRef.current;
+        const trackWidth = track.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        const scrollDistance = trackWidth - viewportWidth + 40;
+
+        gsap.to(track, {
+          x: -scrollDistance,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${scrollDistance}`,
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          }
+        });
       });
 
     }, sectionRef);

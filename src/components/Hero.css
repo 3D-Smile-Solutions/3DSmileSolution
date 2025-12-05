@@ -453,11 +453,11 @@ html, body {
   }
   
   .hero-title {
-    font-size: clamp(1.3rem, 6vw, 1.75rem);
+    font-size: clamp(3.3rem, 6vw, 2.75rem);
   }
   
   .hero-subtitle {
-    font-size: 0.75rem;
+    font-size: .9rem;
   }
   
   .info-box-image {

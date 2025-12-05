@@ -60,7 +60,7 @@
 /* ======================== FIXED HEADER ======================== */
 .cs-fixed-header {
   position: absolute;
-  top: 0x;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 10;
@@ -405,102 +405,38 @@
 
 /* Tablet (768px - 1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .core-services-horizontal {
-    height: auto;
-    min-height: 100vh;
-    padding: 80px 0;
+  .cs-fixed-header {
+    top: 60px;
+    left: 40px;
+    max-width: 400px;
+    text-align: left;
+    padding: 0;
   }
 
-  .cs-fixed-header {
-    position: relative;
-    top: 0;
-    left: 0;
-    padding: 0 40px;
-    margin-bottom: 50px;
-    max-width: 100%;
+  .cs-main-title {
+    font-size: clamp(2rem, 3.5vw, 2.5rem);
+    margin-bottom: 16px;
+  }
+
+  .cs-subtitle {
+    font-size: 0.9rem;
   }
 
   .cs-cards-wrapper {
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    flex-direction: column;
-    padding: 0 40px;
+    left: 40px;
     gap: 28px;
   }
 
   .cs-card {
-    width: 100%;
-    max-width: 100%;
+    width: 75vw;
+    max-width: 550px;
     min-height: 400px;
-  }
-
-  .cs-card-inner {
-    padding: 32px;
-    gap: 24px;
-  }
-}
-
-/* Mobile (600px - 767px) */
-@media (min-width: 600px) and (max-width: 767px) {
-  .core-services-horizontal {
-    height: auto;
-    padding: 60px 0;
-  }
-
-  .cs-fixed-header {
-    position: relative;
-    top: 0;
-    left: 0;
-    padding: 0 32px;
-    margin-bottom: 40px;
-  }
-
-  .cs-main-title {
-    font-size: 2.5rem;
-    margin-bottom: 24px;
-  }
-
-  .cs-subtitle {
-    font-size: 0.95rem;
-  }
-
-  .cs-cards-wrapper {
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    flex-direction: column;
-    padding: 0 32px;
-    gap: 24px;
-  }
-
-  .cs-card {
-    width: 100%;
-    max-width: 100%;
-    min-height: 380px;
+    max-height: 60vh;
   }
 
   .cs-card-inner {
     padding: 28px;
-    gap: 22px;
-  }
-
-  .cs-category {
-    font-size: 0.7rem;
-  }
-
-  .cs-title {
-    font-size: 1.5rem;
-  }
-
-  .cs-tagline {
-    font-size: 0.875rem;
-  }
-
-  .cs-description {
-    font-size: 0.9rem;
+    gap: 20px;
   }
 
   .cs-features {
@@ -510,121 +446,39 @@
   .cs-feature-item {
     font-size: 0.85rem;
   }
-
-  .cs-feature-icon {
-    font-size: 0.9rem;
-  }
 }
 
-/* Small Mobile (480px - 599px) */
-@media (min-width: 480px) and (max-width: 599px) {
-  .core-services-horizontal {
-    height: auto;
-    padding: 50px 0;
-  }
-
+/* Mobile (600px - 767px) */
+@media (min-width: 600px) and (max-width: 767px) {
   .cs-fixed-header {
-    position: relative;
-    top: 0;
-    left: 0;
-    padding: 0 24px;
-    margin-bottom: 35px;
+    top: 40px;
+    left: 32px;
+    right: 32px;
+    max-width: 350px;
+    text-align: left;
+    padding: 0;
   }
 
   .cs-main-title {
-    font-size: 2.25rem;
-    margin-bottom: 20px;
+    font-size: 1.75rem;
+    margin-bottom: 12px;
   }
 
   .cs-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
   }
 
   .cs-cards-wrapper {
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    flex-direction: column;
-    padding: 0 24px;
-    gap: 20px;
+    left: 32px;
+    gap: 24px;
   }
 
   .cs-card {
-    width: 100%;
-    max-width: 100%;
-    min-height: 360px;
-  }
-
-  .cs-card-inner {
-    padding: 26px;
-    gap: 20px;
-  }
-
-  .cs-category {
-    font-size: 0.65rem;
-  }
-
-  .cs-title {
-    font-size: 1.35rem;
-  }
-
-  .cs-tagline {
-    font-size: 0.85rem;
-  }
-
-  .cs-description {
-    font-size: 0.875rem;
-  }
-
-  .cs-feature-item {
-    font-size: 0.8rem;
-    gap: 10px;
-  }
-
-  .cs-feature-icon {
-    font-size: 0.85rem;
-  }
-}
-
-/* Extra Small Mobile (≤479px) */
-@media (max-width: 479px) {
-  .core-services-horizontal {
-    height: auto;
-    padding: 50px 0;
-  }
-
-  .cs-fixed-header {
-    position: relative;
-    top: 0;
-    left: 0;
-    padding: 0 20px;
-    margin-bottom: 32px;
-  }
-
-  .cs-main-title {
-    font-size: 2rem;
-    margin-bottom: 18px;
-  }
-
-  .cs-subtitle {
-    font-size: 0.875rem;
-  }
-
-  .cs-cards-wrapper {
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    flex-direction: column;
-    padding: 0 20px;
-    gap: 18px;
-  }
-
-  .cs-card {
-    width: 100%;
-    max-width: 100%;
-    min-height: 340px;
+    width: 80vw;
+    max-width: 450px;
+    min-height: 380px;
+    max-height: 55vh;
   }
 
   .cs-card-inner {
@@ -637,7 +491,7 @@
   }
 
   .cs-title {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
   }
 
   .cs-tagline {
@@ -658,32 +512,41 @@
   }
 
   .cs-feature-icon {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 }
 
-/* Very Small Mobile (≤360px) */
-@media (max-width: 360px) {
-  .core-services-horizontal {
-    padding: 40px 0;
-  }
-
+/* Small Mobile (480px - 599px) */
+@media (min-width: 480px) and (max-width: 599px) {
   .cs-fixed-header {
-    padding: 0 16px;
-    margin-bottom: 28px;
+    top: 30px;
+    left: 24px;
+    right: 24px;
+    max-width: 300px;
+    text-align: left;
+    padding: 0;
   }
 
   .cs-main-title {
-    font-size: 1.85rem;
-    margin-bottom: 16px;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
   }
 
   .cs-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
   }
 
   .cs-cards-wrapper {
-    padding: 0 16px;
+    left: 24px;
+    gap: 20px;
+  }
+
+  .cs-card {
+    width: 85vw;
+    max-width: 400px;
+    min-height: 360px;
+    max-height: 50vh;
   }
 
   .cs-card-inner {
@@ -691,8 +554,12 @@
     gap: 16px;
   }
 
+  .cs-category {
+    font-size: 0.6rem;
+  }
+
   .cs-title {
-    font-size: 1.15rem;
+    font-size: 1.25rem;
   }
 
   .cs-tagline {
@@ -701,10 +568,139 @@
 
   .cs-description {
     font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .cs-features {
+    gap: 6px;
   }
 
   .cs-feature-item {
     font-size: 0.75rem;
+    gap: 8px;
+  }
+
+  .cs-feature-icon {
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra Small Mobile (≤479px) */
+@media (max-width: 479px) {
+  .cs-fixed-header {
+    top: 24px;
+    left: 20px;
+    right: 20px;
+    max-width: 260px;
+    text-align: left;
+    padding: 0;
+  }
+
+  .cs-main-title {
+    font-size: 1.35rem;
+    margin-bottom: 8px;
+  }
+
+  .cs-subtitle {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .cs-cards-wrapper {
+    left: 20px;
+    gap: 16px;
+  }
+
+  .cs-card {
+    width: 85vw;
+    max-width: 340px;
+    min-height: 340px;
+    max-height: 50vh;
+  }
+
+  .cs-card-inner {
+    padding: 20px;
+    gap: 14px;
+  }
+
+  .cs-category {
+    font-size: 0.6rem;
+  }
+
+  .cs-title {
+    font-size: 1.15rem;
+  }
+
+  .cs-tagline {
+    font-size: 0.7rem;
+  }
+
+  .cs-description {
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .cs-features {
+    gap: 5px;
+  }
+
+  .cs-feature-item {
+    font-size: 0.7rem;
+    gap: 8px;
+  }
+
+  .cs-feature-icon {
+    font-size: 0.75rem;
+  }
+}
+
+/* Very Small Mobile (≤360px) */
+@media (max-width: 360px) {
+  .cs-fixed-header {
+    top: 20px;
+    left: 16px;
+    right: 16px;
+    max-width: 220px;
+  }
+
+  .cs-main-title {
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+  }
+
+  .cs-subtitle {
+    font-size: 0.7rem;
+  }
+
+  .cs-cards-wrapper {
+    left: 16px;
+    gap: 14px;
+  }
+
+  .cs-card {
+    width: 88vw;
+    min-height: 320px;
+  }
+
+  .cs-card-inner {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .cs-title {
+    font-size: 1.1rem;
+  }
+
+  .cs-tagline {
+    font-size: 0.65rem;
+  }
+
+  .cs-description {
+    font-size: 0.7rem;
+  }
+
+  .cs-feature-item {
+    font-size: 0.65rem;
   }
 }
 
@@ -804,5 +800,96 @@
   .cs-feature-item {
     font-size: 0.8rem;
     gap: 10px;
+  }
+}
+
+/* Short viewport height - Mobile */
+@media (max-height: 650px) and (max-width: 767px) {
+  .cs-fixed-header {
+    top: 16px;
+  }
+
+  .cs-main-title {
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+  }
+
+  .cs-subtitle {
+    font-size: 0.7rem;
+    line-height: 1.3;
+  }
+
+  .cs-card {
+    min-height: 280px;
+    max-height: 45vh;
+  }
+
+  .cs-card-inner {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .cs-card-header {
+    gap: 6px;
+  }
+
+  .cs-title {
+    font-size: 1rem;
+  }
+
+  .cs-tagline {
+    font-size: 0.65rem;
+  }
+
+  .cs-description {
+    font-size: 0.7rem;
+    line-height: 1.4;
+  }
+
+  .cs-features {
+    gap: 4px;
+  }
+
+  .cs-feature-item {
+    font-size: 0.65rem;
+    gap: 6px;
+  }
+}
+
+/* Very short viewport height - Mobile */
+@media (max-height: 550px) and (max-width: 767px) {
+  .cs-fixed-header {
+    top: 12px;
+  }
+
+  .cs-main-title {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+
+  .cs-subtitle {
+    font-size: 0.65rem;
+  }
+
+  .cs-card {
+    min-height: 240px;
+    max-height: 40vh;
+  }
+
+  .cs-card-inner {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .cs-title {
+    font-size: 0.95rem;
+  }
+
+  .cs-description {
+    font-size: 0.65rem;
+  }
+
+  .cs-feature-item {
+    font-size: 0.6rem;
   }
 }
