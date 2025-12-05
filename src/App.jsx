@@ -1,6 +1,11 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
+
+// GSAP Provider - wrap the entire app
+import { GSAPProvider } from './components/GSAPProvider.jsx';
+
+// Components
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
 import Discovery from './components/Discovery.jsx';
@@ -10,7 +15,7 @@ import Testimonial from './components/Testimonial.jsx';
 import Blog from './components/Blog.jsx';
 import Footer from './components/Footer.jsx';
 
-// Import new page components
+// Page components
 import GTMStrategy from './components/GTMStrategy.jsx';
 import AIAutomation from './components/AIAutomation.jsx';
 import Industries from './components/Industries.jsx';
@@ -18,10 +23,10 @@ import About from './components/About.jsx';
 import BlogPage from './components/BlogPage.jsx';
 import CaseStudies from './components/CaseStudies.jsx';
 
-// HomePage component - your current homepage
+// HomePage component
 function HomePage() {
-  // Fix for iOS viewport height issue
   React.useEffect(() => {
+    // iOS viewport height fix
     const setVH = () => {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -65,43 +70,27 @@ function App() {
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
-    
-    // Auto-refresh on first load to fix animation issues
-    const hasRefreshed = sessionStorage.getItem('hasAutoRefreshed');
-    
-    const initApp = () => {
-      if (!hasRefreshed) {
-        setTimeout(() => {
-          sessionStorage.setItem('hasAutoRefreshed', 'true');
-          window.location.reload();
-        }, 1000);
-      }
-    };
-    
-    if (document.readyState === 'complete') {
-      initApp();
-    } else {
-      window.addEventListener('load', initApp, { once: true });
-    }
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        {/* Homepage */}
-        <Route path="/" element={<HomePage />} />
-        
-        {/* Service Pages */}
-        <Route path="/gtmstrategy" element={<GTMStrategy />} />
-        <Route path="/aiautomation" element={<AIAutomation />} />
-        
-        {/* Other Pages */}
-        <Route path="/industries" element={<Industries />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/case-studies" element={<CaseStudies />} />
-      </Routes>
-    </Router>
+    <GSAPProvider>
+      <Router>
+        <Routes>
+          {/* Homepage */}
+          <Route path="/" element={<HomePage />} />
+          
+          {/* Service Pages */}
+          <Route path="/gtmstrategy" element={<GTMStrategy />} />
+          <Route path="/aiautomation" element={<AIAutomation />} />
+          
+          {/* Other Pages */}
+          <Route path="/industries" element={<Industries />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/case-studies" element={<CaseStudies />} />
+        </Routes>
+      </Router>
+    </GSAPProvider>
   )
 }
 
