@@ -18,6 +18,7 @@ const Testimonial = () => {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const isDragging = useRef(false);
+  const hasMoved = useRef(false);
 
   const testimonials = [
     {
@@ -57,64 +58,87 @@ const Testimonial = () => {
     return () => clearInterval(interval);
   }, [testimonials.length, isAutoPlaying]);
 
-  // Touch/Swipe handlers
+  // Touch/Swipe handlers - Fixed for both directions
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = e.touches[0].clientX;
     isDragging.current = true;
+    hasMoved.current = false;
     setIsAutoPlaying(false);
   };
 
   const handleTouchMove = (e) => {
     if (!isDragging.current) return;
     touchEndX.current = e.touches[0].clientX;
+    hasMoved.current = true;
   };
 
   const handleTouchEnd = () => {
-    if (!isDragging.current) return;
+    if (!isDragging.current) {
+      setTimeout(() => setIsAutoPlaying(true), 10000);
+      return;
+    }
+    
     isDragging.current = false;
+    
+    if (!hasMoved.current) {
+      setTimeout(() => setIsAutoPlaying(true), 10000);
+      return;
+    }
     
     const swipeThreshold = 50;
     const diff = touchStartX.current - touchEndX.current;
     
-    if (Math.abs(diff) > swipeThreshold) {
-      if (diff > 0) {
-        // Swiped left - go next
-        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-      } else {
-        // Swiped right - go prev
-        setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
-      }
+    if (diff > swipeThreshold) {
+      // Swiped left - go next
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    } else if (diff < -swipeThreshold) {
+      // Swiped right - go prev
+      setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
     }
     
     // Resume auto-play after 10 seconds
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
-  // Mouse drag handlers for desktop
+  // Mouse drag handlers for desktop - Fixed for both directions
   const handleMouseDown = (e) => {
+    e.preventDefault();
     touchStartX.current = e.clientX;
+    touchEndX.current = e.clientX;
     isDragging.current = true;
+    hasMoved.current = false;
     setIsAutoPlaying(false);
   };
 
   const handleMouseMove = (e) => {
     if (!isDragging.current) return;
     touchEndX.current = e.clientX;
+    hasMoved.current = true;
   };
 
   const handleMouseUp = () => {
-    if (!isDragging.current) return;
+    if (!isDragging.current) {
+      setTimeout(() => setIsAutoPlaying(true), 10000);
+      return;
+    }
+    
     isDragging.current = false;
+    
+    if (!hasMoved.current) {
+      setTimeout(() => setIsAutoPlaying(true), 10000);
+      return;
+    }
     
     const swipeThreshold = 50;
     const diff = touchStartX.current - touchEndX.current;
     
-    if (Math.abs(diff) > swipeThreshold) {
-      if (diff > 0) {
-        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-      } else {
-        setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
-      }
+    if (diff > swipeThreshold) {
+      // Dragged left - go next
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    } else if (diff < -swipeThreshold) {
+      // Dragged right - go prev
+      setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
     }
     
     setTimeout(() => setIsAutoPlaying(true), 10000);
@@ -159,22 +183,6 @@ const Testimonial = () => {
     return () => ctx.revert();
   }, []);
 
-  const handlePrev = () => {
-    setIsAutoPlaying(false);
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
-    );
-    setTimeout(() => setIsAutoPlaying(true), 10000);
-  };
-
-  const handleNext = () => {
-    setIsAutoPlaying(false);
-    setCurrentIndex((prevIndex) => 
-      (prevIndex + 1) % testimonials.length
-    );
-    setTimeout(() => setIsAutoPlaying(true), 10000);
-  };
-
   return (
     <section className="testimonials-section" ref={sectionRef}>
       <div className="testimonials-container">
@@ -188,23 +196,6 @@ const Testimonial = () => {
 
         {/* Slider */}
         <div className="testimonials-slider" ref={sliderRef}>
-          {/* Navigation Arrow - Previous */}
-          <button 
-            className="testimonial-arrow testimonial-arrow-prev" 
-            onClick={handlePrev}
-            aria-label="Previous testimonial"
-          >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              strokeWidth={2} 
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-            </svg>
-          </button>
-
           {/* Slider Content */}
           <div 
             className="testimonials-slider-wrapper"
@@ -260,40 +251,7 @@ const Testimonial = () => {
                 );
               })}
             </div>
-            
-            {/* Dot indicators for mobile */}
-            <div className="testimonial-dots">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  className={`testimonial-dot ${index === currentIndex ? 'active' : ''}`}
-                  onClick={() => {
-                    setCurrentIndex(index);
-                    setIsAutoPlaying(false);
-                    setTimeout(() => setIsAutoPlaying(true), 10000);
-                  }}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                />
-              ))}
-            </div>
           </div>
-
-          {/* Navigation Arrow - Next */}
-          <button 
-            className="testimonial-arrow testimonial-arrow-next" 
-            onClick={handleNext}
-            aria-label="Next testimonial"
-          >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              strokeWidth={2} 
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-            </svg>
-          </button>
         </div>
       </div>
     </section>
