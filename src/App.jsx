@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import './App.css'
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // GSAP Provider - wrap the entire app
 import { GSAPProvider } from './components/GSAPProvider.jsx';
@@ -81,14 +85,117 @@ function HomePage() {
 
 // Main App component with routing
 function App() {
-  // Force one-time refresh on initial load
-  React.useEffect(() => {
-    if (!sessionStorage.getItem('hasRefreshed')) {
-      sessionStorage.setItem('hasRefreshed', 'true');
-      window.location.reload();
+  // ============================================
+  // CRITICAL: Android/Mobile ScrollTrigger Fix
+  // ============================================
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 1000;
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
+    // Check if this is the first load (not a refresh)
+    const hasRefreshed = sessionStorage.getItem('hasAutoRefreshed');
+    
+    // Function to refresh ScrollTrigger
+    const refreshScrollTrigger = () => {
+      ScrollTrigger.refresh();
+    };
+
+    // Disable smooth scroll on Android - causes GSAP conflicts
+    if (isAndroid) {
+      document.documentElement.style.scrollBehavior = 'auto';
     }
+
+    // Wait for everything to load
+    const initApp = () => {
+      if (document.readyState === 'complete') {
+        // Page already loaded
+        if (isMobile) {
+          // Mobile/Android needs extra time for layout to settle
+          setTimeout(refreshScrollTrigger, 200);
+          setTimeout(refreshScrollTrigger, 500);
+          setTimeout(refreshScrollTrigger, 1000);
+        } else {
+          setTimeout(refreshScrollTrigger, 100);
+        }
+        
+        // Auto refresh after 1 second if this is the first load
+        // This fixes Android layout calculation issues
+        if (!hasRefreshed) {
+          setTimeout(() => {
+            sessionStorage.setItem('hasAutoRefreshed', 'true');
+            window.location.reload();
+          }, 1000);
+        }
+      } else {
+        // Wait for load event
+        window.addEventListener('load', () => {
+          if (isMobile) {
+            setTimeout(refreshScrollTrigger, 200);
+            setTimeout(refreshScrollTrigger, 500);
+            setTimeout(refreshScrollTrigger, 1000);
+          } else {
+            setTimeout(refreshScrollTrigger, 100);
+          }
+          
+          // Auto refresh after 1 second if this is the first load
+          if (!hasRefreshed) {
+            setTimeout(() => {
+              sessionStorage.setItem('hasAutoRefreshed', 'true');
+              window.location.reload();
+            }, 1000);
+          }
+        }, { once: true });
+      }
+    };
+
+    initApp();
+
+    // Handle resize
+    let resizeTimer;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 250);
+    };
+    window.addEventListener('resize', handleResize);
+
+    // Custom scrollbar styling
+    const style = document.createElement('style');
+    style.textContent = `
+      html {
+        scroll-behavior: ${isAndroid ? 'auto' : 'smooth'};
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+      }
+      
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimer);
+      document.head.removeChild(style);
+    };
   }, []);
 
+  // Theme initialization (existing code)
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
