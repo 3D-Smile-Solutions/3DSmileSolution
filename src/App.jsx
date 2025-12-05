@@ -89,8 +89,9 @@ function App() {
   // CRITICAL: Android/Mobile ScrollTrigger Fix
   // ============================================
   useEffect(() => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 1000;
     const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isMobile = window.innerWidth < 1000;
 
     // Check if this is the first load (not a refresh)
     const hasRefreshed = sessionStorage.getItem('hasAutoRefreshed');
@@ -100,7 +101,7 @@ function App() {
       ScrollTrigger.refresh();
     };
 
-    // Disable smooth scroll on Android - causes GSAP conflicts
+    // Disable smooth scroll ONLY on Android - iOS needs it
     if (isAndroid) {
       document.documentElement.style.scrollBehavior = 'auto';
     }
@@ -109,18 +110,22 @@ function App() {
     const initApp = () => {
       if (document.readyState === 'complete') {
         // Page already loaded
-        if (isMobile) {
-          // Mobile/Android needs extra time for layout to settle
+        if (isAndroid) {
+          // Android needs extra time for layout to settle
           setTimeout(refreshScrollTrigger, 200);
           setTimeout(refreshScrollTrigger, 500);
           setTimeout(refreshScrollTrigger, 1000);
+        } else if (isIOS || isMobile) {
+          // iOS needs less aggressive refresh
+          setTimeout(refreshScrollTrigger, 100);
+          setTimeout(refreshScrollTrigger, 300);
         } else {
+          // Desktop
           setTimeout(refreshScrollTrigger, 100);
         }
         
-        // Auto refresh after 1 second if this is the first load
-        // This fixes Android layout calculation issues
-        if (!hasRefreshed) {
+        // Auto refresh ONLY for Android (not iOS!)
+        if (isAndroid && !hasRefreshed) {
           setTimeout(() => {
             sessionStorage.setItem('hasAutoRefreshed', 'true');
             window.location.reload();
@@ -129,16 +134,19 @@ function App() {
       } else {
         // Wait for load event
         window.addEventListener('load', () => {
-          if (isMobile) {
+          if (isAndroid) {
             setTimeout(refreshScrollTrigger, 200);
             setTimeout(refreshScrollTrigger, 500);
             setTimeout(refreshScrollTrigger, 1000);
+          } else if (isIOS || isMobile) {
+            setTimeout(refreshScrollTrigger, 100);
+            setTimeout(refreshScrollTrigger, 300);
           } else {
             setTimeout(refreshScrollTrigger, 100);
           }
           
-          // Auto refresh after 1 second if this is the first load
-          if (!hasRefreshed) {
+          // Auto refresh ONLY for Android
+          if (isAndroid && !hasRefreshed) {
             setTimeout(() => {
               sessionStorage.setItem('hasAutoRefreshed', 'true');
               window.location.reload();
@@ -159,6 +167,14 @@ function App() {
       }, 250);
     };
     window.addEventListener('resize', handleResize);
+
+    // Handle orientation change (important for mobile)
+    const handleOrientation = () => {
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 100);
+    };
+    window.addEventListener('orientationchange', handleOrientation);
 
     // Custom scrollbar styling
     const style = document.createElement('style');
@@ -190,6 +206,7 @@ function App() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleOrientation);
       clearTimeout(resizeTimer);
       document.head.removeChild(style);
     };
