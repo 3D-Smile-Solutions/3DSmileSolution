@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import './App.css'
 import gsap from 'gsap';
@@ -14,9 +14,7 @@ import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
 import Discovery from './components/Discovery.jsx';
 import CoreServices from './components/CoreServices.jsx';
-import IndustriesHero from './components/IndustriesHero.jsx';
 import Testimonial from './components/Testimonial.jsx';
-import Blog from './components/Blog.jsx';
 import Footer from './components/Footer.jsx';
 
 // Page components
@@ -40,6 +38,12 @@ function ScrollToTop() {
 
 // HomePage component
 function HomePage() {
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   React.useEffect(() => {
     // Scroll to top on mount
     window.scrollTo(0, 0);
@@ -61,7 +65,7 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="app dark-mode">
+    <div className={`app ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <Navbar />
       <Hero />
       
@@ -85,13 +89,10 @@ function HomePage() {
 
 // Main App component with routing
 function App() {
-  // ============================================
-  // CRITICAL: Android/Mobile ScrollTrigger Fix
-  // ============================================
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
   useEffect(() => {
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const isMobile = window.innerWidth < 1000;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 1000;
 
     // Check if this is the first load (not a refresh)
     const hasRefreshed = sessionStorage.getItem('hasAutoRefreshed');
@@ -101,56 +102,43 @@ function App() {
       ScrollTrigger.refresh();
     };
 
-    // Disable smooth scroll ONLY on Android - iOS needs it
-    if (isAndroid) {
-      document.documentElement.style.scrollBehavior = 'auto';
-    }
-
     // Wait for everything to load
     const initApp = () => {
       if (document.readyState === 'complete') {
         // Page already loaded
-        if (isAndroid) {
-          // Android needs extra time for layout to settle
+        if (isMobile) {
+          // Mobile needs extra time for layout to settle
           setTimeout(refreshScrollTrigger, 200);
           setTimeout(refreshScrollTrigger, 500);
           setTimeout(refreshScrollTrigger, 1000);
-        } else if (isIOS || isMobile) {
-          // iOS needs less aggressive refresh
-          setTimeout(refreshScrollTrigger, 100);
-          setTimeout(refreshScrollTrigger, 300);
         } else {
-          // Desktop
           setTimeout(refreshScrollTrigger, 100);
         }
         
-        // Auto refresh ONLY for Android (not iOS!)
-        if (isAndroid && !hasRefreshed) {
+        // Auto refresh after 2-3 seconds if this is the first load
+        if (!hasRefreshed) {
           setTimeout(() => {
             sessionStorage.setItem('hasAutoRefreshed', 'true');
             window.location.reload();
-          }, 1000);
+          }, 2500);
         }
       } else {
         // Wait for load event
         window.addEventListener('load', () => {
-          if (isAndroid) {
+          if (isMobile) {
             setTimeout(refreshScrollTrigger, 200);
             setTimeout(refreshScrollTrigger, 500);
             setTimeout(refreshScrollTrigger, 1000);
-          } else if (isIOS || isMobile) {
-            setTimeout(refreshScrollTrigger, 100);
-            setTimeout(refreshScrollTrigger, 300);
           } else {
             setTimeout(refreshScrollTrigger, 100);
           }
           
-          // Auto refresh ONLY for Android
-          if (isAndroid && !hasRefreshed) {
+          // Auto refresh after 2-3 seconds if this is the first load
+          if (!hasRefreshed) {
             setTimeout(() => {
               sessionStorage.setItem('hasAutoRefreshed', 'true');
               window.location.reload();
-            }, 1000);
+            }, 2500);
           }
         }, { once: true });
       }
@@ -168,19 +156,11 @@ function App() {
     };
     window.addEventListener('resize', handleResize);
 
-    // Handle orientation change (important for mobile)
-    const handleOrientation = () => {
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 100);
-    };
-    window.addEventListener('orientationchange', handleOrientation);
-
     // Custom scrollbar styling
     const style = document.createElement('style');
     style.textContent = `
       html {
-        scroll-behavior: ${isAndroid ? 'auto' : 'smooth'};
+        scroll-behavior: smooth;
         scrollbar-width: thin;
         scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
       }
@@ -206,13 +186,14 @@ function App() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleOrientation);
-      clearTimeout(resizeTimer);
       document.head.removeChild(style);
     };
   }, []);
 
-  // Theme initialization (existing code)
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
