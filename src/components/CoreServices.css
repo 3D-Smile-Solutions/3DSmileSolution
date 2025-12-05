@@ -96,7 +96,7 @@
   position: absolute;
   top: 50%;
   left: 80px;
-  transform: translateY(-50%);
+  transform: translateY(-25%);
   display: flex;
   gap: 40px;
   height: fit-content;
