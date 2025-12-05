@@ -71,41 +71,29 @@ function App() {
   }, []);
 
   // ------------------------------
-  // AUTO RELOAD + SCROLL RESTORE
+  // ONE-TIME RELOAD AFTER LOAD
   // ------------------------------
   React.useEffect(() => {
-    // Save scroll before reload
-    const saveScrollPos = () => {
-      localStorage.setItem("scrollY", window.scrollY.toString());
-    };
+    const hasReloaded = localStorage.getItem("hasReloaded");
 
-    // Restore scroll after reload
-    const restoreScrollPos = () => {
+    if (!hasReloaded) {
+      // Save scroll position
+      localStorage.setItem("scrollY", window.scrollY.toString());
+
+      // Reload once after 1–2 seconds
+      const timeout = setTimeout(() => {
+        localStorage.setItem("hasReloaded", "true");
+        window.location.reload();
+      }, Math.random() * 1000 + 3000);
+
+      return () => clearTimeout(timeout);
+    } else {
+      // Restore scroll position
       const savedY = localStorage.getItem("scrollY");
       if (savedY !== null) {
         window.scrollTo(0, parseFloat(savedY));
       }
-    };
-
-    // Restore immediately on load
-    restoreScrollPos();
-
-    // ---- ONE reload after 1–2 seconds ----
-    const initialTimeout = setTimeout(() => {
-      saveScrollPos();
-      window.location.reload();
-    }, Math.random() * 1000 + 1000); // 1–2 sec
-
-    // ---- Then reload every 25 seconds ----
-    const interval = setInterval(() => {
-      saveScrollPos();
-      window.location.reload();
-    }, 25000); // 25,000 ms (25 seconds)
-
-    return () => {
-      clearTimeout(initialTimeout);
-      clearInterval(interval);
-    };
+    }
   }, []);
 
   return (
