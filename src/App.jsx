@@ -81,6 +81,14 @@ function HomePage() {
 
 // Main App component with routing
 function App() {
+  // Force one-time refresh on initial load
+  React.useEffect(() => {
+    if (!sessionStorage.getItem('hasRefreshed')) {
+      sessionStorage.setItem('hasRefreshed', 'true');
+      window.location.reload();
+    }
+  }, []);
+
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
