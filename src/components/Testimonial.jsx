@@ -5,36 +5,6 @@ import './Testimonial.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Add this at the top, after your imports
-const handleMobileSwipe = (e) => {
-  const touchStart = e.touches[0].clientX;
-  const handleTouchMove = (moveEvent) => {
-    const touchEnd = moveEvent.touches[0].clientX;
-    const diff = touchStart - touchEnd;
-    const swipeThreshold = 50;
-
-    if (diff > swipeThreshold) {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-      sliderRef.current.removeEventListener('touchmove', handleTouchMove);
-    } else if (diff < -swipeThreshold) {
-      setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-      sliderRef.current.removeEventListener('touchmove', handleTouchMove);
-    }
-  };
-
-  sliderRef.current.addEventListener('touchmove', handleTouchMove);
-
-  const handleTouchEnd = () => {
-    sliderRef.current.removeEventListener('touchmove', handleTouchMove);
-    sliderRef.current.removeEventListener('touchend', handleTouchEnd);
-    setTimeout(() => setIsAutoPlaying(true), 10000);
-  };
-
-  sliderRef.current.addEventListener('touchend', handleTouchEnd);
-  setIsAutoPlaying(false);
-};
-
-
 const Testimonial = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -76,6 +46,19 @@ const Testimonial = () => {
       image: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=600&h=600&fit=crop",
     }
   ];
+
+  // Manual navigation handlers
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    setIsAutoPlaying(false);
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
+
+  const goToPrev = () => {
+    setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
+    setIsAutoPlaying(false);
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
 
   // Auto-rotate slider
   useEffect(() => {
@@ -226,10 +209,21 @@ const Testimonial = () => {
 
         {/* Slider */}
         <div className="testimonials-slider" ref={sliderRef}>
+          {/* Previous Button */}
+          <button 
+            className="testimonial-nav-button testimonial-nav-prev"
+            onClick={goToPrev}
+            aria-label="Previous testimonial"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
           {/* Slider Content */}
           <div 
             className="testimonials-slider-wrapper"
-            onTouchStart={handleMobileSwipe}
+            onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
             onMouseDown={handleMouseDown}
@@ -282,6 +276,33 @@ const Testimonial = () => {
               })}
             </div>
           </div>
+
+          {/* Next Button */}
+          <button 
+            className="testimonial-nav-button testimonial-nav-next"
+            onClick={goToNext}
+            aria-label="Next testimonial"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        {/* Dot Indicators */}
+        <div className="testimonial-dots">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              className={`testimonial-dot ${index === currentIndex ? 'active' : ''}`}
+              onClick={() => {
+                setCurrentIndex(index);
+                setIsAutoPlaying(false);
+                setTimeout(() => setIsAutoPlaying(true), 10000);
+              }}
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
     </section>
