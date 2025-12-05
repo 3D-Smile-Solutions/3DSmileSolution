@@ -87,20 +87,20 @@ function App() {
       }
     };
 
-    // Restore immediately
+    // Restore immediately on load
     restoreScrollPos();
 
-    // First reload after 1–2 seconds
+    // ---- ONE reload after 1–2 seconds ----
     const initialTimeout = setTimeout(() => {
       saveScrollPos();
       window.location.reload();
-    }, Math.random() * 1000 + 1000); // 1000–2000 ms
+    }, Math.random() * 1000 + 1000); // 1–2 sec
 
-    // Reload every 20–30 seconds
+    // ---- Then reload every 25 seconds ----
     const interval = setInterval(() => {
       saveScrollPos();
       window.location.reload();
-    }, Math.random() * 10000 + 20000); // 20000–30000 ms
+    }, 25000); // 25,000 ms (25 seconds)
 
     return () => {
       clearTimeout(initialTimeout);
