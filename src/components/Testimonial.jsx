@@ -5,6 +5,36 @@ import './Testimonial.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Add this at the top, after your imports
+const handleMobileSwipe = (e) => {
+  const touchStart = e.touches[0].clientX;
+  const handleTouchMove = (moveEvent) => {
+    const touchEnd = moveEvent.touches[0].clientX;
+    const diff = touchStart - touchEnd;
+    const swipeThreshold = 50;
+
+    if (diff > swipeThreshold) {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+      sliderRef.current.removeEventListener('touchmove', handleTouchMove);
+    } else if (diff < -swipeThreshold) {
+      setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+      sliderRef.current.removeEventListener('touchmove', handleTouchMove);
+    }
+  };
+
+  sliderRef.current.addEventListener('touchmove', handleTouchMove);
+
+  const handleTouchEnd = () => {
+    sliderRef.current.removeEventListener('touchmove', handleTouchMove);
+    sliderRef.current.removeEventListener('touchend', handleTouchEnd);
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
+
+  sliderRef.current.addEventListener('touchend', handleTouchEnd);
+  setIsAutoPlaying(false);
+};
+
+
 const Testimonial = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -199,7 +229,7 @@ const Testimonial = () => {
           {/* Slider Content */}
           <div 
             className="testimonials-slider-wrapper"
-            onTouchStart={handleTouchStart}
+            onTouchStart={handleMobileSwipe}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
             onMouseDown={handleMouseDown}
