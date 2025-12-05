@@ -31,214 +31,28 @@ const Hero = () => {
     setMenuOpen(false);
   };
 
-  // GSAP Animations - ANDROID OPTIMIZED
+  // GSAP Animations
   useEffect(() => {
-    // Detect Android specifically
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isMobile = window.innerWidth <= 768;
-    
     const ctx = gsap.context(() => {
+      // Check if on mobile/small screen
+      const isMobile = window.innerWidth <= 768;
       
-      if (isAndroid) {
-        // ============================================
-        // ANDROID-SPECIFIC OPTIMIZATION
-        // ============================================
-        
-        // Disable smooth scrolling on Android (causes conflicts)
-        document.documentElement.style.scrollBehavior = 'auto';
-        
-        // Configure ScrollTrigger for Android
-        ScrollTrigger.config({
-          ignoreMobileResize: true,
-          autoRefreshEvents: "visibilitychange,DOMContentLoaded,load",
-          limitCallbacks: true, // Critical for Android
-        });
-        
-        // Use RAF-based updates instead of scrub for better Android performance
-        let heroAnimationActive = true;
-        let lastScrollY = 0;
-        let ticking = false;
-        
-        const updateHeroAnimation = () => {
-          if (!heroAnimationActive) return;
-          
-          const scrollY = window.scrollY;
-          const heroHeight = heroRef.current.offsetHeight;
-          const progress = Math.min(scrollY / (heroHeight * 0.8), 1);
-          
-          if (progress < 1) {
-            const scale = 1 - (progress * 0.1); // 1 to 0.9
-            const opacity = 1 - progress;
-            const borderRadius = progress * 30;
-            
-            gsap.set(heroContainerRef.current, {
-              scale: scale,
-              opacity: opacity,
-              borderRadius: borderRadius + 'px',
-              force3D: true,
-              immediateRender: true,
-            });
-          } else {
-            // Lock final state
-            gsap.set(heroContainerRef.current, {
-              scale: 0.9,
-              opacity: 0,
-              borderRadius: '30px',
-              force3D: true,
-            });
-            heroAnimationActive = false; // STOP animation completely
-          }
-          
-          ticking = false;
-        };
-        
-        const onScroll = () => {
-          lastScrollY = window.scrollY;
-          if (!ticking && heroAnimationActive) {
-            requestAnimationFrame(updateHeroAnimation);
-            ticking = true;
-          }
-        };
-        
-        window.addEventListener('scroll', onScroll, { passive: true });
-        
-        // Scroll text fade - simplified for Android
-        let scrollTextActive = true;
-        
-        const updateScrollText = () => {
-          if (!scrollTextActive) return;
-          
-          const scrollY = window.scrollY;
-          const fadeDistance = window.innerHeight * 0.2;
-          const progress = Math.min(scrollY / fadeDistance, 1);
-          
-          if (progress < 1) {
-            gsap.set(scrollTextRef.current, {
-              opacity: 1 - progress,
-              y: -20 * progress,
-              force3D: true,
-            });
-          } else {
-            gsap.set(scrollTextRef.current, {
-              opacity: 0,
-              y: -20,
-            });
-            scrollTextActive = false;
-          }
-        };
-        
-        const onScrollText = () => {
-          if (scrollTextActive) {
-            requestAnimationFrame(updateScrollText);
-          }
-        };
-        
-        window.addEventListener('scroll', onScrollText, { passive: true });
-        
-        // Cleanup function for Android
-        return () => {
-          window.removeEventListener('scroll', onScroll);
-          window.removeEventListener('scroll', onScrollText);
-          heroAnimationActive = false;
-          scrollTextActive = false;
-        };
-        
-      } else if (isMobile) {
-        // ============================================
-        // OTHER MOBILE (iOS, etc)
-        // ============================================
-        
-        const heroTrigger = ScrollTrigger.create({
+      // Hero Container Scale & Fade - Shrinks and fades as you scroll past it
+      gsap.to(heroContainerRef.current, {
+        scrollTrigger: {
           trigger: heroRef.current,
           start: 'top top',
-          end: '80% top',
-          scrub: 0.3,
+          end: isMobile ? '80% top' : 'bottom top',
+          scrub: isMobile ? 0.5 : 1,
           invalidateOnRefresh: true,
-          fastScrollEnd: true,
-          preventOverlaps: true,
-          onUpdate: (self) => {
-            if (self.progress < 1) {
-              const scale = 1 - (self.progress * 0.1);
-              const opacity = 1 - self.progress;
-              const borderRadius = self.progress * 30;
-              
-              gsap.set(heroContainerRef.current, {
-                scale: scale,
-                opacity: opacity,
-                borderRadius: borderRadius + 'px',
-                force3D: true,
-              });
-            }
-          },
-          onLeave: () => {
-            gsap.set(heroContainerRef.current, {
-              scale: 0.9,
-              opacity: 0,
-              borderRadius: '30px',
-            });
-            heroTrigger.disable();
-          },
-          onEnterBack: () => {
-            heroTrigger.enable();
-          }
-        });
+        },
+        scale: isMobile ? 0.90 : 0.85,
+        opacity: 0,
+        borderRadius: isMobile ? '30px' : '40px',
+        ease: 'none'
+      });
 
-        const scrollTextTrigger = ScrollTrigger.create({
-          trigger: heroRef.current,
-          start: 'top top',
-          end: '20% top',
-          scrub: 0.3,
-          fastScrollEnd: true,
-          onUpdate: (self) => {
-            gsap.set(scrollTextRef.current, {
-              opacity: 1 - self.progress,
-              y: -20 * self.progress,
-              force3D: true,
-            });
-          },
-          onLeave: () => {
-            gsap.set(scrollTextRef.current, { opacity: 0, y: -20 });
-            scrollTextTrigger.disable();
-          }
-        });
-        
-      } else {
-        // ============================================
-        // DESKTOP - Original animations
-        // ============================================
-        
-        gsap.to(heroContainerRef.current, {
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1,
-            invalidateOnRefresh: true,
-          },
-          scale: 0.85,
-          opacity: 0,
-          borderRadius: '40px',
-          ease: 'none'
-        });
-
-        gsap.to(scrollTextRef.current, {
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: '20% top',
-            scrub: 1,
-            invalidateOnRefresh: true,
-          },
-          opacity: 0,
-          y: -20,
-          ease: 'none'
-        });
-      }
-
-      // ============================================
-      // INITIAL LOAD ANIMATIONS (All platforms)
-      // ============================================
-      
+      // Title Section Animation - Initial Load
       gsap.from(titleSectionRef.current, {
         opacity: 0,
         y: 30,
@@ -247,6 +61,7 @@ const Hero = () => {
         delay: 0.3
       });
 
+      // Info Box Animation - Initial Load
       if (infoBoxRef.current) {
         gsap.from(infoBoxRef.current, {
           opacity: 0,
@@ -257,6 +72,7 @@ const Hero = () => {
         });
       }
 
+      // Scroll Text Animation - Initial Load
       gsap.from(scrollTextRef.current, {
         opacity: 0,
         y: 20,
@@ -264,19 +80,23 @@ const Hero = () => {
         ease: 'power2.out',
         delay: 0.9
       });
-      
+
+      // Fade out scroll text on scroll
+      gsap.to(scrollTextRef.current, {
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: '20% top',
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+        opacity: 0,
+        y: -20,
+        ease: 'none'
+      });
     }, heroRef);
 
-    return () => {
-      ctx.revert();
-      
-      // Kill all ScrollTriggers associated with hero
-      ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.vars && trigger.vars.trigger === heroRef.current) {
-          trigger.kill(true);
-        }
-      });
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
