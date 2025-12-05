@@ -24,6 +24,8 @@
   --gtm-progress-fill-end: #029482;
   --gtm-progress-text: rgba(255, 255, 255, 0.6);
   --gtm-nav-hint: rgba(255, 255, 255, 0.5);
+  --gtm-scroll-indicator: rgba(255, 255, 255, 0.5);
+  --gtm-scroll-indicator-wheel: rgba(255, 255, 255, 0.7);
 }
 
 [data-theme="light"] {
@@ -49,6 +51,8 @@
   --gtm-progress-fill-end: #3d7a3d;
   --gtm-progress-text: rgba(20, 20, 20, 0.6);
   --gtm-nav-hint: rgba(20, 20, 20, 0.5);
+  --gtm-scroll-indicator: rgba(255, 255, 255, 0.5);
+  --gtm-scroll-indicator-wheel: rgba(255, 255, 255, 0.7);
 }
 
 /* Page Wrapper */
@@ -101,21 +105,21 @@
     var(--gtm-hero-overlay-start) 0%,
     var(--gtm-hero-overlay-end) 100%
   );
+  z-index: 1;
   transition: background 0.3s ease;
 }
 
 /* Hero Content */
 .gtm-hero-content {
   position: relative;
-  z-index: 1;
-  max-width: 900px;
+  z-index: 2;
+  max-width: 1000px;
   width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  padding: 0 20px;
 }
 
 /* Hero Title */
@@ -185,6 +189,63 @@
   color: var(--gtm-hero-cta-hover-text);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px var(--gtm-hero-cta-shadow);
+}
+
+/* ======================== SCROLL INDICATOR ======================== */
+
+.scroll-indicator-hero {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 3;
+}
+
+.scroll-indicator-hero .mouse {
+  width: 24px;
+  height: 40px;
+  border: 2px solid var(--gtm-scroll-indicator);
+  border-radius: 12px;
+  position: relative;
+  transition: border-color 0.3s ease;
+}
+
+.scroll-indicator-hero .wheel {
+  width: 4px;
+  height: 8px;
+  background: var(--gtm-scroll-indicator-wheel);
+  border-radius: 2px;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scrollWheel 1.5s ease-in-out infinite;
+  transition: background 0.3s ease;
+}
+
+@keyframes scrollWheel {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateX(-50%) translateY(12px);
+  }
+}
+
+.scroll-indicator-hero span {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gtm-scroll-indicator);
+  transition: color 0.3s ease;
 }
 
 /* ======================== TEXT REVEAL SECTION ======================== */
@@ -263,7 +324,7 @@
   left: 50%;
   transform: translate3d(-50%, -50%, 0px);
   width: 50%;
-  height: 400px;
+  height: 320px; /* Reduced from 400px */
   border-radius: 0.25rem;
   display: flex;
   justify-content: center;
@@ -271,6 +332,7 @@
   will-change: transform, opacity;
   overflow: hidden;
 }
+
 
 .slide-image {
   position: absolute;
@@ -288,8 +350,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  padding: 0 60px;
+  gap: 16px; /* Reduced from 20px */
+  padding: 0 50px; /* Reduced from 60px */
   max-width: 900px;
   margin: 0 auto;
 }
@@ -404,15 +466,27 @@
   opacity: 1;
 }
 
+.slide-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+/* ======================== RESPONSIVE BREAKPOINTS ======================== */
+
 /* Container/Slider specific breakpoint */
 @media (max-width: 1000px) {
   .slide-content {
-    padding: 0 40px;
-    gap: 16px;
+    padding: 0 35px;
+    gap: 14px;
   }
 
   .slide {
     width: 70%;
+    height: 300px; /* Reduced */
   }
   
   .slide-title {
@@ -427,9 +501,13 @@
 }
 
 @media (max-width: 767px) {
+  .slide {
+    height: 280px; /* Reduced */
+  }
+  
   .slide-content {
-    padding: 0 30px;
-    gap: 14px;
+    padding: 0 25px;
+    gap: 12px;
   }
 
   .slide-title {
@@ -454,12 +532,29 @@
   .progress-text {
     font-size: 11px;
   }
+  
+  .scroll-indicator-hero {
+    bottom: 24px;
+  }
+  
+  .scroll-indicator-hero .mouse {
+    width: 20px;
+    height: 32px;
+  }
+  
+  .scroll-indicator-hero span {
+    font-size: 10px;
+  }
 }
 
 @media (max-width: 480px) {
+  .slide {
+    height: 260px; /* Reduced */
+  }
+  
   .slide-content {
     padding: 0 20px;
-    gap: 12px;
+    gap: 10px;
   }
 
   .slide-title {
@@ -484,9 +579,11 @@
   .progress-text {
     font-size: 10px;
   }
+  
+  .scroll-indicator-hero {
+    display: none;
+  }
 }
-
-/* ======================== RESPONSIVE BREAKPOINTS ======================== */
 
 /* Responsive Text Reveal */
 @media (min-width: 1920px) {
@@ -520,7 +617,8 @@
 
 @media (min-width: 768px) and (max-width: 1023px) {
   .text-reveal {
-    text-align: justify;
+        text-align: center;
+    letter-spacing: 0em;
     font-size: 3rem;
     line-height: 1;
   }
@@ -557,7 +655,8 @@
   .text-reveal {
     font-size: 3rem;
     line-height: 1;
-    text-align: justify;
+        text-align: center;
+    letter-spacing: 0em;
   }
   
   .text-reveal-section {
@@ -596,7 +695,8 @@
   .text-reveal {
     font-size: 2.5rem;
     line-height: 1;
-    text-align: justify;
+        text-align: center;
+    letter-spacing: 0em;
   }
   
   .text-reveal-section {
@@ -635,7 +735,8 @@
   .text-reveal {
     font-size: 2rem;
     line-height: 1;
-    text-align: justify;
+        text-align: center;
+    letter-spacing: 0em;
   }
   
   .text-reveal-section {
@@ -675,7 +776,8 @@
 @media (max-width: 360px) {
   .text-reveal {
     font-size: 1.75rem;
-    text-align: justify;
+        text-align: center;
+    letter-spacing: 0em;
   }
   
   .text-reveal-container {
@@ -726,13 +828,4 @@
     padding: 10px 20px;
     font-size: 12px;
   }
-}
-
-.slide-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
 }

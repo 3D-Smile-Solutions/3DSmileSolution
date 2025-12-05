@@ -61,7 +61,7 @@
 
 /* Hero Section */
 .blog-page-hero {
-  padding: 140px 0 80px;
+  padding: 160px 0 80px;
   background-color: var(--blogpage-hero-bg);
   border-bottom: 1px solid var(--blogpage-hero-border);
   transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -76,7 +76,7 @@
 
 .blog-page-title {
   font-family: 'Instrument Serif', serif;
-  font-style:normal;
+  font-style: normal;
   font-weight: 400;
   font-size: clamp(3rem, 5vw, 4.5rem);
   line-height: 1.1;
@@ -316,7 +316,7 @@
 /* Tablet (768px - 1023px) */
 @media (max-width: 1023px) and (min-width: 768px) {
   .blog-page-hero {
-    padding: 120px 0 60px;
+    padding: 140px 0 60px;
   }
   
   .blog-page-hero-content,
@@ -345,7 +345,7 @@
 /* Mobile (below 768px) */
 @media (max-width: 767px) {
   .blog-page-hero {
-    padding: 100px 0 50px;
+    padding: 120px 0 50px;
   }
   
   .blog-page-hero-content,
@@ -379,7 +379,7 @@
 /* Small Mobile (480px and below) */
 @media (max-width: 480px) {
   .blog-page-hero {
-    padding: 80px 0 40px;
+    padding: 110px 0 40px;
   }
   
   .blog-page-hero-content,
@@ -441,7 +441,7 @@
 /* Extra Small Mobile (360px and below) */
 @media (max-width: 360px) {
   .blog-page-hero {
-    padding: 60px 0 30px;
+    padding: 100px 0 30px;
   }
   
   .blog-page-hero-content,
@@ -494,7 +494,7 @@
 /* Short viewport height - 600-700px */
 @media (max-height: 700px) and (max-width: 999px) {
   .blog-page-hero {
-    padding: 40px 0 30px;
+    padding: 100px 0 30px;
   }
   
   .blog-page-title {
@@ -518,7 +518,7 @@
 /* Very short viewport height - below 600px */
 @media (max-height: 600px) and (max-width: 999px) {
   .blog-page-hero {
-    padding: 30px 0 25px;
+    padding: 90px 0 25px;
   }
   
   .blog-page-title {
@@ -559,7 +559,7 @@
 /* Extremely short viewport height - below 500px */
 @media (max-height: 500px) and (max-width: 999px) {
   .blog-page-hero {
-    padding: 25px 0 20px;
+    padding: 85px 0 20px;
   }
   
   .blog-page-title {
@@ -612,7 +612,7 @@
 /* Mobile landscape mode */
 @media (max-height: 500px) and (min-width: 600px) and (max-width: 999px) and (orientation: landscape) {
   .blog-page-hero {
-    padding: 30px 0 25px;
+    padding: 85px 0 25px;
   }
   
   .blog-page-title {

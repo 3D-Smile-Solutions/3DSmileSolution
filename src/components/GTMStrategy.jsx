@@ -444,11 +444,15 @@ const GTMStrategy = () => {
       <Navbar />
 
       <section className="gtm-hero-section" ref={heroRef}>
+        {/* Background */}
         <div className="gtm-hero-bg" ref={parallaxRef}>
           <img src={topographicBG} alt="" />
-          <div className="gtm-hero-overlay"></div>
         </div>
+        
+        {/* Overlay - separate from bg */}
+        <div className="gtm-hero-overlay"></div>
 
+        {/* Content */}
         <div className="gtm-hero-content" ref={contentRef}>
           <h1 className="gtm-hero-title">
             Accelerate Your Market Entry with Tailored Go-to-Market Strategies
@@ -459,6 +463,7 @@ const GTMStrategy = () => {
           </p>
         </div>
 
+        {/* Scroll Indicator */}
         <div className="scroll-indicator-hero">
           <div className="mouse">
             <div className="wheel"></div>
@@ -478,6 +483,18 @@ const GTMStrategy = () => {
       <section className="gtm-content-section">
         <div className="container" ref={containerRef}>
           <div className="slider" ref={sliderRef}></div>
+          
+          <div className="slider-progress">
+            <div className="progress-bar">
+              <div 
+                className="progress-fill" 
+                style={{ width: `${slideProgress}%` }}
+              ></div>
+            </div>
+            <div className="progress-text">
+              {frontSlideIndex + 1} / {slideData.length}
+            </div>
+          </div>
           
           <div className="slider-nav-hint">
             <div className="nav-hint-text">Scroll to Navigate</div>

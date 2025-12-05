@@ -47,6 +47,77 @@
   transition: background-color 0.3s ease;
 }
 
+/* Add to your existing Testimonial.css */
+
+/* Swipe cursor indicator */
+.testimonials-slider-wrapper {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y pinch-zoom;
+}
+
+.testimonials-slider-wrapper:active {
+  cursor: grabbing;
+}
+
+/* Dot indicators */
+.testimonial-dots {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.testimonial-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--testimonial-arrow);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.testimonial-dot.active {
+  background: var(--testimonial-arrow-hover);
+  transform: scale(1.3);
+}
+
+.testimonial-dot:hover {
+  background: var(--testimonial-arrow-hover);
+}
+
+/* Show dots, hide arrows on mobile */
+@media (max-width: 767px) {
+  .testimonial-arrow {
+    display: none;
+  }
+  
+  .testimonial-dots {
+    display: flex;
+  }
+  
+  .testimonials-slider {
+    gap: 0;
+  }
+}
+
+/* Smaller dots for very small screens */
+@media (max-width: 479px) {
+  .testimonial-dots {
+    gap: 8px;
+    margin-top: 20px;
+  }
+  
+  .testimonial-dot {
+    width: 6px;
+    height: 6px;
+  }
+}
+
 .testimonials-container {
   position: relative;
   width: 100%;

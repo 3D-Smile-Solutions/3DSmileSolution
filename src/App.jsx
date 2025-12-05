@@ -65,6 +65,24 @@ function App() {
   React.useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    // Auto-refresh on first load to fix animation issues
+    const hasRefreshed = sessionStorage.getItem('hasAutoRefreshed');
+    
+    const initApp = () => {
+      if (!hasRefreshed) {
+        setTimeout(() => {
+          sessionStorage.setItem('hasAutoRefreshed', 'true');
+          window.location.reload();
+        }, 1000);
+      }
+    };
+    
+    if (document.readyState === 'complete') {
+      initApp();
+    } else {
+      window.addEventListener('load', initApp, { once: true });
+    }
   }, []);
 
   return (

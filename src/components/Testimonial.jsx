@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Testimonial.css';
-import Abstract from '../assets/Abstract.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +12,12 @@ const Testimonial = () => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const sliderRef = useRef(null);
+  const trackRef = useRef(null);
+  
+  // Touch/Swipe state
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const isDragging = useRef(false);
 
   const testimonials = [
     {
@@ -52,6 +57,76 @@ const Testimonial = () => {
     return () => clearInterval(interval);
   }, [testimonials.length, isAutoPlaying]);
 
+  // Touch/Swipe handlers
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+    isDragging.current = true;
+    setIsAutoPlaying(false);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging.current) return;
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    
+    const swipeThreshold = 50;
+    const diff = touchStartX.current - touchEndX.current;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        // Swiped left - go next
+        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+      } else {
+        // Swiped right - go prev
+        setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
+      }
+    }
+    
+    // Resume auto-play after 10 seconds
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
+
+  // Mouse drag handlers for desktop
+  const handleMouseDown = (e) => {
+    touchStartX.current = e.clientX;
+    isDragging.current = true;
+    setIsAutoPlaying(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging.current) return;
+    touchEndX.current = e.clientX;
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    
+    const swipeThreshold = 50;
+    const diff = touchStartX.current - touchEndX.current;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+      } else {
+        setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
+      }
+    }
+    
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging.current) {
+      isDragging.current = false;
+      setTimeout(() => setIsAutoPlaying(true), 10000);
+    }
+  };
+
   // GSAP Animations
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -89,6 +164,7 @@ const Testimonial = () => {
     setCurrentIndex((prevIndex) => 
       prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
     );
+    setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   const handleNext = () => {
@@ -96,6 +172,7 @@ const Testimonial = () => {
     setCurrentIndex((prevIndex) => 
       (prevIndex + 1) % testimonials.length
     );
+    setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   return (
@@ -129,8 +206,17 @@ const Testimonial = () => {
           </button>
 
           {/* Slider Content */}
-          <div className="testimonials-slider-wrapper">
-            <div className="testimonials-slider-track">
+          <div 
+            className="testimonials-slider-wrapper"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="testimonials-slider-track" ref={trackRef}>
               {testimonials.map((testimonial, index) => {
                 const isActive = index === currentIndex;
                 const isPrev = index === (currentIndex - 1 + testimonials.length) % testimonials.length;
@@ -153,6 +239,7 @@ const Testimonial = () => {
                         <img 
                           src={testimonial.image} 
                           alt={testimonial.author}
+                          draggable="false"
                         />
                         <div className="testimonial-image-overlay"></div>
                       </div>
@@ -172,6 +259,22 @@ const Testimonial = () => {
                   </div>
                 );
               })}
+            </div>
+            
+            {/* Dot indicators for mobile */}
+            <div className="testimonial-dots">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  className={`testimonial-dot ${index === currentIndex ? 'active' : ''}`}
+                  onClick={() => {
+                    setCurrentIndex(index);
+                    setIsAutoPlaying(false);
+                    setTimeout(() => setIsAutoPlaying(true), 10000);
+                  }}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
 
