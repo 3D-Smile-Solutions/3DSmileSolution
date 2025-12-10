@@ -142,7 +142,7 @@
   /* Positioned on the right */
 }
 
-/* Slider Wrapper - SMART TOUCH: Allows vertical scroll + horizontal swipe */
+/* Slider Wrapper - SIMPLIFIED with react-swipeable */
 .testimonials-slider-wrapper {
   flex: 1;
   overflow: visible;
@@ -156,9 +156,7 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  touch-action: pan-y; /* Allow vertical scroll, JS handles horizontal */
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
+  /* react-swipeable handles touch-action automatically */
 }
 
 .testimonials-slider-wrapper:active {

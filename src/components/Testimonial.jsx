@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSwipeable } from 'react-swipeable';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Testimonial.css';
@@ -12,14 +13,6 @@ const Testimonial = () => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const sliderRef = useRef(null);
-  const trackRef = useRef(null);
-  
-  // Touch/Swipe state
-  const touchStartX = useRef(0);
-  const touchStartY = useRef(0);
-  const touchEndX = useRef(0);
-  const isDragging = useRef(false);
-  const swipeDirection = useRef(null);
 
   const testimonials = [
     {
@@ -72,110 +65,19 @@ const Testimonial = () => {
     return () => clearInterval(interval);
   }, [testimonials.length, isAutoPlaying]);
 
-  // SMART TOUCH HANDLERS - Detects direction and allows vertical scroll
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
-    touchStartY.current = e.touches[0].clientY;
-    touchEndX.current = e.touches[0].clientX;
-    isDragging.current = true;
-    swipeDirection.current = null;
-    setIsAutoPlaying(false);
-  };
-
-  const handleTouchMove = (e) => {
-    if (!isDragging.current) return;
-    
-    const currentX = e.touches[0].clientX;
-    const currentY = e.touches[0].clientY;
-    const diffX = Math.abs(currentX - touchStartX.current);
-    const diffY = Math.abs(currentY - touchStartY.current);
-    
-    // Determine swipe direction on first significant movement
-    if (swipeDirection.current === null && (diffX > 10 || diffY > 10)) {
-      swipeDirection.current = diffX > diffY ? 'horizontal' : 'vertical';
-    }
-    
-    // If horizontal swipe, prevent default and track movement
-    if (swipeDirection.current === 'horizontal') {
-      e.preventDefault();
-      touchEndX.current = currentX;
-    }
-    // If vertical swipe, allow normal scrolling (don't preventDefault)
-  };
-
-  const handleTouchEnd = (e) => {
-    if (!isDragging.current) {
-      setTimeout(() => setIsAutoPlaying(true), 10000);
-      return;
-    }
-    
-    isDragging.current = false;
-    
-    // Only trigger slide change if it was a horizontal swipe
-    if (swipeDirection.current === 'horizontal') {
-      const swipeThreshold = 30;
-      const diff = touchStartX.current - touchEndX.current;
-      
-      if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-          // Swiped left - go next
-          setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-        } else {
-          // Swiped right - go prev
-          setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
-        }
-      }
-    }
-    
-    swipeDirection.current = null;
-    // Resume auto-play after 10 seconds
-    setTimeout(() => setIsAutoPlaying(true), 10000);
-  };
-
-  // Mouse drag handlers for desktop
-  const handleMouseDown = (e) => {
-    e.preventDefault();
-    touchStartX.current = e.clientX;
-    touchEndX.current = e.clientX;
-    isDragging.current = true;
-    setIsAutoPlaying(false);
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging.current) return;
-    e.preventDefault();
-    touchEndX.current = e.clientX;
-  };
-
-  const handleMouseUp = (e) => {
-    if (!isDragging.current) {
-      setTimeout(() => setIsAutoPlaying(true), 10000);
-      return;
-    }
-    
-    e.preventDefault();
-    isDragging.current = false;
-    
-    const swipeThreshold = 50;
-    const diff = touchStartX.current - touchEndX.current;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-      if (diff > 0) {
-        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-      } else {
-        setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
-      }
-    }
-    
-    setTimeout(() => setIsAutoPlaying(true), 10000);
-  };
-
-  const handleMouseLeave = () => {
-    if (isDragging.current) {
-      isDragging.current = false;
-      setTimeout(() => setIsAutoPlaying(true), 10000);
-    }
-  };
+  // REACT-SWIPEABLE - Clean and simple!
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      goToNext();
+    },
+    onSwipedRight: () => {
+      goToPrev();
+    },
+    preventScrollOnSwipe: false, // Allow vertical scrolling
+    trackMouse: true, // Enable mouse dragging on desktop
+    trackTouch: true, // Enable touch on mobile
+    delta: 10, // Minimum distance for swipe detection (10px)
+  });
 
   // GSAP Animations
   useEffect(() => {
@@ -233,18 +135,12 @@ const Testimonial = () => {
             </svg>
           </button>
 
-          {/* Slider Content */}
+          {/* Slider Content - Swipeable Area */}
           <div 
+            {...swipeHandlers}
             className="testimonials-slider-wrapper"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
           >
-            <div className="testimonials-slider-track" ref={trackRef}>
+            <div className="testimonials-slider-track">
               {testimonials.map((testimonial, index) => {
                 const isActive = index === currentIndex;
                 const isPrev = index === (currentIndex - 1 + testimonials.length) % testimonials.length;
