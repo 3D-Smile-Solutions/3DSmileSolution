@@ -204,7 +204,7 @@
   display: flex;
   overflow: hidden;
   transition: all 0.4s ease;
-  pointer-events: none; /* Don't let content interfere with swipe */
+  /* REMOVED: pointer-events: none - this was blocking touch on content */
 }
 
 .testimonial-content:hover {
@@ -218,7 +218,6 @@
   width: 280px;
   flex-shrink: 0;
   overflow: hidden;
-  pointer-events: none;
 }
 
 .testimonial-image img {
@@ -226,11 +225,11 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  pointer-events: none !important;
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;
   -webkit-touch-callout: none;
+  pointer-events: none; /* Prevent image from being draggable */
 }
 
 .testimonial-image-overlay {
@@ -249,7 +248,11 @@
   flex-direction: column;
   justify-content: center;
   gap: 30px;
-  pointer-events: none;
+  /* Prevent text selection during swipe */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .testimonial-quote {
@@ -261,7 +264,6 @@
   margin: 0;
   letter-spacing: -0.01em;
   transition: color 0.3s ease;
-  pointer-events: none;
 }
 
 /* Author */
