@@ -5,7 +5,9 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import './About.css';
 
-import aboutBG from '../assets/Hero.jpg';
+import aboutBG from '../assets/AboutHero.jpg';
+import aboutDen from '../assets/AboutDental.jpg';
+import aboutAI from '../assets/AboutAI.jpg';
 import Disovery from '../assets/Discover.png';
 import Health from '../assets/Health.jpg';
 
@@ -242,7 +244,7 @@ const About = () => {
         <div className="about-intro-container">
           <div className="about-intro-split">
             <div className="about-intro-image">
-              <img src={aboutBG} alt="Dental Innovation" />
+              <img src={aboutDen} alt="Dental Innovation" />
             </div>
             <div className="about-intro-content">
               <span className="about-section-label">WHO WE ARE</span>
@@ -313,7 +315,7 @@ const About = () => {
               </div>
             </div>
             <div className="about-mv-image">
-              <img src={Disovery} alt="Our Solutions" />
+              <img src={aboutAI} alt="Our Solutions" />
             </div>
           </div>
         </div>

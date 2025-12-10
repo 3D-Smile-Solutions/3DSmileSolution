@@ -7,6 +7,8 @@ import './Industries.css';
 
 // Import your images
 import industriesBG from '../assets/Dental.jpg';
+import Industriesweserve from '../assets/IndustriesWeServe.jpg';
+import AIinHealth from '../assets/AIinHealthcare.jpg';
 import dentalImage from '../assets/Dental.jpg';
 import healthcareImage from '../assets/Health.jpg';
 
@@ -99,7 +101,7 @@ const Industries = () => {
       tag: 'HEALTHCARE',
       title: 'AI in Healthcare',
       description: 'Delivering customized AI-driven solutions for healthcare providers to improve patient outcomes and reduce costs. From predictive analytics to patient care management tools, our technology-driven GTM strategies help healthcare leaders deliver better outcomes and scale operations.',
-      image: healthcareImage,
+      image: AIinHealth,
       imagePosition: 'left',
       features: [
         {
@@ -146,7 +148,7 @@ const Industries = () => {
       {/* Hero Section */}
       <section className="industries-hero" ref={heroRef}>
         <div className="industries-hero-bg" ref={parallaxRef}>
-          <img src={industriesBG} alt="" />
+          <img src={Industriesweserve} alt="" />
           <div className="industries-hero-overlay"></div>
         </div>
 

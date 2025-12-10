@@ -142,8 +142,7 @@
   /* Positioned on the right */
 }
 
-/* Slider Wrapper */
-/* Slider Wrapper */
+/* Slider Wrapper - UPDATED FOR SINGLE FINGER SWIPE */
 .testimonials-slider-wrapper {
   flex: 1;
   overflow: visible;
@@ -156,8 +155,8 @@
   user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-  touch-action: pan-y pinch-zoom; /* CRITICAL: Enables horizontal swipe */
-  -webkit-touch-callout: none; /* Prevents iOS callout menu */
+  touch-action: none; /* Changed from pan-y pinch-zoom to none - allows JS to handle all touch */
+  -webkit-touch-callout: none;
 }
 
 .testimonials-slider-wrapper:active {
@@ -216,7 +215,7 @@
   width: 280px;
   flex-shrink: 0;
   overflow: hidden;
-  pointer-events: none; /* ADD THIS */
+  pointer-events: none;
 }
 
 .testimonial-image img {
@@ -224,7 +223,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  pointer-events: none; /* ADD THIS */
+  pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;

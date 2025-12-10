@@ -383,12 +383,12 @@
 /* Hero Section */
 .case-detail-hero {
   background: linear-gradient(180deg, var(--case-detail-hero-bg-start) 0%, var(--case-detail-hero-bg-end) 100%);
-  padding: 120px 20px 80px;
+  padding: 160px 20px 40px;
   transition: background 0.3s ease;
 }
 
 .case-detail-hero-inner {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -473,9 +473,9 @@
 
 /* Case Study Content */
 .case-detail-content {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 20px;
+  padding: 80px 0px;
 }
 
 .case-content-section {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './CoreServices.css';
@@ -9,6 +9,7 @@ const CoreServices = () => {
   const sectionRef = useRef(null);
   const headerRef = useRef(null);
   const trackRef = useRef(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const services = [
     {
@@ -78,70 +79,143 @@ const CoreServices = () => {
   ];
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
+    // Wait for DOM to settle before initializing
+    const initTimeout = setTimeout(() => {
+      initAnimations();
+      setIsInitialized(true);
+    }, 150);
 
-      // Desktop (768px+)
-      mm.add("(min-width: 768px)", () => {
-        // Header animation
-        gsap.fromTo(headerRef.current,
-          { opacity: 0, y: 50 },
-          { 
-            opacity: 1, 
-            y: 0, 
-            duration: 1,
+    const initAnimations = () => {
+      // Kill existing ScrollTriggers for this component
+      ScrollTrigger.getAll().forEach((trigger) => {
+        if (trigger.vars.trigger?.closest('.core-services-horizontal')) {
+          trigger.kill();
+        }
+      });
+
+      const ctx = gsap.context(() => {
+        const mm = gsap.matchMedia();
+
+        // Desktop (768px+)
+        mm.add("(min-width: 768px)", () => {
+          // Header animation
+          gsap.fromTo(headerRef.current,
+            { opacity: 0, y: 50 },
+            { 
+              opacity: 1, 
+              y: 0, 
+              duration: 1,
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 80%",
+                end: "top 50%",
+                scrub: 1,
+                invalidateOnRefresh: true
+              }
+            }
+          );
+
+          const track = trackRef.current;
+          const trackWidth = track.scrollWidth;
+          const viewportWidth = window.innerWidth;
+          const scrollDistance = trackWidth - viewportWidth + 150;
+
+          gsap.to(track, {
+            x: -scrollDistance,
+            ease: 'none',
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top 80%",
-              end: "top 50%",
-              scrub: 1
+              start: "top top",
+              end: () => `+=${scrollDistance}`,
+              pin: true,
+              scrub: 1,
+              invalidateOnRefresh: true,
+              anticipatePin: 1,
+              onRefresh: (self) => {
+                // Recalculate scroll distance on refresh
+                const newTrackWidth = track.scrollWidth;
+                const newViewportWidth = window.innerWidth;
+                const newScrollDistance = newTrackWidth - newViewportWidth + 150;
+                self.vars.end = `+=${newScrollDistance}`;
+              }
             }
-          }
-        );
-
-        const track = trackRef.current;
-        const trackWidth = track.scrollWidth;
-        const viewportWidth = window.innerWidth;
-        const scrollDistance = trackWidth - viewportWidth + 150;
-
-        gsap.to(track, {
-          x: -scrollDistance,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: () => `+=${scrollDistance}`,
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-          }
+          });
         });
-      });
 
-      // Mobile (below 768px) - horizontal scroll
-      mm.add("(max-width: 767px)", () => {
-        const track = trackRef.current;
-        const trackWidth = track.scrollWidth;
-        const viewportWidth = window.innerWidth;
-        const scrollDistance = trackWidth - viewportWidth + 40;
+        // Mobile (below 768px) - horizontal scroll
+        mm.add("(max-width: 767px)", () => {
+          const track = trackRef.current;
+          const trackWidth = track.scrollWidth;
+          const viewportWidth = window.innerWidth;
+          const scrollDistance = trackWidth - viewportWidth + 40;
 
-        gsap.to(track, {
-          x: -scrollDistance,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: () => `+=${scrollDistance}`,
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-          }
+          gsap.to(track, {
+            x: -scrollDistance,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top top",
+              end: () => `+=${scrollDistance}`,
+              pin: true,
+              scrub: 1,
+              invalidateOnRefresh: true,
+              anticipatePin: 1,
+              onRefresh: (self) => {
+                // Recalculate scroll distance on refresh
+                const newTrackWidth = track.scrollWidth;
+                const newViewportWidth = window.innerWidth;
+                const newScrollDistance = newTrackWidth - newViewportWidth + 40;
+                self.vars.end = `+=${newScrollDistance}`;
+              }
+            }
+          });
         });
+
+      }, sectionRef);
+
+      // Force a refresh after initialization
+      setTimeout(() => {
+        ScrollTrigger.refresh(true);
+      }, 100);
+
+      return ctx;
+    };
+
+    let ctx;
+    let resizeTimer;
+
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        ScrollTrigger.refresh(true);
+        if (isInitialized && ctx) {
+          ctx.revert();
+          ctx = initAnimations();
+        }
+      }, 250);
+    };
+
+    const handleOrientation = () => {
+      setTimeout(() => {
+        ScrollTrigger.refresh(true);
+      }, 100);
+    };
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleOrientation);
+
+    return () => {
+      clearTimeout(initTimeout);
+      if (ctx) ctx.revert();
+      ScrollTrigger.getAll().forEach((trigger) => {
+        if (trigger.vars.trigger?.closest('.core-services-horizontal')) {
+          trigger.kill();
+        }
       });
-
-    }, sectionRef);
-
-    return () => ctx.revert();
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleOrientation);
+      clearTimeout(resizeTimer);
+    };
   }, []);
 
   return (

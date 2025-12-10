@@ -1,6 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
@@ -15,6 +17,9 @@ import Industries from './components/Industries.jsx';
 import About from './components/About.jsx';
 import BlogPage from './components/BlogPage.jsx';
 import CaseStudies from './components/CaseStudies.jsx';
+
+// Register GSAP plugins globally
+gsap.registerPlugin(ScrollTrigger);
 
 // ------------------------------
 // HOME PAGE COMPONENT
@@ -71,29 +76,53 @@ function App() {
   }, []);
 
   // ------------------------------
-  // ONE-TIME RELOAD AFTER LOAD
+  // FIX GSAP SCROLLTRIGGER ISSUES
   // ------------------------------
   React.useEffect(() => {
-    const hasReloaded = localStorage.getItem("hasReloaded");
-
-    if (!hasReloaded) {
-      // Save scroll position
-      localStorage.setItem("scrollY", window.scrollY.toString());
-
-      // Reload once after 1–2 seconds
-      const timeout = setTimeout(() => {
-        localStorage.setItem("hasReloaded", "true");
-        window.location.reload();
-      }, Math.random() * 1000 + 3000);
-
-      return () => clearTimeout(timeout);
-    } else {
-      // Restore scroll position
-      const savedY = localStorage.getItem("scrollY");
-      if (savedY !== null) {
-        window.scrollTo(0, parseFloat(savedY));
+    // Import ScrollTrigger if not already available
+    const initGSAP = async () => {
+      try {
+        const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+        const gsap = (await import('gsap')).default;
+        
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Wait for all components to mount and render
+        setTimeout(() => {
+          // Force ScrollTrigger to recalculate all positions
+          ScrollTrigger.refresh(true);
+          
+          // Ensure all scroll positions are correct
+          window.scrollTo(0, 0);
+          
+          // Second refresh after DOM fully settles (critical for iOS Safari)
+          setTimeout(() => {
+            ScrollTrigger.refresh(true);
+          }, 100);
+        }, 2500);
+      } catch (error) {
+        console.error('GSAP initialization error:', error);
       }
-    }
+    };
+
+    initGSAP();
+
+    // Also refresh on resize and orientation change (especially important for mobile)
+    const handleRefresh = () => {
+      setTimeout(() => {
+        if (window.ScrollTrigger) {
+          window.ScrollTrigger.refresh(true);
+        }
+      }, 100);
+    };
+
+    window.addEventListener('resize', handleRefresh);
+    window.addEventListener('orientationchange', handleRefresh);
+
+    return () => {
+      window.removeEventListener('resize', handleRefresh);
+      window.removeEventListener('orientationchange', handleRefresh);
+    };
   }, []);
 
   return (
@@ -106,6 +135,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/case-studies" element={<CaseStudies />} />
+        <Route path="/case-studies/:caseId" element={<CaseStudies />} />
       </Routes>
     </Router>
   );

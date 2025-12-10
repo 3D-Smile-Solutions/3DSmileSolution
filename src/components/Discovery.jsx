@@ -15,9 +15,17 @@ const Discovery = () => {
   const card3Ref = useRef(null);
   const isGapAnimationCompletedRef = useRef(false);
   const isFlipAnimationCompletedRef = useRef(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
+    // Wait for DOM and other components to settle
+    const initTimeout = setTimeout(() => {
+      initAnimations();
+      setIsInitialized(true);
+    }, 50);
+
     const initAnimations = () => {
+      // Kill existing ScrollTriggers for this component
       ScrollTrigger.getAll().forEach((trigger) => {
         if (trigger.vars.trigger?.closest('.discovery')) trigger.kill();
       });
@@ -93,6 +101,11 @@ const Discovery = () => {
             anticipatePin: 1,
             pinSpacing: true,
             invalidateOnRefresh: true,
+            onRefresh: () => {
+              // Recalculate on refresh
+              const newCardHeight = Math.min(550, window.innerHeight * 0.6);
+              gsap.set(cardContainer, { height: `${newCardHeight}px` });
+            }
           }
         });
 
@@ -310,35 +323,35 @@ const Discovery = () => {
 
         return () => {};
       });
-    };
 
-    initAnimations();
+      // Force a refresh after initialization
+      setTimeout(() => {
+        ScrollTrigger.refresh(true);
+      }, 100);
+    };
 
     let resizeTimer;
     const handleResize = () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        ScrollTrigger.refresh();
-        initAnimations();
+        ScrollTrigger.refresh(true);
+        if (isInitialized) {
+          initAnimations();
+        }
       }, 250);
     };
 
     const handleOrientation = () => {
       setTimeout(() => {
-        ScrollTrigger.refresh();
+        ScrollTrigger.refresh(true);
       }, 100);
     };
 
     window.addEventListener('resize', handleResize);
     window.addEventListener('orientationchange', handleOrientation);
 
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 100);
-    });
-
     return () => {
+      clearTimeout(initTimeout);
       ScrollTrigger.getAll().forEach((trigger) => {
         if (trigger.vars.trigger?.closest('.discovery')) {
           trigger.kill();
