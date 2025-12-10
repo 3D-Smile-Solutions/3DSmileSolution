@@ -16,8 +16,10 @@ const Testimonial = () => {
   
   // Touch/Swipe state
   const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
   const touchEndX = useRef(0);
   const isDragging = useRef(false);
+  const swipeDirection = useRef(null);
 
   const testimonials = [
     {
@@ -70,32 +72,38 @@ const Testimonial = () => {
     return () => clearInterval(interval);
   }, [testimonials.length, isAutoPlaying]);
 
-  // SUPER AGGRESSIVE TOUCH HANDLERS - SINGLE FINGER ONLY
+  // SMART TOUCH HANDLERS - Detects direction and allows vertical scroll
   const handleTouchStart = (e) => {
-    // Prevent default to stop any browser interference
-    e.preventDefault();
-    e.stopPropagation();
-    
     touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
     touchEndX.current = e.touches[0].clientX;
     isDragging.current = true;
+    swipeDirection.current = null;
     setIsAutoPlaying(false);
   };
 
   const handleTouchMove = (e) => {
-    // Prevent default to stop scrolling
-    e.preventDefault();
-    e.stopPropagation();
-    
     if (!isDragging.current) return;
-    touchEndX.current = e.touches[0].clientX;
+    
+    const currentX = e.touches[0].clientX;
+    const currentY = e.touches[0].clientY;
+    const diffX = Math.abs(currentX - touchStartX.current);
+    const diffY = Math.abs(currentY - touchStartY.current);
+    
+    // Determine swipe direction on first significant movement
+    if (swipeDirection.current === null && (diffX > 10 || diffY > 10)) {
+      swipeDirection.current = diffX > diffY ? 'horizontal' : 'vertical';
+    }
+    
+    // If horizontal swipe, prevent default and track movement
+    if (swipeDirection.current === 'horizontal') {
+      e.preventDefault();
+      touchEndX.current = currentX;
+    }
+    // If vertical swipe, allow normal scrolling (don't preventDefault)
   };
 
   const handleTouchEnd = (e) => {
-    // Prevent default
-    e.preventDefault();
-    e.stopPropagation();
-    
     if (!isDragging.current) {
       setTimeout(() => setIsAutoPlaying(true), 10000);
       return;
@@ -103,19 +111,23 @@ const Testimonial = () => {
     
     isDragging.current = false;
     
-    const swipeThreshold = 30; // Lower threshold for easier swipe
-    const diff = touchStartX.current - touchEndX.current;
-    
-    if (Math.abs(diff) > swipeThreshold) {
-      if (diff > 0) {
-        // Swiped left - go next
-        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-      } else {
-        // Swiped right - go prev
-        setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
+    // Only trigger slide change if it was a horizontal swipe
+    if (swipeDirection.current === 'horizontal') {
+      const swipeThreshold = 30;
+      const diff = touchStartX.current - touchEndX.current;
+      
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          // Swiped left - go next
+          setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+        } else {
+          // Swiped right - go prev
+          setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
+        }
       }
     }
     
+    swipeDirection.current = null;
     // Resume auto-play after 10 seconds
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
