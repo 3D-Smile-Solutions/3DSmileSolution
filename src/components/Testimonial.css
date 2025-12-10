@@ -142,7 +142,7 @@
   /* Positioned on the right */
 }
 
-/* Slider Wrapper - FORCE TOUCH ENABLED */
+/* Slider Wrapper */
 .testimonials-slider-wrapper {
   flex: 1;
   overflow: visible;
@@ -154,10 +154,7 @@
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
-  touch-action: pan-y !important; /* FORCE allow vertical scroll, block horizontal */
-  -webkit-touch-callout: none;
 }
 
 .testimonials-slider-wrapper:active {
@@ -203,7 +200,6 @@
   display: flex;
   overflow: hidden;
   transition: all 0.4s ease;
-  /* REMOVED: pointer-events: none - this was blocking touch on content */
 }
 
 .testimonial-content:hover {
@@ -224,18 +220,13 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-touch-callout: none;
-  pointer-events: none; /* Prevent image from being draggable */
 }
 
 .testimonial-image-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg, transparent 0%, var(--testimonial-overlay) 100%);
-  pointer-events: none !important;
+  pointer-events: none;
   transition: background 0.3s ease;
 }
 
@@ -247,11 +238,6 @@
   flex-direction: column;
   justify-content: center;
   gap: 30px;
-  /* Prevent text selection during swipe */
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
 }
 
 .testimonial-quote {
