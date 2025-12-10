@@ -142,7 +142,7 @@
   /* Positioned on the right */
 }
 
-/* Slider Wrapper - UPDATED FOR SINGLE FINGER SWIPE */
+/* Slider Wrapper - ULTRA AGGRESSIVE SINGLE FINGER SWIPE */
 .testimonials-slider-wrapper {
   flex: 1;
   overflow: visible;
@@ -154,13 +154,21 @@
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
+  -moz-user-select: none;
   -ms-user-select: none;
-  touch-action: none; /* Changed from pan-y pinch-zoom to none - allows JS to handle all touch */
+  touch-action: none !important; /* FORCE no browser touch handling */
   -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .testimonials-slider-wrapper:active {
   cursor: grabbing;
+}
+
+.testimonials-slider-wrapper * {
+  touch-action: none !important; /* Force on all children too */
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .testimonials-slider-track {
@@ -202,6 +210,8 @@
   display: flex;
   overflow: hidden;
   transition: all 0.4s ease;
+  pointer-events: none; /* Don't let content interfere with swipe */
+  touch-action: none !important;
 }
 
 .testimonial-content:hover {
@@ -216,6 +226,7 @@
   flex-shrink: 0;
   overflow: hidden;
   pointer-events: none;
+  touch-action: none !important;
 }
 
 .testimonial-image img {
@@ -223,18 +234,21 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  pointer-events: none;
+  pointer-events: none !important;
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;
+  touch-action: none !important;
+  -webkit-touch-callout: none;
 }
 
 .testimonial-image-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg, transparent 0%, var(--testimonial-overlay) 100%);
-  pointer-events: none;
+  pointer-events: none !important;
   transition: background 0.3s ease;
+  touch-action: none !important;
 }
 
 /* Text Section */
@@ -245,6 +259,8 @@
   flex-direction: column;
   justify-content: center;
   gap: 30px;
+  pointer-events: none;
+  touch-action: none !important;
 }
 
 .testimonial-quote {
@@ -256,6 +272,8 @@
   margin: 0;
   letter-spacing: -0.01em;
   transition: color 0.3s ease;
+  pointer-events: none;
+  touch-action: none !important;
 }
 
 /* Author */

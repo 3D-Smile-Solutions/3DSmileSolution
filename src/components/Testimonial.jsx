@@ -18,7 +18,6 @@ const Testimonial = () => {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const isDragging = useRef(false);
-  const hasMoved = useRef(false);
 
   const testimonials = [
     {
@@ -71,22 +70,32 @@ const Testimonial = () => {
     return () => clearInterval(interval);
   }, [testimonials.length, isAutoPlaying]);
 
-  // Touch/Swipe handlers - Fixed for both directions
+  // SUPER AGGRESSIVE TOUCH HANDLERS - SINGLE FINGER ONLY
   const handleTouchStart = (e) => {
+    // Prevent default to stop any browser interference
+    e.preventDefault();
+    e.stopPropagation();
+    
     touchStartX.current = e.touches[0].clientX;
     touchEndX.current = e.touches[0].clientX;
     isDragging.current = true;
-    hasMoved.current = false;
     setIsAutoPlaying(false);
   };
 
   const handleTouchMove = (e) => {
+    // Prevent default to stop scrolling
+    e.preventDefault();
+    e.stopPropagation();
+    
     if (!isDragging.current) return;
     touchEndX.current = e.touches[0].clientX;
-    hasMoved.current = true;
   };
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e) => {
+    // Prevent default
+    e.preventDefault();
+    e.stopPropagation();
+    
     if (!isDragging.current) {
       setTimeout(() => setIsAutoPlaying(true), 10000);
       return;
@@ -94,64 +103,56 @@ const Testimonial = () => {
     
     isDragging.current = false;
     
-    if (!hasMoved.current) {
-      setTimeout(() => setIsAutoPlaying(true), 10000);
-      return;
-    }
-    
-    const swipeThreshold = 50;
+    const swipeThreshold = 30; // Lower threshold for easier swipe
     const diff = touchStartX.current - touchEndX.current;
     
-    if (diff > swipeThreshold) {
-      // Swiped left - go next
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    } else if (diff < -swipeThreshold) {
-      // Swiped right - go prev
-      setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        // Swiped left - go next
+        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+      } else {
+        // Swiped right - go prev
+        setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
+      }
     }
     
     // Resume auto-play after 10 seconds
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
-  // Mouse drag handlers for desktop - Fixed for both directions
+  // Mouse drag handlers for desktop
   const handleMouseDown = (e) => {
     e.preventDefault();
     touchStartX.current = e.clientX;
     touchEndX.current = e.clientX;
     isDragging.current = true;
-    hasMoved.current = false;
     setIsAutoPlaying(false);
   };
 
   const handleMouseMove = (e) => {
     if (!isDragging.current) return;
+    e.preventDefault();
     touchEndX.current = e.clientX;
-    hasMoved.current = true;
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (e) => {
     if (!isDragging.current) {
       setTimeout(() => setIsAutoPlaying(true), 10000);
       return;
     }
     
+    e.preventDefault();
     isDragging.current = false;
-    
-    if (!hasMoved.current) {
-      setTimeout(() => setIsAutoPlaying(true), 10000);
-      return;
-    }
     
     const swipeThreshold = 50;
     const diff = touchStartX.current - touchEndX.current;
     
-    if (diff > swipeThreshold) {
-      // Dragged left - go next
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    } else if (diff < -swipeThreshold) {
-      // Dragged right - go prev
-      setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+      } else {
+        setCurrentIndex((prev) => prev === 0 ? testimonials.length - 1 : prev - 1);
+      }
     }
     
     setTimeout(() => setIsAutoPlaying(true), 10000);
