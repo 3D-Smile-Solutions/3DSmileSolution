@@ -175,13 +175,14 @@
 
 /* Testimonial Item */
 .testimonial-item {
-  position: absolute;
-  width: 100%;
+  position: relative;     /* FIXED */
+  min-width: 100%;        /* Each slide takes full space */
   max-width: 900px;
   transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
               opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, opacity;
 }
+
 
 .testimonial-item.active {
   z-index: 2;
@@ -190,6 +191,17 @@
 .testimonial-item.prev,
 .testimonial-item.next {
   z-index: 1;
+}
+
+.testimonial-item.prev,
+.testimonial-item.next {
+  transform: scale(0.85);
+  opacity: 0.4;
+}
+
+.testimonial-item.active {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .testimonial-content {
