@@ -11,15 +11,8 @@ import CoreServices from './components/CoreServices.jsx';
 import Testimonial from './components/Testimonial.jsx';
 import Footer from './components/Footer.jsx';
 
-import GTMStrategy from './components/GTMStrategy.jsx';
-import AIAutomation from './components/AIAutomation.jsx';
-import Industries from './components/Industries.jsx';
-import About from './components/About.jsx';
-import BlogPage from './components/BlogPage.jsx';
-import CaseStudies from './components/CaseStudies.jsx';
 
-// Register GSAP plugins globally
-gsap.registerPlugin(ScrollTrigger);
+
 
 // ------------------------------
 // HOME PAGE COMPONENT
@@ -84,22 +77,7 @@ function App() {
       try {
         const { ScrollTrigger } = await import('gsap/ScrollTrigger');
         const gsap = (await import('gsap')).default;
-        
-        gsap.registerPlugin(ScrollTrigger);
-        
-        // Wait for all components to mount and render
-        setTimeout(() => {
-          // Force ScrollTrigger to recalculate all positions
-          ScrollTrigger.refresh(true);
-          
-          // Ensure all scroll positions are correct
-          window.scrollTo(0, 0);
-          
-          // Second refresh after DOM fully settles (critical for iOS Safari)
-          setTimeout(() => {
-            ScrollTrigger.refresh(true);
-          }, 100);
-        }, 2500);
+
       } catch (error) {
         console.error('GSAP initialization error:', error);
       }

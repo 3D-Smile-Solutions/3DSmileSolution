@@ -8,19 +8,6 @@ import logoDark from '../assets/LogoD.png';      // For dark mode
 import logoLight from '../assets/Logo.png';    // For light mode
 
 const Footer = () => {
-  const calendarEmbedRef = useRef(null);
-  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
-  const [calendarDimensions, setCalendarDimensions] = useState({
-    width: '900px',
-    height: '700px'
-  });
-  const [theme, setTheme] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme || 'dark';
-  });
-
-  // Select logo based on theme
-  const currentLogo = theme === 'dark' ? logoDark : logoLight;
 
   // Update calendar dimensions based on screen width
   useEffect(() => {

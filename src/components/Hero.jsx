@@ -9,27 +9,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  
-  // Refs for animations
-  const heroRef = useRef(null);
-  const heroContainerRef = useRef(null);
-  const heroContentRef = useRef(null);
-  const titleSectionRef = useRef(null);
-  const infoBoxRef = useRef(null);
-  const scrollTextRef = useRef(null);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  // Smooth scroll to section
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    setMenuOpen(false);
-  };
 
   // GSAP Animations
   useEffect(() => {
@@ -114,27 +93,7 @@ const Hero = () => {
         
         {/* Hero Content */}
         <div className="hero-content-wrapper">
-          {/* Main Content Row */}
-          <div className="hero-content-row" ref={heroContentRef}>
-            
-            {/* Left Side - Title Section */}
-            <div className="hero-title-section" ref={titleSectionRef}>
-              <h1 className="hero-title">
-                WORK SMARTER.
-                GROW FASTER.
-              </h1>
-              
-              {/* Subtitle */}
-              <p className="hero-subtitle">
-                Empowering Dental & Healthcare Companies with Human-First AI Solutions
-              </p>
-            </div>
-          </div>
-          
-          {/* Scroll to Explore Text - Center Bottom */}
-          <div className="hero-scroll-text" ref={scrollTextRef}>
-            <p>Scroll to Explore</p>
-          </div>
+
         </div>
       </div>
     </section>

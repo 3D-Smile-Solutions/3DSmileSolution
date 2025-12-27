@@ -188,26 +188,6 @@
   transition: left 0.5s ease;
 }
 
-.industries-hero-cta:hover::before {
-  left: 100%;
-}
-
-.industries-hero-cta:hover {
-  border-color: var(--industries-cta-hover-border);
-  color: var(--industries-cta-hover-text);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px var(--industries-cta-shadow);
-}
-
-/* ===== INDUSTRIES LIST SECTION ===== */
-
-.industries-list-section {
-  position: relative;
-  width: 100%;
-  background-color: var(--industries-list-bg);
-  padding: 120px 0;
-  transition: background-color 0.3s ease;
-}
 
 .industries-container {
   width: 100%;

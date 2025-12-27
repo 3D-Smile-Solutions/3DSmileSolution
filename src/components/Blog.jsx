@@ -1,31 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import './Blog.css';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Blog = () => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
-  const cardsWrapperRef = useRef(null);
-  const cardsRef = useRef([]);
+
 
   const blogPosts = [
-    {
-      id: 1,
-      title: "AI in Dental Operations",
-      description: "Discover how AI is transforming dental practices by automating...",
-      image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&h=600&fit=crop",
-      link: "#"
-    },
-    {
-      id: 2,
-      title: "GTM Strategies for Scaling Dental Practice",
-      description: "Discover how AI is transforming dental practices by automating...",
-      image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&h=600&fit=crop",
-      link: "#"
-    },
+
     {
       id: 3,
       title: "Enviro-Intelligence",

@@ -1,9 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { SplitText } from 'gsap/SplitText';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Navbar from './Navbar';
-import './GTMStrategy.css';
+
 
 import topographicBG from '../assets/GTM.jpg';
 
